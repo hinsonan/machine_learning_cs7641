@@ -1,5 +1,5 @@
 import pandas as pd
-from sklearn.preprocessing import MinMaxScaler
+from sklearn.preprocessing import MinMaxScaler, StandardScaler, LabelEncoder
 
 
 def one_hot_encode(df:pd.DataFrame, column:str, list_of_possible_strings_to_encode:list, is_bool=False):
@@ -17,11 +17,18 @@ def normalize_df(df:pd.DataFrame, exempt_cols:list=[]):
         df[col] = df[col] /df[col].abs().max()
     return df
 
-def normalize_with_scaler(df:pd.DataFrame):
+def normalize_with_min_max_scaler(df:pd.DataFrame):
     values = df.values
     scalar = MinMaxScaler()
     scaled_vals = scalar.fit_transform(values)
     return scaled_vals
+
+def normalize_with_standard_scalar(df:pd.DataFrame, label_col:str):
+    scalar = StandardScaler()
+    scaled_df = pd.DataFrame(scalar.fit_transform(df), columns=df.columns)
+    label_encoder = LabelEncoder()
+    scaled_df[label_col] = label_encoder.fit_transform(scaled_df[label_col])
+    return scaled_df.values
 
 if __name__ == '__main__':
     df = pd.read_csv('data/csgo_round_snapshots.csv')
