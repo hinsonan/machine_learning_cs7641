@@ -2,6 +2,7 @@ import pandas as pd
 from tensorflow.keras.models import load_model
 from sklearn import tree, svm
 from sklearn.ensemble import AdaBoostClassifier
+from sklearn.neighbors import KNeighborsClassifier
 from sklearn.metrics import accuracy_score
 from sklearn.model_selection import train_test_split
 from data_helper import one_hot_encode, normalize_with_min_max_scaler, normalize_with_standard_scalar
@@ -34,6 +35,12 @@ def train_booster(Xtrain, Ytrain, model_name):
     with open(f'supervised_learning/models/{model_name}', 'wb') as f:
         pickle.dump(clf, f)
 
+def train_knn(Xtrain, Ytrain, model_name):
+    clf = KNeighborsClassifier(n_neighbors=2)
+    clf.fit(Xtrain,Ytrain)
+    with open(f'supervised_learning/models/{model_name}', 'wb') as f:
+        pickle.dump(clf, f)
+
 def load_saved_model(name:str, is_nn=False):
     if is_nn:
         nn_model = load_model(f'supervised_learning/models/{name}')
@@ -61,7 +68,8 @@ Xtrain, Xtest, Ytrain, Ytest = train_test_split(data,labels, test_size=0.33, ran
 # train_nn(Xtrain, Xtest, Ytrain, Ytest, 'neural_net_cs_go')
 # train_descision_tree(Xtrain,Ytrain, 'decision_tree_cs_go')
 # train_SVM(Xtrain,Ytrain, 'svm_cs_go')
-train_booster(Xtrain,Ytrain,'booster_cs_go')
-loaded_model = load_saved_model('booster_cs_go')
+# train_booster(Xtrain,Ytrain,'booster_cs_go')
+train_knn(Xtrain,Ytrain,'knn_cs_go')
+loaded_model = load_saved_model('knn_cs_go')
 score = get_accuracy(loaded_model, Xtest, Ytest)
 print(score)
