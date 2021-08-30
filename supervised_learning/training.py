@@ -5,7 +5,7 @@ from sklearn.ensemble import AdaBoostClassifier
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.metrics import accuracy_score
 from sklearn.model_selection import train_test_split
-from data_helper import one_hot_encode, normalize_with_min_max_scaler, normalize_with_standard_scalar
+from data_helper import get_breast_cancer_data, get_cs_go_data
 from neural_net import get_model
 import os,pickle
 import numpy as np
@@ -57,12 +57,7 @@ def get_accuracy(model, data, truth, is_prob=False):
     return score
 
 def cs_go_training():
-    df = pd.read_csv('data/csgo_round_snapshots.csv')
-    one_hot_encode(df,"round_winner",['CT','T'])
-    one_hot_encode(df,"map",['de_dust2', 'de_mirage', 'de_nuke', 'de_inferno', 'de_overpass', 'de_vertigo', 'de_train', 'de_cache'])
-    vals = normalize_with_min_max_scaler(df)
-    data = vals[:30000,:-1]
-    labels = vals[:30000,-1].reshape(-1,1)
+    data, labels = get_cs_go_data()
     # split the data
     Xtrain, Xtest, Ytrain, Ytest = train_test_split(data,labels, test_size=0.33, random_state=42)
 
@@ -76,11 +71,7 @@ def cs_go_training():
     print(score)
 
 def breast_cancer_training():
-    df = pd.read_csv('data/breast_cancer_data.csv')
-    one_hot_encode(df,"diagnosis",['B','M'])
-    vals = normalize_with_min_max_scaler(df)
-    labels = vals[:,1].reshape(-1,1)
-    data = np.delete(vals,1,1)
+    data, labels = get_breast_cancer_data()
     # split the data
     Xtrain, Xtest, Ytrain, Ytest = train_test_split(data,labels, test_size=0.33, random_state=42)
 
@@ -93,5 +84,5 @@ def breast_cancer_training():
     score = get_accuracy(loaded_model, Xtest, Ytest)
     print(score)
 
-cs_go_training()
+#cs_go_training()
 #breast_cancer_training()
