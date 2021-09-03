@@ -1,7 +1,12 @@
 import pandas as pd
 import numpy as np
+import pickle
 from sklearn.preprocessing import MinMaxScaler, StandardScaler, LabelEncoder
 
+def load_saved_model(name:str):
+    with open(f'supervised_learning/models/{name}', 'rb') as f:
+        clf = pickle.load(f)
+    return clf
 
 def one_hot_encode(df:pd.DataFrame, column:str, list_of_possible_strings_to_encode:list, is_bool=False):
     if is_bool:
