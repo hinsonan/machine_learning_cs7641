@@ -1,0 +1,9 @@
+Active_Set: 'Dataset1' # tells the program which dataset is active
+
+Dataset1:
+  name: 'cs_go'
+  path: 'data/csgo_round_snapshots.csv'
+
+Dataset2:
+  name: 'breast_cancer'
+  path: 'data/breast_cancer_data.csv'

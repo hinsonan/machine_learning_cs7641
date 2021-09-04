@@ -3,10 +3,10 @@ from tensorflow.keras.models import Model, load_model
 from tensorflow.keras.optimizers import Adam, SGD, RMSprop
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score
-from data_helper import get_breast_cancer_data, get_cs_go_data, load_saved_model
+from data_helper import get_data, load_saved_model
 from plot_helpers import plot_neural_net_history_accuracy, plot_neural_net_history_loss
 import numpy as np
-import pickle
+import pickle, yaml
 import os
 os.environ["CUDA_VISIBLE_DEVICES"]="-1" 
 
@@ -36,18 +36,24 @@ def accuracy_experiment():
     score = accuracy_score(Ytest.flatten(), pred.flatten())
     print(score)
 
-do_training = False
-do_accuracy = False
-plot_history = True
-data, labels = get_cs_go_data()
-# split the data
-Xtrain, Xtest, Ytrain, Ytest = train_test_split(data,labels, test_size=0.33, random_state=42)
+if __name__ == '__main__':
+    with open('supervised_learning/dataset_config.yml','r') as f:
+            config = yaml.load(f)
 
-if do_training:
-    train_nn(Xtrain, Xtest, Ytrain, Ytest, 'neural_net_cs_go')
-if do_accuracy:
-    accuracy_experiment()
-if plot_history:
-    history = load_saved_model('neural_net_cs_go_history')
-    plot_neural_net_history_accuracy(history)
-    plot_neural_net_history_loss(history)
+    DATASET_NAME = config[config['Active_Set']]['name']
+
+    do_training = False
+    do_accuracy = False
+    plot_history = True
+    data, labels = get_data()
+    # split the data
+    Xtrain, Xtest, Ytrain, Ytest = train_test_split(data,labels, test_size=0.33, random_state=42)
+
+    if do_training:
+        train_nn(Xtrain, Xtest, Ytrain, Ytest, f'neural_net_{DATASET_NAME}')
+    if do_accuracy:
+        accuracy_experiment()
+    if plot_history:
+        history = load_saved_model(f'neural_net_{DATASET_NAME}_history')
+        plot_neural_net_history_accuracy(history)
+        plot_neural_net_history_loss(history)

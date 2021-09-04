@@ -1,6 +1,6 @@
 import pandas as pd
 import numpy as np
-import pickle
+import pickle, yaml
 from sklearn.preprocessing import MinMaxScaler, StandardScaler, LabelEncoder
 
 def load_saved_model(name:str):
@@ -36,31 +36,29 @@ def normalize_with_standard_scalar(df:pd.DataFrame, label_col:str):
     scaled_df[label_col] = label_encoder.fit_transform(scaled_df[label_col])
     return scaled_df.values
 
-def get_cs_go_data():
-    df = pd.read_csv('data/csgo_round_snapshots.csv')
-    one_hot_encode(df,"round_winner",['CT','T'])
-    one_hot_encode(df,"map",['de_dust2', 'de_mirage', 'de_nuke', 'de_inferno', 'de_overpass', 'de_vertigo', 'de_train', 'de_cache'])
-    vals = normalize_with_min_max_scaler(df)
-    data = vals[:,:-1]
-    labels = vals[:,-1]
+def get_data():
+    def get_cs_go_data():
+        df = pd.read_csv('data/csgo_round_snapshots.csv')
+        one_hot_encode(df,"round_winner",['CT','T'])
+        one_hot_encode(df,"map",['de_dust2', 'de_mirage', 'de_nuke', 'de_inferno', 'de_overpass', 'de_vertigo', 'de_train', 'de_cache'])
+        vals = normalize_with_min_max_scaler(df)
+        data = vals[:,:-1]
+        labels = vals[:,-1]
+        return data, labels
+
+    def get_breast_cancer_data():
+        df = pd.read_csv('data/breast_cancer_data.csv')
+        one_hot_encode(df,"diagnosis",['B','M'])
+        vals = normalize_with_min_max_scaler(df)
+        labels = vals[:,1].reshape(-1,1)
+        data = np.delete(vals,1,1)
+        return data, labels
+    
+    with open('supervised_learning/dataset_config.yml','r') as f:
+        config = yaml.load(f)
+    
+    if config['Active_Set'] == 'Dataset1':
+        data, labels = get_cs_go_data()
+    elif config['Active_Set'] == 'Dataset2':
+        data, labels = get_breast_cancer_data()
     return data, labels
-
-def get_breast_cancer_data():
-    df = pd.read_csv('data/breast_cancer_data.csv')
-    one_hot_encode(df,"diagnosis",['B','M'])
-    vals = normalize_with_min_max_scaler(df)
-    labels = vals[:,1].reshape(-1,1)
-    data = np.delete(vals,1,1)
-    return data, labels
-
-if __name__ == '__main__':
-    df = pd.read_csv('data/csgo_round_snapshots.csv')
-    one_hot_encode(df,"round_winner",['CT','T'])
-    one_hot_encode(df,"map",['de_dust2', 'de_mirage', 'de_nuke', 'de_inferno', 'de_overpass', 'de_vertigo', 'de_train', 'de_cache'])
-    vals = normalize_with_min_max_scaler(df)
-    print(vals)
-
-    df = pd.read_csv('data/breast_cancer_data.csv')
-    one_hot_encode(df,"diagnosis",['B','M'])
-    vals = normalize_with_min_max_scaler(df)
-    print(vals)

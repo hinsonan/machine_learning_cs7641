@@ -48,6 +48,13 @@ def plot_neural_net_history_loss(history):
     plt.legend(['train', 'test'], loc='upper left')
     plt.show()
 
+def plot_bar_graph(x_axis_labels: list, y_axis_labels: list):
+    plt.bar(x_axis_labels,y_axis_labels)
+    plt.title('Training Times in Seconds')
+    plt.xlabel('Algorithm Type')
+    plt.ylabel('Training Time')
+    plt.show()
+
 def plot_learning_curve(estimator, title, X, y, axes=None, ylim=None, cv=None,
                         n_jobs=None, train_sizes=np.linspace(.1, 1.0, 5)):
     """
