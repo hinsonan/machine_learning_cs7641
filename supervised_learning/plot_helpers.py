@@ -28,6 +28,26 @@ def plot_confusion_matrix(pred, truth):
     plt.title('Confusion Matrix', fontsize=18)
     plt.show()
 
+def plot_neural_net_history_accuracy(history):
+    # summarize history for accuracy
+    plt.plot(history['accuracy'])
+    plt.plot(history['val_accuracy'])
+    plt.title('model accuracy')
+    plt.ylabel('accuracy')
+    plt.xlabel('epoch')
+    plt.legend(['train', 'test'], loc='upper left')
+    plt.show()
+
+def plot_neural_net_history_loss(history):
+    # summarize history for loss
+    plt.plot(history['loss'])
+    plt.plot(history['val_loss'])
+    plt.title('model loss')
+    plt.ylabel('loss')
+    plt.xlabel('epoch')
+    plt.legend(['train', 'test'], loc='upper left')
+    plt.show()
+
 def plot_learning_curve(estimator, title, X, y, axes=None, ylim=None, cv=None,
                         n_jobs=None, train_sizes=np.linspace(.1, 1.0, 5)):
     """
