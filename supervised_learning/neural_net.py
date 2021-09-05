@@ -29,12 +29,17 @@ def train_nn(Xtrain,Xtest,Ytrain,Ytest, model_name):
         pickle.dump(history.history, f)
     model.save(f'supervised_learning/models/{model_name}')
 
-def accuracy_experiment():
-    model = load_model('supervised_learning/models/neural_net_cs_go')
-    pred = model.predict(Xtest)
+def accuracy_nn(dataset_name, data, labels):
+    model = load_model(f'supervised_learning/models/neural_net_{dataset_name}')
+    pred = model.predict(data)
     pred = np.where(pred<0.5,0,1)
-    score = accuracy_score(Ytest.flatten(), pred.flatten())
-    print(score)
+    score = accuracy_score(labels.flatten(), pred.flatten())
+    print(f'Nueral Net Accuracy: {score}')
+
+def learning_curve(dataset_name):
+    history = load_saved_model(f'neural_net_{dataset_name}_history')
+    plot_neural_net_history_accuracy(history)
+    plot_neural_net_history_loss(history)
 
 if __name__ == '__main__':
     with open('supervised_learning/dataset_config.yml','r') as f:
@@ -42,18 +47,12 @@ if __name__ == '__main__':
 
     DATASET_NAME = config[config['Active_Set']]['name']
 
-    do_training = False
-    do_accuracy = False
-    plot_history = True
     data, labels = get_data()
     # split the data
     Xtrain, Xtest, Ytrain, Ytest = train_test_split(data,labels, test_size=0.33, random_state=42)
 
-    if do_training:
-        train_nn(Xtrain, Xtest, Ytrain, Ytest, f'neural_net_{DATASET_NAME}')
-    if do_accuracy:
-        accuracy_experiment()
-    if plot_history:
-        history = load_saved_model(f'neural_net_{DATASET_NAME}_history')
-        plot_neural_net_history_accuracy(history)
-        plot_neural_net_history_loss(history)
+    #train_nn(Xtrain, Xtest, Ytrain, Ytest, f'neural_net_{DATASET_NAME}')
+
+    accuracy_nn(DATASET_NAME, Xtest, Ytest)
+
+    #learning_curve(DATASET_NAME)

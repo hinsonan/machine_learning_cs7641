@@ -11,6 +11,12 @@ def train_knn(Xtrain, Ytrain, model_name):
     with open(f'supervised_learning/models/{model_name}', 'wb') as f:
         pickle.dump(clf, f)
 
+def accuracy_knn(dataset_name, data, labels):
+    model = load_saved_model(f'knn_{dataset_name}')
+    pred = model.predict(data)
+    score = accuracy_score(labels.flatten(), pred.flatten())
+    print(f'KNN Accuracy: {score}')
+
 if __name__ == '__main__':
     with open('supervised_learning/dataset_config.yml','r') as f:
             config = yaml.load(f)
@@ -23,8 +29,6 @@ if __name__ == '__main__':
 
     #train_knn(Xtrain, Ytrain, f'knn_{DATASET_NAME}')
 
-    model = load_saved_model('knn_cs_go')
-    pred = model.predict(Xtest)
-    score = accuracy_score(Ytest.flatten(), pred.flatten())
-    print(score)
-    plot_learning_curve(KNeighborsClassifier(n_neighbors=2),'KNN',Xtrain[:30000],Ytrain[:30000])
+    accuracy_knn(DATASET_NAME, Xtest, Ytest)
+
+    #plot_learning_curve(KNeighborsClassifier(n_neighbors=2),'KNN',Xtrain[:30000],Ytrain[:30000])

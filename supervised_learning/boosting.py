@@ -11,6 +11,12 @@ def train_booster(Xtrain, Ytrain, model_name):
     with open(f'supervised_learning/models/{model_name}', 'wb') as f:
         pickle.dump(clf, f)
 
+def accuracy_booster(dataset_name, data, labels):
+    model = load_saved_model(f'booster_{dataset_name}')
+    pred = model.predict(data)
+    score = accuracy_score(labels.flatten(), pred.flatten())
+    print(f'Boosting Accuracy: {score}')
+
 if __name__ == '__main__':
     with open('supervised_learning/dataset_config.yml','r') as f:
             config = yaml.load(f)
@@ -23,7 +29,4 @@ if __name__ == '__main__':
 
     #train_booster(Xtrain, Ytrain, f'booster_{DATASET_NAME}')
 
-    model = load_saved_model(f'booster_{DATASET_NAME}')
-    pred = model.predict(Xtest)
-    score = accuracy_score(Ytest.flatten(), pred.flatten())
-    print(score)
+    accuracy_booster(DATASET_NAME, Xtest, Ytest)

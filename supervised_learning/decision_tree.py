@@ -11,11 +11,11 @@ def train_decision_tree(Xtrain,Ytrain, model_name):
     with open(f'supervised_learning/models/{model_name}', 'wb') as f:
         pickle.dump(clf, f)
 
-def accuracy_experiment():
-    model = load_saved_model('decision_tree_cs_go')
-    pred = model.predict(Xtest)
-    score = accuracy_score(Ytest.flatten(), pred.flatten())
-    print(score)
+def accuracy_dt(dataset_name, data, labels):
+    model = load_saved_model(f'decision_tree_{dataset_name}')
+    pred = model.predict(data)
+    score = accuracy_score(labels.flatten(), pred.flatten())
+    print(f'Decision Tree Accuracy: {score}')
 
 if __name__ == '__main__':
     with open('supervised_learning/dataset_config.yml','r') as f:
@@ -23,14 +23,13 @@ if __name__ == '__main__':
 
     DATASET_NAME = config[config['Active_Set']]['name']
 
-    do_training=False
-    do_accuracy=False
     data, labels = get_data()
     # split the data
     Xtrain, Xtest, Ytrain, Ytest = train_test_split(data,labels, test_size=0.33, random_state=42)
 
-    if do_training:
-        train_decision_tree(Xtrain, Ytrain, f'decision_tree_{DATASET_NAME}')
-    if do_accuracy:
-        accuracy_experiment()
-    plot_learning_curve(tree.DecisionTreeClassifier(),title="Decision Tree Learning Curve",X=data[:50000],y=labels[:50000])
+    
+    #train_decision_tree(Xtrain, Ytrain, f'decision_tree_{DATASET_NAME}')
+
+    accuracy_dt(DATASET_NAME, Xtest, Ytest)
+
+    #plot_learning_curve(tree.DecisionTreeClassifier(),title="Decision Tree Learning Curve",X=data[:50000],y=labels[:50000])
