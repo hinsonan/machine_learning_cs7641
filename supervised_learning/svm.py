@@ -27,7 +27,7 @@ if __name__ == '__main__':
     # split the data
     Xtrain, Xtest, Ytrain, Ytest = train_test_split(data,labels, test_size=0.33, random_state=42)
 
-    #train_SVM(Xtrain, Ytrain, f'svm_{DATASET_NAME}')
+    train_SVM(Xtrain, Ytrain, f'svm_{DATASET_NAME}')
 
     accuracy_svm(DATASET_NAME, Xtest, Ytest)
 

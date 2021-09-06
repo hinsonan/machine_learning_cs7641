@@ -1,4 +1,4 @@
-Active_Set: 'Dataset2' # tells the program which dataset is active
+Active_Set: 'Dataset3' # tells the program which dataset is active
 
 Dataset1:
   name: 'cs_go'
@@ -7,3 +7,7 @@ Dataset1:
 Dataset2:
   name: 'breast_cancer'
   path: 'data/breast_cancer_data.csv'
+
+Dataset3:
+  name: 'loan_default'
+  path: 'data/loan_defualter.csv'

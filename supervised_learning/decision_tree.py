@@ -28,7 +28,7 @@ if __name__ == '__main__':
     Xtrain, Xtest, Ytrain, Ytest = train_test_split(data,labels, test_size=0.33, random_state=42)
 
     
-    #train_decision_tree(Xtrain, Ytrain, f'decision_tree_{DATASET_NAME}')
+    train_decision_tree(Xtrain, Ytrain, f'decision_tree_{DATASET_NAME}')
 
     accuracy_dt(DATASET_NAME, Xtest, Ytest)
 

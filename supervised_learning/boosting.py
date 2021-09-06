@@ -27,6 +27,6 @@ if __name__ == '__main__':
     # split the data
     Xtrain, Xtest, Ytrain, Ytest = train_test_split(data,labels, test_size=0.33, random_state=42)
 
-    #train_booster(Xtrain, Ytrain, f'booster_{DATASET_NAME}')
+    train_booster(Xtrain, Ytrain, f'booster_{DATASET_NAME}')
 
     accuracy_booster(DATASET_NAME, Xtest, Ytest)

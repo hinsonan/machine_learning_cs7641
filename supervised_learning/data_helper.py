@@ -54,6 +54,17 @@ def get_data():
         data = np.delete(vals,1,1)
         return data, labels
     
+    def get_loan_defualt():
+        df = pd.read_csv('data/loan_defaulter.csv')
+        df = df.drop(['RowNumber','CustomerId','Surname'],axis=1)
+        df['Geography'] = LabelEncoder().fit_transform(df['Geography'])
+        df['Gender'] = LabelEncoder().fit_transform(df['Gender'])
+        vals = normalize_with_min_max_scaler(df)
+        data = vals[:,:-1]
+        labels = vals[:,-1]
+        return data, labels
+
+    
     with open('supervised_learning/dataset_config.yml','r') as f:
         config = yaml.load(f)
     
@@ -61,4 +72,6 @@ def get_data():
         data, labels = get_cs_go_data()
     elif config['Active_Set'] == 'Dataset2':
         data, labels = get_breast_cancer_data()
+    elif config['Active_Set'] == 'Dataset3':
+        data, labels = get_loan_defualt()
     return data, labels

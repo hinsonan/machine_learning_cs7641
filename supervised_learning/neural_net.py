@@ -51,8 +51,8 @@ if __name__ == '__main__':
     # split the data
     Xtrain, Xtest, Ytrain, Ytest = train_test_split(data,labels, test_size=0.33, random_state=42)
 
-    #train_nn(Xtrain, Xtest, Ytrain, Ytest, f'neural_net_{DATASET_NAME}')
+    train_nn(Xtrain, Xtest, Ytrain, Ytest, f'neural_net_{DATASET_NAME}')
 
     accuracy_nn(DATASET_NAME, Xtest, Ytest)
 
-    #learning_curve(DATASET_NAME)
+    learning_curve(DATASET_NAME)
