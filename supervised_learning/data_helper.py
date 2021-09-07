@@ -1,6 +1,7 @@
 import pandas as pd
 import numpy as np
-import pickle, yaml
+import pickle, yaml, seaborn
+import matplotlib.pyplot as plt
 from sklearn.preprocessing import MinMaxScaler, StandardScaler, LabelEncoder
 
 def load_saved_model(name:str):
@@ -75,3 +76,10 @@ def get_data():
     elif config['Active_Set'] == 'Dataset3':
         data, labels = get_loan_defualt()
     return data, labels
+
+if __name__ == '__main__':
+    df = pd.read_csv('data/csgo_round_snapshots.csv')
+    one_hot_encode(df,"round_winner",['CT','T'])
+    one_hot_encode(df,"map",['de_dust2', 'de_mirage', 'de_nuke', 'de_inferno', 'de_overpass', 'de_vertigo', 'de_train', 'de_cache'])
+    seaborn.heatmap(df.corr())
+    plt.show()

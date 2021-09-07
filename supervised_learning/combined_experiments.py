@@ -1,14 +1,14 @@
-from boosting import AdaBoostClassifier, accuracy_booster
-from neural_net import get_model, accuracy_nn
-from decision_tree import tree, accuracy_dt
-from knn import KNeighborsClassifier, accuracy_knn
-from svm import svm, accuracy_svm
+from boosting import AdaBoostClassifier, Booster
+from neural_net import NeuralNet
+from decision_tree import tree, DecisionTree
+from knn import KNeighborsClassifier, KNN
+from svm import svm, SVM
 from data_helper import get_data
 from sklearn.model_selection import train_test_split
 import time, yaml
 
 def wall_clock_experiment(Xtrain, Xtest, Ytrain, Ytest):
-    model = get_model(Xtrain.shape[-1])
+    model = NeuralNet.get_model(Xtrain.shape[-1])
     print('Begin Training NN')
     start = time.time()
     model.fit(Xtrain,Ytrain, batch_size=128, epochs=300, validation_data=(Xtest,Ytest))
@@ -49,11 +49,11 @@ def wall_clock_experiment(Xtrain, Xtest, Ytrain, Ytest):
         print(f'{name}: {val} seconds')
 
 def accuracy_comparison(dataset_name, data, labels):
-    accuracy_nn(dataset_name, data, labels)
-    accuracy_booster(dataset_name, data, labels)
-    accuracy_dt(dataset_name, data, labels)
-    accuracy_knn(dataset_name, data, labels)
-    accuracy_svm(dataset_name, data, labels)
+    NeuralNet.get_accuracy(dataset_name, data, labels)
+    DecisionTree.get_accuracy(dataset_name, data, labels)
+    Booster.get_accuracy(dataset_name, data, labels)
+    KNN.get_accuracy(dataset_name, data, labels)
+    SVM.get_accuracy(dataset_name, data, labels)
 
 if __name__ == '__main__':
     with open('supervised_learning/dataset_config.yml','r') as f:
