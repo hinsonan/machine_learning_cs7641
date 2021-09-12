@@ -50,6 +50,28 @@ def plot_neural_net_history_loss(history, title):
     axes.legend(['train', 'test'], loc='upper right')
     plt.savefig(f'supervised_learning/charts/{title}')
 
+def plot_multiple_histories(history1, history2, title, plot_acc=True, plot_loss=True):
+    _, axes = plt.subplots(2)
+    plt.subplots_adjust(hspace=0.55)
+    axes[0].plot(history1['accuracy'], label='tanh training')
+    axes[0].plot(history1['val_accuracy'], label='tanh validation')
+    axes[0].plot(history2['accuracy'], label='relu training')
+    axes[0].plot(history2['val_accuracy'], label='relu validation')
+    axes[0].set_title('model accuracy')
+    axes[0].set_ylabel('accuracy')
+    axes[0].set_xlabel('epoch')
+    axes[0].legend(loc='upper left', prop={'size': 6})
+
+    axes[1].plot(history1['loss'], label='tanh training')
+    axes[1].plot(history1['val_loss'], label='tanh validation')
+    axes[1].plot(history2['loss'], label='relu training')
+    axes[1].plot(history2['val_loss'], label='relu validation')
+    axes[1].set_title('model loss')
+    axes[1].set_ylabel('loss')
+    axes[1].set_xlabel('epoch')
+    axes[1].legend(loc='upper left', prop={'size': 6})
+    plt.savefig(f'supervised_learning/charts/{title}')
+
 def plot_bar_graph(x_axis_labels: list, y_axis_labels: list):
     plt.bar(x_axis_labels,y_axis_labels)
     plt.title('Training Times in Seconds')

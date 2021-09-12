@@ -42,9 +42,9 @@ class SVM():
             score = accuracy_score(test_y.flatten(), pred.flatten())
             p_score = precision_score(test_y.flatten(), pred.flatten())
             r_score = recall_score(test_y.flatten(), pred.flatten())
-            print(f'SVM Accuracy with neighbor {i}: {score}')
-            print(f'SVM Precision with neighbor {i}: {p_score}')
-            print(f'SVM Recall with neighbor {i}: {r_score}')
+            print(f'SVM Accuracy with kernel {i}: {score}')
+            print(f'SVM Precision with kernel {i}: {p_score}')
+            print(f'SVM Recall with kernel {i}: {r_score}')
         
         # plot multiple learning curves
         estimators = [svm.SVC(kernel='rbf'),

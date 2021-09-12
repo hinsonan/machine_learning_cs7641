@@ -4,7 +4,7 @@ from tensorflow.keras.optimizers import Adam, SGD, RMSprop
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score, precision_score, recall_score
 from data_helper import get_data, load_saved_model
-from plot_helpers import plot_neural_net_history_accuracy, plot_neural_net_history_loss
+from plot_helpers import plot_neural_net_history_accuracy, plot_neural_net_history_loss, plot_multiple_histories
 import numpy as np
 import pickle, yaml
 import os
@@ -55,6 +55,30 @@ class NeuralNet():
         print(f'Neural Net Recall: {r_score}')
         return p_score, r_score
 
+    def hyper_param_activation(self, dataset_name, train_x, test_x, train_y, test_y):
+        inputs = Input(shape=(train_x.shape[-1]))
+        layer = Dense(32, activation='tanh')(inputs)
+        layer = Dense(16, activation='tanh')(layer)
+        layer = Dense(4, activation='tanh')(layer)
+        output = Dense(1, activation='sigmoid')(layer)
+        model = Model(inputs, output)
+        optimizer = Adam(learning_rate=0.001)
+        model.compile(optimizer=optimizer,loss='binary_crossentropy', metrics=['accuracy'])
+
+        inputs = Input(shape=(train_x.shape[-1]))
+        layer = Dense(32, activation='relu')(inputs)
+        layer = Dense(16, activation='relu')(layer)
+        layer = Dense(4, activation='relu')(layer)
+        output = Dense(1, activation='sigmoid')(layer)
+        model2 = Model(inputs, output)
+        optimizer = Adam(learning_rate=0.001)
+        model2.compile(optimizer=optimizer,loss='binary_crossentropy', metrics=['accuracy'])
+
+        history1 = model.fit(train_x,train_y, batch_size=128, epochs=100, validation_data=(test_x,test_y))
+        history2 = model2.fit(train_x,train_y, batch_size=128, epochs=100, validation_data=(test_x,test_y))
+
+        plot_multiple_histories(history1.history,history2.history, f'{dataset_name}_nn_activation_learner')
+
     def plot_learning_curve(self, dataset_name):
         history = load_saved_model(f'neural_net_{dataset_name}_history')
         plot_neural_net_history_accuracy(history,f'{dataset_name}_nn_accuracy')
@@ -78,4 +102,6 @@ if __name__ == '__main__':
 
     #neural_net.get_precision_and_recall_scores(DATASET_NAME, Xtest, Ytest)
 
-    neural_net.plot_learning_curve(DATASET_NAME)
+    #neural_net.plot_learning_curve(DATASET_NAME)
+
+    neural_net.hyper_param_activation(DATASET_NAME, Xtrain, Xtest, Ytrain, Ytest)
