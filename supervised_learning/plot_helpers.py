@@ -28,25 +28,27 @@ def plot_confusion_matrix(pred, truth):
     plt.title('Confusion Matrix', fontsize=18)
     plt.show()
 
-def plot_neural_net_history_accuracy(history):
+def plot_neural_net_history_accuracy(history, title):
     # summarize history for accuracy
-    plt.plot(history['accuracy'])
-    plt.plot(history['val_accuracy'])
-    plt.title('model accuracy')
-    plt.ylabel('accuracy')
-    plt.xlabel('epoch')
-    plt.legend(['train', 'test'], loc='upper left')
-    plt.show()
+    _, axes = plt.subplots(1)
+    axes.plot(history['accuracy'])
+    axes.plot(history['val_accuracy'])
+    axes.set_title('model accuracy')
+    axes.set_ylabel('accuracy')
+    axes.set_xlabel('epoch')
+    axes.legend(['train', 'test'], loc='upper left')
+    plt.savefig(f'supervised_learning/charts/{title}')
 
-def plot_neural_net_history_loss(history):
+def plot_neural_net_history_loss(history, title):
     # summarize history for loss
-    plt.plot(history['loss'])
-    plt.plot(history['val_loss'])
-    plt.title('model loss')
-    plt.ylabel('loss')
-    plt.xlabel('epoch')
-    plt.legend(['train', 'test'], loc='upper left')
-    plt.show()
+    _, axes = plt.subplots(1)
+    axes.plot(history['loss'])
+    axes.plot(history['val_loss'])
+    axes.set_title('model loss')
+    axes.set_ylabel('loss')
+    axes.set_xlabel('epoch')
+    axes.legend(['train', 'test'], loc='upper right')
+    plt.savefig(f'supervised_learning/charts/{title}')
 
 def plot_bar_graph(x_axis_labels: list, y_axis_labels: list):
     plt.bar(x_axis_labels,y_axis_labels)
@@ -55,7 +57,7 @@ def plot_bar_graph(x_axis_labels: list, y_axis_labels: list):
     plt.ylabel('Training Time')
     plt.show()
 
-def plot_learning_curve(estimator, title, X, y, axes=None, ylim=None, cv=None,
+def plot_learning_curve(estimator, title, X, y, filename, axes=None, ylim=None, cv=None,
                         n_jobs=None, train_sizes=np.linspace(.1, 1.0, 5)):
     """
     Generate 3 plots: the test and training learning curve, the training
@@ -117,16 +119,21 @@ def plot_learning_curve(estimator, title, X, y, axes=None, ylim=None, cv=None,
         (default: np.linspace(0.1, 1.0, 5))
     """
     if axes is None:
-        _, axes = plt.subplots(1, 3, figsize=(20, 5))
+        _, axes = plt.subplots()
 
-    axes[0].set_title(title)
+    axes.set_title(title)
     if ylim is not None:
         axes[0].set_ylim(*ylim)
-    axes[0].set_xlabel("Training examples")
-    axes[0].set_ylabel("Score")
+    axes.set_xlabel("Training examples")
+    axes.set_ylabel("Score")
 
     train_sizes, train_scores, test_scores, fit_times, _ = \
-        learning_curve(estimator, X, y, cv=cv, n_jobs=n_jobs,
+        learning_curve(estimator, 
+                       X, 
+                       y, 
+                       cv=cv,
+                       scoring='accuracy', 
+                       n_jobs=n_jobs,
                        train_sizes=train_sizes,
                        return_times=True)
     train_scores_mean = np.mean(train_scores, axis=1)
@@ -137,35 +144,75 @@ def plot_learning_curve(estimator, title, X, y, axes=None, ylim=None, cv=None,
     fit_times_std = np.std(fit_times, axis=1)
 
     # Plot learning curve
-    axes[0].grid()
-    axes[0].fill_between(train_sizes, train_scores_mean - train_scores_std,
+    axes.grid()
+    axes.fill_between(train_sizes, train_scores_mean - train_scores_std,
                          train_scores_mean + train_scores_std, alpha=0.1,
                          color="r")
-    axes[0].fill_between(train_sizes, test_scores_mean - test_scores_std,
+    axes.fill_between(train_sizes, test_scores_mean - test_scores_std,
                          test_scores_mean + test_scores_std, alpha=0.1,
                          color="g")
-    axes[0].plot(train_sizes, train_scores_mean, 'o-', color="r",
+    axes.plot(train_sizes, train_scores_mean, 'o-', color="r",
                  label="Training score")
-    axes[0].plot(train_sizes, test_scores_mean, 'o-', color="g",
+    axes.plot(train_sizes, test_scores_mean, 'o-', color="g",
                  label="Cross-validation score")
-    axes[0].legend(loc="best")
+    axes.legend(loc="best")
 
     # Plot n_samples vs fit_times
-    axes[1].grid()
-    axes[1].plot(train_sizes, fit_times_mean, 'o-')
-    axes[1].fill_between(train_sizes, fit_times_mean - fit_times_std,
-                         fit_times_mean + fit_times_std, alpha=0.1)
-    axes[1].set_xlabel("Training examples")
-    axes[1].set_ylabel("fit_times")
-    axes[1].set_title("Scalability of the model")
+    # axes[1].grid()
+    # axes[1].plot(train_sizes, fit_times_mean, 'o-')
+    # axes[1].fill_between(train_sizes, fit_times_mean - fit_times_std,
+    #                      fit_times_mean + fit_times_std, alpha=0.1)
+    # axes[1].set_xlabel("Training examples")
+    # axes[1].set_ylabel("fit_times")
+    # axes[1].set_title("Scalability of the model")
 
     # Plot fit_time vs score
-    axes[2].grid()
-    axes[2].plot(fit_times_mean, test_scores_mean, 'o-')
-    axes[2].fill_between(fit_times_mean, test_scores_mean - test_scores_std,
-                         test_scores_mean + test_scores_std, alpha=0.1)
-    axes[2].set_xlabel("fit_times")
-    axes[2].set_ylabel("Score")
-    axes[2].set_title("Performance of the model")
+    # axes[2].grid()
+    # axes[2].plot(fit_times_mean, test_scores_mean, 'o-')
+    # axes[2].fill_between(fit_times_mean, test_scores_mean - test_scores_std,
+    #                      test_scores_mean + test_scores_std, alpha=0.1)
+    # axes[2].set_xlabel("fit_times")
+    # axes[2].set_ylabel("Score")
+    # axes[2].set_title("Performance of the model")
 
-    plt.show()
+    plt.savefig(f'supervised_learning/charts/{filename}')
+
+
+def plot_multiple_learning_curves(estimators, hyper_param_key, title, X, y, filename, axes=None, ylim=None, cv=None,
+                        n_jobs=None, train_sizes=np.linspace(.1, 1.0, 5)):
+    if axes is None:
+        _, axes = plt.subplots()
+
+    axes.set_title(title)
+    if ylim is not None:
+        axes[0].set_ylim(*ylim)
+    axes.set_xlabel("Training examples")
+    axes.set_ylabel("Accuracy")
+    dic = {}
+    for estimator in estimators:
+        dic[f'{estimator.__dict__[hyper_param_key]}'] = {'training_score':None, 'testing_sore':None}
+        train_sizes, train_scores, test_scores, fit_times, _ = \
+            learning_curve(estimator, 
+                        X, 
+                        y, 
+                        cv=cv,
+                        scoring='accuracy',
+                        n_jobs=n_jobs,
+                        train_sizes=train_sizes,
+                        return_times=True)
+        train_scores_mean = np.mean(train_scores, axis=1)
+        test_scores_mean = np.mean(test_scores, axis=1)
+        dic[f'{estimator.__dict__[hyper_param_key]}']['training_score'] = train_scores_mean
+        dic[f'{estimator.__dict__[hyper_param_key]}']['testing_score'] = test_scores_mean
+    for key, val in dic.items():
+    # Plot learning curve
+        axes.plot(train_sizes, val['training_score'], 'o-',
+                    label=f"Training score {hyper_param_key}: {key}")
+    for key, val in dic.items():
+        axes.plot(train_sizes, val['testing_score'], '^--',
+                    label=f"Cross-validation score {hyper_param_key}: {key}")
+    axes.legend(loc="upper left", prop={'size': 5})
+
+    axes.grid()
+    plt.savefig(f'supervised_learning/charts/{filename}')
+    #plt.show()

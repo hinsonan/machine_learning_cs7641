@@ -53,6 +53,6 @@ if __name__ == '__main__':
 
     booster.get_accuracy(DATASET_NAME, Xtest, Ytest)
 
-    booster.get_precision_and_recall_scores(DATASET_NAME, Xtest, Ytest)
+    #booster.get_precision_and_recall_scores(DATASET_NAME, Xtest, Ytest)
 
     #booster.plot_learning_curve(Xtrain, Ytrain)

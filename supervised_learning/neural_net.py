@@ -57,8 +57,8 @@ class NeuralNet():
 
     def plot_learning_curve(self, dataset_name):
         history = load_saved_model(f'neural_net_{dataset_name}_history')
-        plot_neural_net_history_accuracy(history)
-        plot_neural_net_history_loss(history)
+        plot_neural_net_history_accuracy(history,f'{dataset_name}_nn_accuracy')
+        plot_neural_net_history_loss(history, f'{dataset_name}_nn_loss')
 
 if __name__ == '__main__':
     with open('supervised_learning/dataset_config.yml','r') as f:
@@ -74,8 +74,8 @@ if __name__ == '__main__':
 
     #neural_net.train_nn(Xtrain, Xtest, Ytrain, Ytest, f'neural_net_{DATASET_NAME}')
 
-    neural_net.get_accuracy(DATASET_NAME, Xtest, Ytest)
+    #neural_net.get_accuracy(DATASET_NAME, Xtest, Ytest)
 
-    neural_net.get_precision_and_recall_scores(DATASET_NAME, Xtest, Ytest)
+    #neural_net.get_precision_and_recall_scores(DATASET_NAME, Xtest, Ytest)
 
     neural_net.plot_learning_curve(DATASET_NAME)
