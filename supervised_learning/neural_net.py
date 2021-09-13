@@ -77,7 +77,29 @@ class NeuralNet():
         history1 = model.fit(train_x,train_y, batch_size=128, epochs=100, validation_data=(test_x,test_y))
         history2 = model2.fit(train_x,train_y, batch_size=128, epochs=100, validation_data=(test_x,test_y))
 
-        plot_multiple_histories(history1.history,history2.history, f'{dataset_name}_nn_activation_learner')
+        plot_multiple_histories(history1.history,history2.history, f'{dataset_name}_nn_activation_learner', ['tanh','relu'])
+
+    def hyper_param_layers(self, dataset_name, train_x, test_x, train_y, test_y):
+        inputs = Input(shape=(train_x.shape[-1]))
+        layer = Dense(32, activation='relu')(inputs)
+        output = Dense(1, activation='sigmoid')(layer)
+        model = Model(inputs, output)
+        optimizer = Adam(learning_rate=0.001)
+        model.compile(optimizer=optimizer,loss='binary_crossentropy', metrics=['accuracy'])
+
+        inputs = Input(shape=(train_x.shape[-1]))
+        layer = Dense(32, activation='relu')(inputs)
+        layer = Dense(16, activation='relu')(layer)
+        layer = Dense(4, activation='relu')(layer)
+        output = Dense(1, activation='sigmoid')(layer)
+        model2 = Model(inputs, output)
+        optimizer = Adam(learning_rate=0.001)
+        model2.compile(optimizer=optimizer,loss='binary_crossentropy', metrics=['accuracy'])
+
+        history1 = model.fit(train_x,train_y, batch_size=128, epochs=100, validation_data=(test_x,test_y))
+        history2 = model2.fit(train_x,train_y, batch_size=128, epochs=100, validation_data=(test_x,test_y))
+
+        plot_multiple_histories(history1.history,history2.history, f'{dataset_name}_nn_layer_learner', ['1 layer','4 layer'])
 
     def plot_learning_curve(self, dataset_name):
         history = load_saved_model(f'neural_net_{dataset_name}_history')
@@ -104,4 +126,6 @@ if __name__ == '__main__':
 
     #neural_net.plot_learning_curve(DATASET_NAME)
 
-    neural_net.hyper_param_activation(DATASET_NAME, Xtrain, Xtest, Ytrain, Ytest)
+    #neural_net.hyper_param_activation(DATASET_NAME, Xtrain, Xtest, Ytrain, Ytest)
+
+    neural_net.hyper_param_layers(DATASET_NAME, Xtrain, Xtest, Ytrain, Ytest)
