@@ -2,7 +2,7 @@ from sklearn import svm
 from sklearn.metrics import accuracy_score, precision_score, recall_score
 from sklearn.model_selection import train_test_split
 from data_helper import get_data, load_saved_model
-from plot_helpers import plot_learning_curve, plot_multiple_learning_curves
+from plot_helpers import plot_learning_curve, plot_multiple_learning_curves, plot_svm_iterative_learning_curve
 import pickle, yaml
 
 class SVM():
@@ -56,6 +56,17 @@ class SVM():
     def plot_learning_curve(self, data, labels):
         plot_learning_curve(svm.SVC(kernel='rbf'),title="KNN Learning Curve",X=data,y=labels)
 
+    def plot_iterative_curve(self, dataset_name, data, labels):
+        accuracy_scores = []
+        for i in range(1,21):
+            clf = svm.SVC(kernel='rbf',verbose=True, max_iter=i)
+            clf.fit(data,labels)
+            pred = clf.predict(data)
+            score = accuracy_score(labels.flatten(), pred.flatten())
+            accuracy_scores.append(score)
+        plot_svm_iterative_learning_curve(accuracy_scores, f'{DATASET_NAME}_svm_iterative_learning_curve')
+        
+
 if __name__ == '__main__':
     with open('supervised_learning/dataset_config.yml','r') as f:
             config = yaml.load(f)
@@ -76,5 +87,7 @@ if __name__ == '__main__':
 
     #svc.plot_learning_curve(Xtrain,Ytrain)
 
-    svc.hyper_param_kernel(DATASET_NAME,Xtrain, Xtest, Ytrain, Ytest)
+    #svc.hyper_param_kernel(DATASET_NAME,Xtrain, Xtest, Ytrain, Ytest)
+
+    svc.plot_iterative_curve(DATASET_NAME, Xtrain, Ytrain)
     

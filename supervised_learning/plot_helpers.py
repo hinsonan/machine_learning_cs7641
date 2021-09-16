@@ -15,6 +15,16 @@ def plot_accuracy(pred, truth):
     plt.grid()
     plt.show()
 
+def plot_svm_iterative_learning_curve(scores, title):
+    _, axes = plt.subplots(1)
+    axes.plot(scores)
+    axes.set_ylabel('accuracy')
+    axes.set_xlabel('epoch')
+    axes.set_title("SVM Iterative Learning Curve")
+    axes.grid()
+    axes.legend(['training'], loc='upper left')
+    plt.savefig(f'supervised_learning/charts/{title}')
+
 def plot_confusion_matrix(pred, truth):
     conf_matrix = confusion_matrix(pred,truth)
     fig, ax = plt.subplots(figsize=(7.5, 7.5))
