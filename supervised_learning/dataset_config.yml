@@ -1,4 +1,4 @@
-Active_Set: 'Dataset3' # tells the program which dataset is active
+Active_Set: 'Dataset1' # tells the program which dataset is active
 
 Dataset1:
   name: 'cs_go'

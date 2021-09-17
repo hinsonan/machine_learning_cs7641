@@ -64,7 +64,7 @@ class SVM():
             pred = clf.predict(data)
             score = hinge_loss(labels.flatten(), pred.flatten())
             scores.append(score)
-        plot_svm_iterative_learning_curve(scores, f'{DATASET_NAME}_svm_iterative_learning_curve')
+        plot_svm_iterative_learning_curve(scores, f'{dataset_name}_svm_iterative_learning_curve')
         
 
 if __name__ == '__main__':
