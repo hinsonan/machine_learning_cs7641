@@ -18,7 +18,7 @@ def plot_accuracy(pred, truth):
 def plot_svm_iterative_learning_curve(scores, title):
     _, axes = plt.subplots(1)
     axes.plot(scores)
-    axes.set_ylabel('accuracy')
+    axes.set_ylabel('Hinge Loss')
     axes.set_xlabel('epoch')
     axes.set_title("SVM Iterative Learning Curve")
     axes.grid()
