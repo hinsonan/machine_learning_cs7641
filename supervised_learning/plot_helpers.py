@@ -3,7 +3,7 @@ import numpy as np
 from sklearn.metrics import confusion_matrix
 from sklearn.model_selection import learning_curve, ShuffleSplit
 
-def plot_accuracy(pred, truth):
+def plot_accuracy(pred, truth, title):
     #flatten the array inputs
     pred = pred.flatten()
     truth = truth.flatten()
@@ -11,9 +11,9 @@ def plot_accuracy(pred, truth):
     plt.plot(truth, label='truth')
 
     # plt.set(xlabel='Index', ylabel='classification value',title='Accuracy')
-    plt.legend(loc='upper right')
+    plt.legend(loc='upper left')
     plt.grid()
-    plt.show()
+    plt.savefig(f'supervised_learning/charts/{title}')
 
 def plot_svm_iterative_learning_curve(scores, title):
     _, axes = plt.subplots(1)
@@ -243,7 +243,7 @@ def plot_multiple_learning_curves(estimators, hyper_param_key, title, X, y, file
     for key, val in dic.items():
         axes.plot(train_sizes, val['testing_score'], '^--',
                     label=f"Cross-validation score {hyper_param_key}: {key}")
-    axes.legend(loc="upper left", prop={'size': 5})
+    axes.legend(loc="upper left", prop={'size': 8})
 
     axes.grid()
     plt.savefig(f'supervised_learning/charts/{filename}')
