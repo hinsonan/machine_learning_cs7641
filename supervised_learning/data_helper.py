@@ -46,14 +46,6 @@ def get_data():
         data = vals[:,:-1]
         labels = vals[:,-1]
         return data, labels
-
-    def get_breast_cancer_data():
-        df = pd.read_csv('data/breast_cancer_data.csv')
-        df['diagnosis'] = LabelEncoder().fit_transform(df['diagnosis'])
-        vals = normalize_with_min_max_scaler(df)
-        labels = vals[:,1].reshape(-1,1)
-        data = np.delete(vals,1,1)
-        return data, labels
     
     def get_loan_defualt():
         df = pd.read_csv('data/loan_defaulter.csv')
@@ -64,7 +56,6 @@ def get_data():
         data = vals[:,:-1]
         labels = vals[:,-1]
         return data, labels
-
     
     with open('supervised_learning/dataset_config.yml','r') as f:
         config = yaml.load(f)
@@ -72,8 +63,6 @@ def get_data():
     if config['Active_Set'] == 'Dataset1':
         data, labels = get_cs_go_data()
     elif config['Active_Set'] == 'Dataset2':
-        data, labels = get_breast_cancer_data()
-    elif config['Active_Set'] == 'Dataset3':
         data, labels = get_loan_defualt()
     return data, labels
 

@@ -157,7 +157,7 @@ def plot_learning_curve(estimator, title, X, y, filename, axes=None, ylim=None, 
     if ylim is not None:
         axes[0].set_ylim(*ylim)
     axes.set_xlabel("Training examples")
-    axes.set_ylabel("Score")
+    axes.set_ylabel("Accuracy")
 
     train_sizes, train_scores, test_scores, fit_times, _ = \
         learning_curve(estimator, 

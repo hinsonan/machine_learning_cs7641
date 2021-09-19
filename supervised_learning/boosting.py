@@ -65,11 +65,11 @@ if __name__ == '__main__':
 
     data, labels = get_data()
     # split the data
-    Xtrain, Xtest, Ytrain, Ytest = train_test_split(data,labels, test_size=0.33, random_state=42)
+    Xtrain, Xtest, Ytrain, Ytest = train_test_split(data,labels, test_size=0.33, random_state=42, shuffle=True)
 
     booster = Booster()
 
-    #booster.train_booster(Xtrain, Ytrain, f'booster_{DATASET_NAME}')
+    booster.train_booster(Xtrain, Ytrain, f'booster_{DATASET_NAME}')
 
     #booster.get_accuracy(DATASET_NAME, Xtest, Ytest)
 
@@ -77,4 +77,4 @@ if __name__ == '__main__':
 
     #booster.plot_learning_curve(Xtrain, Ytrain)
 
-    booster.hyper_param_leafnodes(DATASET_NAME, Xtrain, Xtest, Ytrain, Ytest)
+    #booster.hyper_param_leafnodes(DATASET_NAME, Xtrain, Xtest, Ytrain, Ytest)

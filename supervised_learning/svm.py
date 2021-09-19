@@ -75,11 +75,11 @@ if __name__ == '__main__':
 
     data, labels = get_data()
     # split the data
-    Xtrain, Xtest, Ytrain, Ytest = train_test_split(data,labels, test_size=0.33, random_state=42)
+    Xtrain, Xtest, Ytrain, Ytest = train_test_split(data,labels, test_size=0.33, random_state=42, shuffle=True)
 
     svc = SVM()
 
-    #svc.train_SVM(Xtrain, Ytrain, f'svm_{DATASET_NAME}')
+    svc.train_SVM(Xtrain, Ytrain, f'svm_{DATASET_NAME}')
 
     #svc.get_accuracy(DATASET_NAME, Xtest, Ytest)
     
@@ -89,5 +89,5 @@ if __name__ == '__main__':
 
     #svc.hyper_param_kernel(DATASET_NAME,Xtrain, Xtest, Ytrain, Ytest)
 
-    svc.plot_iterative_curve(DATASET_NAME, Xtrain, Ytrain)
+    #svc.plot_iterative_curve(DATASET_NAME, Xtrain, Ytrain)
     

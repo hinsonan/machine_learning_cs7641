@@ -86,11 +86,11 @@ if __name__ == '__main__':
 
     data, labels = get_data()
     # split the data
-    Xtrain, Xtest, Ytrain, Ytest = train_test_split(data,labels, test_size=0.33, random_state=42)
+    Xtrain, Xtest, Ytrain, Ytest = train_test_split(data,labels, test_size=0.33, random_state=42, shuffle=True)
 
     dt = DecisionTree()
     
-    #dt.train_decision_tree(Xtrain, Ytrain, f'decision_tree_{DATASET_NAME}')
+    dt.train_decision_tree(Xtrain, Ytrain, f'decision_tree_{DATASET_NAME}')
 
     #dt.get_accuracy(DATASET_NAME, Xtest, Ytest)
 
@@ -100,4 +100,4 @@ if __name__ == '__main__':
 
     #dt.hyper_param_maxdepth(DATASET_NAME, Xtrain, Xtest, Ytrain, Ytest)
 
-    dt.hyper_param_leafnodes(DATASET_NAME, Xtrain, Xtest, Ytrain, Ytest)
+    #dt.hyper_param_leafnodes(DATASET_NAME, Xtrain, Xtest, Ytrain, Ytest)

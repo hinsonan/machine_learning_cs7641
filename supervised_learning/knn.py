@@ -51,7 +51,7 @@ class KNN:
                     KNeighborsClassifier(n_neighbors=3),
                     KNeighborsClassifier(n_neighbors=4),
                     KNeighborsClassifier(n_neighbors=7)]
-        plot_multiple_learning_curves(estimators, hyper_param_key='n_neighbors',title='KNN performance using different neighbors',X=train_x, y=train_y, filename=f'{dataset_name}_knn_multi_learning_curve')
+        plot_multiple_learning_curves(estimators, hyper_param_key='n_neighbors',title='KNN Learning Curve Using Different Neighbors',X=train_x, y=train_y, filename=f'{dataset_name}_knn_multi_learning_curve')
 
     def plot_learning_curve(self, data, labels, figname):
         plot_learning_curve(KNeighborsClassifier(n_neighbors=2),title="KNN Learning Curve",X=data,y=labels, filename=figname)
@@ -64,16 +64,16 @@ if __name__ == '__main__':
 
     data, labels = get_data()
     # split the data
-    Xtrain, Xtest, Ytrain, Ytest = train_test_split(data,labels, test_size=0.33, random_state=42)
+    Xtrain, Xtest, Ytrain, Ytest = train_test_split(data,labels, test_size=0.33, random_state=42, shuffle=True)
 
     knn = KNN()
 
     #knn.train_knn(Xtrain, Ytrain, f'knn_{DATASET_NAME}')
 
-    # knn.get_accuracy(DATASET_NAME, Xtest, Ytest)
+    knn.get_accuracy(DATASET_NAME, Xtest, Ytest)
 
-    # knn.get_precision_and_recall_scores(DATASET_NAME, Xtest, Ytest)
+    knn.get_precision_and_recall_scores(DATASET_NAME, Xtest, Ytest)
 
-    #knn.plot_learning_curve(Xtrain,Ytrain,f'{DATASET_NAME}_knn_learning_curve')
+    knn.plot_learning_curve(Xtrain,Ytrain,f'{DATASET_NAME}_knn_learning_curve')
 
-    knn.hyper_param_k(DATASET_NAME,Xtrain, Xtest, Ytrain, Ytest)
+    #knn.hyper_param_k(DATASET_NAME,Xtrain, Xtest, Ytrain, Ytest)

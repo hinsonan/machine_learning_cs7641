@@ -5,9 +5,5 @@ Dataset1:
   path: 'data/csgo_round_snapshots.csv'
 
 Dataset2:
-  name: 'breast_cancer'
-  path: 'data/breast_cancer_data.csv'
-
-Dataset3:
   name: 'loan_default'
   path: 'data/loan_defualter.csv'
