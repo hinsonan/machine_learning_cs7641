@@ -11,7 +11,7 @@ class KNN:
         pass
 
     def train_knn(self, Xtrain, Ytrain, model_name):
-        clf = KNeighborsClassifier(n_neighbors=1)
+        clf = KNeighborsClassifier(n_neighbors=2)
         clf.fit(Xtrain,Ytrain)
         with open(f'supervised_learning/models/{model_name}', 'wb') as f:
             pickle.dump(clf, f)
@@ -35,7 +35,7 @@ class KNN:
         return p_score, r_score
 
     def hyper_param_k(self, dataset_name, train_x, test_x, train_y, test_y):
-        for i in range(1,8):
+        for i in range(1,9):
             clf = KNeighborsClassifier(n_neighbors=i)
             clf.fit(train_x,train_y)
             pred = clf.predict(test_x)
@@ -50,7 +50,7 @@ class KNN:
         estimators = [KNeighborsClassifier(n_neighbors=1),
                     KNeighborsClassifier(n_neighbors=2),
                     KNeighborsClassifier(n_neighbors=3),
-                    KNeighborsClassifier(n_neighbors=5),
+                    KNeighborsClassifier(n_neighbors=6),
                     KNeighborsClassifier(n_neighbors=8)]
         plot_multiple_learning_curves(estimators, hyper_param_key='n_neighbors',title='KNN Learning Curve Using Different Neighbors',X=train_x, y=train_y, filename=f'{dataset_name}_knn_multi_learning_curve')
 
@@ -89,6 +89,6 @@ if __name__ == '__main__':
 
     # knn.plot_learning_curve(Xtrain,Ytrain,f'{DATASET_NAME}_knn_learning_curve')
 
-    # knn.hyper_param_k(DATASET_NAME,Xtrain, Xtest, Ytrain, Ytest)
+    knn.hyper_param_k(DATASET_NAME,Xtrain, Xtest, Ytrain, Ytest)
 
-    knn.plot_test_set(DATASET_NAME, Xtrain, Xtest, Ytrain, Ytest)
+    #knn.plot_test_set(DATASET_NAME, Xtrain, Xtest, Ytrain, Ytest)
