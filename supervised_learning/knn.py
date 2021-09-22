@@ -1,7 +1,7 @@
 from plot_helpers import plot_accuracy, plot_learning_curve, plot_multiple_learning_curves
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.metrics import accuracy_score, precision_score, recall_score
-from sklearn.model_selection import train_test_split
+from sklearn.model_selection import train_test_split, cross_val_score
 from data_helper import get_data, load_saved_model
 import pickle, yaml
 import numpy as np
@@ -54,6 +54,21 @@ class KNN:
                     KNeighborsClassifier(n_neighbors=8)]
         plot_multiple_learning_curves(estimators, hyper_param_key='n_neighbors',title='KNN Learning Curve Using Different Neighbors',X=train_x, y=train_y, filename=f'{dataset_name}_knn_multi_learning_curve')
 
+    def hyper_param_weights(self, dataset_name, train_x, test_x, train_y, test_y):
+        for i in ["uniform", "distance"]:
+            clf = KNeighborsClassifier(n_neighbors=8, weights=i)
+            acc_scores = cross_val_score(clf,train_x,train_y, cv=5, scoring="accuracy")
+            val_scores = cross_val_score(clf,train_x,train_y, cv=5, scoring="precision")
+            rec_scores = cross_val_score(clf,train_x,train_y, cv=5, scoring="recall")
+            print(f'KNN Accuracy with weights {i}: {np.mean(acc_scores)}')
+            print(f'KNN Precision with weights {i}: {np.mean(val_scores)}')
+            print(f'KNN Recall with weights {i}: {np.mean(rec_scores)}')
+        
+        # plot multiple learning curves
+        estimators = [KNeighborsClassifier(n_neighbors=8, weights="uniform"),
+                    KNeighborsClassifier(n_neighbors=8, weights="distance")]
+        plot_multiple_learning_curves(estimators, hyper_param_key='weights',title='KNN Learning Curve Using Different Weights',X=train_x, y=train_y, filename=f'{dataset_name}_knn_multi_learning_curve_weights')
+
     def plot_learning_curve(self, data, labels, figname):
         plot_learning_curve(KNeighborsClassifier(n_neighbors=2),title="KNN Learning Curve",X=data,y=labels, filename=figname)
 
@@ -89,6 +104,8 @@ if __name__ == '__main__':
 
     # knn.plot_learning_curve(Xtrain,Ytrain,f'{DATASET_NAME}_knn_learning_curve')
 
-    knn.hyper_param_k(DATASET_NAME,Xtrain, Xtest, Ytrain, Ytest)
+    #knn.hyper_param_k(DATASET_NAME,Xtrain, Xtest, Ytrain, Ytest)
+
+    knn.hyper_param_weights(DATASET_NAME,Xtrain, Xtest, Ytrain, Ytest)
 
     #knn.plot_test_set(DATASET_NAME, Xtrain, Xtest, Ytrain, Ytest)
