@@ -47,7 +47,7 @@ def plot_neural_net_history_accuracy(history, title):
     axes.set_title('model accuracy')
     axes.set_ylabel('accuracy')
     axes.set_xlabel('epoch')
-    axes.legend(['train', 'test'], loc='upper left')
+    axes.legend(['train', 'validation'], loc='upper left')
     plt.savefig(f'supervised_learning/charts/{title}')
 
 def plot_neural_net_history_loss(history, title):
@@ -58,7 +58,7 @@ def plot_neural_net_history_loss(history, title):
     axes.set_title('model loss')
     axes.set_ylabel('loss')
     axes.set_xlabel('epoch')
-    axes.legend(['train', 'test'], loc='upper right')
+    axes.legend(['train', 'validation'], loc='upper right')
     plt.savefig(f'supervised_learning/charts/{title}')
 
 def plot_multiple_histories(history1, history2, title, labels):
@@ -209,6 +209,41 @@ def plot_learning_curve(estimator, title, X, y, filename, axes=None, ylim=None, 
     # axes[2].set_title("Performance of the model")
 
     plt.savefig(f'supervised_learning/charts/{filename}')
+
+def plot_multiple_fit_times(estimators, title, X, y, axes=None, ylim=None, cv=None,
+                        n_jobs=None, train_sizes=np.linspace(.1, 1.0, 5)):
+    
+    if axes is None:
+        _, axes = plt.subplots()
+
+    axes.set_title(title)
+    if ylim is not None:
+        axes[0].set_ylim(*ylim)
+    axes.set_xlabel("Training examples")
+    axes.set_ylabel("Time")
+    fit_times = []
+    for estimator in estimators:
+        train_sizes, train_scores, test_scores, fit_times, _ = \
+            learning_curve(estimator, 
+                        X, 
+                        y, 
+                        cv=cv,
+                        scoring='accuracy', 
+                        n_jobs=n_jobs,
+                        train_sizes=train_sizes,
+                        return_times=True)
+        fit_times_mean = np.mean(fit_times, axis=1)
+        fit_times.append(fit_times_mean)
+
+    #Plot n_samples vs fit_times
+    axes.grid()
+    axes.plot(train_sizes, fit_times_mean, 'o-')
+    axes.set_xlabel("Training examples")
+    axes.set_ylabel("fit_times")
+    axes.set_title("Scalability of the model")
+    axes.legend(loc="best", labels=["KNN","SVM","DT","Boost","NN"])
+
+    plt.savefig('supervised_learning/charts/fit_times')
 
 
 def plot_multiple_learning_curves(estimators, hyper_param_key, title, X, y, filename, axes=None, ylim=None, cv=None,

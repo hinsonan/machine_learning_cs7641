@@ -95,6 +95,12 @@ class KNN:
         print(f'KNN Precision: {p_score}')
         print(f'KNN Recall: {r_score}')
 
+    def run_all(self,dataset, Xtrain, Xtest, Ytrain, Ytest):
+        self.plot_learning_curve(Xtrain, Ytrain, f'{dataset}_booster_learning_curve')
+        self.hyper_param_k(dataset, Xtrain, Xtest, Ytrain, Ytest)
+        self.hyper_param_weights(dataset, Xtrain, Xtest, Ytrain, Ytest)
+        self.gather_metrics(Xtrain, Xtest, Ytrain, Ytest)
+
 if __name__ == '__main__':
     with open('supervised_learning/dataset_config.yml','r') as f:
             config = yaml.load(f)

@@ -36,7 +36,7 @@ class DecisionTree():
         return p_score, r_score
 
     def hyper_param_maxdepth(self, dataset_name, train_x, test_x, train_y, test_y):
-        for i in [1,5,10,20,30]:
+        for i in [4,5,6,7,8,9,10,15]:
             clf = tree.DecisionTreeClassifier(max_depth=i)
             clf.fit(train_x,train_y)
             acc_scores = cross_val_score(clf,train_x,train_y, cv=5, scoring="accuracy")
@@ -55,9 +55,8 @@ class DecisionTree():
         plot_multiple_learning_curves(estimators, hyper_param_key='max_depth',title='Decision Tree Performance Using Pruning',X=train_x, y=train_y, filename=f'{dataset_name}_dt_max_depth_learning_curve')
 
     def hyper_param_leafnodes(self, dataset_name, train_x, test_x, train_y, test_y):
-        for i in [900,1000,1100,1200]:
-            clf = tree.DecisionTreeClassifier(max_leaf_nodes=i, max_depth=30)
-            clf.fit(train_x,train_y)
+        for i in [5,10,15,20,25]:
+            clf = tree.DecisionTreeClassifier(max_leaf_nodes=i, max_depth=5)
             acc_scores = cross_val_score(clf,train_x,train_y, cv=5, scoring="accuracy")
             val_scores = cross_val_score(clf,train_x,train_y, cv=5, scoring="precision")
             rec_scores = cross_val_score(clf,train_x,train_y, cv=5, scoring="recall")
@@ -75,7 +74,24 @@ class DecisionTree():
 
 
     def plot_learning_curve(self, data, labels, figname):
-        plot_learning_curve(tree.DecisionTreeClassifier(max_depth=30, max_leaf_nodes=1100),title="Decision Tree Learning Curve",X=data,y=labels, filename=figname)
+        plot_learning_curve(tree.DecisionTreeClassifier(max_depth=5, max_leaf_nodes=25),title="Decision Tree Learning Curve",X=data,y=labels, filename=figname)
+
+    def gather_metrics(self, train_x, test_x, train_y, test_y):
+        clf = tree.DecisionTreeClassifier(max_depth=30, max_leaf_nodes=1100)
+        clf.fit(train_x,train_y)
+        pred = clf.predict(test_x)
+        score = accuracy_score(test_y.flatten(), pred.flatten())
+        p_score = precision_score(test_y.flatten(), pred.flatten())
+        r_score = recall_score(test_y.flatten(), pred.flatten())
+        print(f'DT Accuracy: {score}')
+        print(f'DT Precision: {p_score}')
+        print(f'DT Recall: {r_score}')
+
+    def run_all(self,dataset,Xtrain, Xtest, Ytrain, Ytest):
+        self.plot_learning_curve(Xtrain, Ytrain, f'{dataset}_booster_learning_curve')
+        self.hyper_param_maxdepth(dataset, Xtrain, Xtest, Ytrain, Ytest)
+        self.hyper_param_leafnodes(dataset, Xtrain, Xtest, Ytrain, Ytest)
+        self.gather_metrics(Xtrain, Xtest, Ytrain, Ytest)
 
 if __name__ == '__main__':
     with open('supervised_learning/dataset_config.yml','r') as f:
@@ -95,8 +111,10 @@ if __name__ == '__main__':
 
     #dt.get_precision_and_recall_scores(DATASET_NAME, Xtest, Ytest)
 
-    dt.plot_learning_curve(Xtrain, Ytrain, f'{DATASET_NAME}_dt_learning_curve')
+    # dt.plot_learning_curve(Xtrain, Ytrain, f'{DATASET_NAME}_dt_learning_curve')
 
     # dt.hyper_param_maxdepth(DATASET_NAME, Xtrain, Xtest, Ytrain, Ytest)
 
     # dt.hyper_param_leafnodes(DATASET_NAME, Xtrain, Xtest, Ytrain, Ytest)
+
+    dt.gather_metrics(Xtrain, Xtest, Ytrain, Ytest)
