@@ -8,7 +8,7 @@ from plot_helpers import plot_neural_net_history_accuracy, plot_neural_net_histo
 import numpy as np
 import pickle, yaml
 import os
-os.environ["CUDA_VISIBLE_DEVICES"]="-1" 
+# os.environ["CUDA_VISIBLE_DEVICES"]="-1" 
 
 class NeuralNet():
 
