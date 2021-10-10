@@ -9,4 +9,3 @@ def compute_avgs(dataframe, column, params, avg_column):
 def compute_best_values(dataframe):
     print(f'Fitness Avg: {dataframe.Fitness.mean()}')
     print(f'Fitness Max: {dataframe.Fitness.max()}')
-    print(f'Time Avg: {dataframe.Time.mean()}')
