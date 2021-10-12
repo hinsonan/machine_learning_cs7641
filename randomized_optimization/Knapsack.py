@@ -6,7 +6,7 @@ import time
 
 def simulated_annealing_runner(problem):
     sa = mlrose_hiive.SARunner(problem, experiment_name="SA_QUEENS", iteration_list=[1000],
-                                temperature_list=[1,100,300,500.1000,2000,5000,8000],
+                                temperature_list=[1,100,300,500,1000,2000,5000,8000],
                                 decay_list=[mlrose_hiive.ExpDecay,
                                         mlrose_hiive.GeomDecay],
                             seed=64, max_attempts=100)
@@ -45,8 +45,8 @@ def simulated_annealing_runner(problem):
 def hill_climbing_runner(problem):
     rhc = mlrose_hiive.RHCRunner(problem, experiment_name="RHC_QUEENS", 
                                         iteration_list=[1000],
-                                        seed=64, max_attempts=100, 
-                                        restart_list=[100])
+                                        seed=64, max_attempts=100,
+                                        restart_list=[50,100])
     start = time.time()
     rhc_run_stats, rhc_run_curves = rhc.run()
     end = time.time()
@@ -58,7 +58,7 @@ def hill_climbing_runner(problem):
     compute_best_values(final_iter)
 
     print('*************Function Evals*************')
-    compute_avgs(final_iter, 'Restarts',[100],'FEvals')
+    compute_avgs(final_iter, 'Restarts',[50,100],'FEvals')
 
     best_index_in_curve = rhc_run_curves.Fitness.idxmax()
     best_restart = rhc_run_curves.iloc[best_index_in_curve].current_restart
@@ -124,8 +124,8 @@ def mimic_runner(problem):
                     seed=64,
                     iteration_list=[1000],
                     max_attempts=100,
-                    population_sizes=[50, 200, 500],
-                    keep_percent_list=[0.25, 0.5, 0.75],
+                    population_sizes=[50, 200, 500,1000,2000],
+                    keep_percent_list=[0.25, 0.35, 0.5, 0.75],
                     use_fast_mimic=True)
 
     start = time.time()
@@ -139,7 +139,7 @@ def mimic_runner(problem):
     compute_best_values(final_iter)
 
     print('*************Function Evals*************')
-    compute_avgs(final_iter, 'Population Size', [50,200,500], 'FEvals')
+    compute_avgs(final_iter, 'Population Size', [50,200,500,1000,2000], 'FEvals')
     print(f'FEval Avg: {final_iter.loc[:, "FEvals"].mean()}')
 
     best_index_in_curve = mmc_run_curves.Fitness.idxmax()

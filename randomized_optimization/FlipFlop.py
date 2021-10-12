@@ -5,10 +5,9 @@ import numpy as np
 import time
 
 def simulated_annealing_runner(problem):
-    sa = mlrose_hiive.SARunner(problem, experiment_name="SA_QUEENS", iteration_list=[1000],
-                                temperature_list=[1,100,300,500.1000,2000,5000,8000],
-                                decay_list=[mlrose_hiive.ExpDecay,
-                                        mlrose_hiive.GeomDecay],
+    sa = mlrose_hiive.SARunner(problem, experiment_name="SA_flipflop", iteration_list=[1000],
+                                temperature_list=[1,10,20,30],
+                                decay_list=[mlrose_hiive.GeomDecay],
                             seed=64, max_attempts=100)
     start = time.time()
     sa_run_stats, sa_run_curves = sa.run()
@@ -21,7 +20,7 @@ def simulated_annealing_runner(problem):
     compute_best_values(final_iter)
 
     print('*************Function Evals*************')
-    compute_avgs(final_iter, 'schedule_init_temp',[1,100,300,500.1000,2000,5000,8000],'FEvals')
+    compute_avgs(final_iter, 'schedule_init_temp',[1,10,20,30],'FEvals')
     print(f'FEval Avg: {final_iter.loc[:, "FEvals"].mean()}')
 
     best_index_in_curve = sa_run_curves.Fitness.idxmax()
@@ -39,14 +38,14 @@ def simulated_annealing_runner(problem):
     ax = best_curve.Fitness.plot(title='Best Fitness Simulated Annealing')
     ax.set_xlabel("Iterations")
     ax.set_ylabel("Value")
-    plt.savefig("randomized_optimization/SA_queens")
+    plt.savefig("randomized_optimization/SA_flipflop")
     plt.clf()
 
 def hill_climbing_runner(problem):
-    rhc = mlrose_hiive.RHCRunner(problem, experiment_name="RHC_QUEENS", 
+    rhc = mlrose_hiive.RHCRunner(problem, experiment_name="RHC_flipflop", 
                                         iteration_list=[1000],
                                         seed=64, max_attempts=100, 
-                                        restart_list=[100])
+                                        restart_list=[50,100])
     start = time.time()
     rhc_run_stats, rhc_run_curves = rhc.run()
     end = time.time()
@@ -58,7 +57,7 @@ def hill_climbing_runner(problem):
     compute_best_values(final_iter)
 
     print('*************Function Evals*************')
-    compute_avgs(final_iter, 'Restarts',[100],'FEvals')
+    compute_avgs(final_iter, 'Restarts',[50,100],'FEvals')
 
     best_index_in_curve = rhc_run_curves.Fitness.idxmax()
     best_restart = rhc_run_curves.iloc[best_index_in_curve].current_restart
@@ -75,7 +74,7 @@ def hill_climbing_runner(problem):
     ax = best_curve.Fitness.plot(title='Best Fitness Random Hill Climbing')
     ax.set_xlabel("Iterations")
     ax.set_ylabel("Value")
-    plt.savefig("randomized_optimization/RHC_queens")
+    plt.savefig("randomized_optimization/RHC_flipflop")
     plt.clf()
 
 def genetic_algorithms(problem):
@@ -84,7 +83,7 @@ def genetic_algorithms(problem):
                             seed=64,
                             iteration_list=[1000],
                             max_attempts=100,
-                            population_sizes=[50, 200, 500],
+                            population_sizes=[50, 100, 200, 500],
                             mutation_rates=[0.1, 0.25, 0.5])
     start = time.time()
     ga_run_stats, ga_run_curves = ga.run()
@@ -97,7 +96,7 @@ def genetic_algorithms(problem):
     compute_best_values(final_iter)
 
     print('*************Function Evals*************')
-    compute_avgs(final_iter, 'Population Size', [50,200,500], 'FEvals')
+    compute_avgs(final_iter, 'Population Size', [50,100,200,500], 'FEvals')
     print(f'FEval Avg: {final_iter.loc[:, "FEvals"].mean()}')
 
     best_index_in_curve = ga_run_curves.Fitness.idxmax()
@@ -115,7 +114,7 @@ def genetic_algorithms(problem):
     ax = best_curve.Fitness.plot(title='Best Fitness Genetic Algorithm')
     ax.set_xlabel("Iterations")
     ax.set_ylabel("Value")
-    plt.savefig("randomized_optimization/GA_queens")
+    plt.savefig("randomized_optimization/GA_flipflop")
     plt.clf()
 
 def mimic_runner(problem):
@@ -124,7 +123,7 @@ def mimic_runner(problem):
                     seed=64,
                     iteration_list=[1000],
                     max_attempts=100,
-                    population_sizes=[50, 200, 500],
+                    population_sizes=[50, 100, 200, 500],
                     keep_percent_list=[0.25, 0.5, 0.75],
                     use_fast_mimic=True)
 
@@ -139,7 +138,7 @@ def mimic_runner(problem):
     compute_best_values(final_iter)
 
     print('*************Function Evals*************')
-    compute_avgs(final_iter, 'Population Size', [50,200,500], 'FEvals')
+    compute_avgs(final_iter, 'Population Size', [50,100,200,500], 'FEvals')
     print(f'FEval Avg: {final_iter.loc[:, "FEvals"].mean()}')
 
     best_index_in_curve = mmc_run_curves.Fitness.idxmax()
@@ -157,7 +156,7 @@ def mimic_runner(problem):
     ax = best_curve.Fitness.plot(title='Best Fitness Mimic')
     ax.set_xlabel("Iterations")
     ax.set_ylabel("Value")
-    plt.savefig("randomized_optimization/MM_queens")
+    plt.savefig("randomized_optimization/MM_flipflop")
     plt.clf()
 
 problem = mlrose_hiive.FlipFlopOpt(length=300)

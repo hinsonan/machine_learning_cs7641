@@ -4,7 +4,7 @@ import time
 from df_helper import compute_avgs, compute_best_values
 def simulated_annealing_runner(problem):
     sa = mlrose_hiive.SARunner(problem, experiment_name="SA_QUEENS", iteration_list=[1000],
-                                temperature_list=[1,100,300,500.1000,2000,5000,8000],
+                                temperature_list=[1,100,300,500,1000,2000,5000,8000],
                                 decay_list=[mlrose_hiive.ExpDecay,
                                         mlrose_hiive.GeomDecay],
                             seed=64, max_attempts=100)
@@ -19,7 +19,7 @@ def simulated_annealing_runner(problem):
     compute_best_values(final_iter)
 
     print('*************Function Evals*************')
-    compute_avgs(final_iter, 'schedule_init_temp',[1,100,300,500.1000,2000,5000,8000],'FEvals')
+    compute_avgs(final_iter, 'schedule_init_temp',[1,100,300,500,1000,2000,5000,8000],'FEvals')
     print(f'FEval Avg: {final_iter.loc[:, "FEvals"].mean()}')
 
     best_index_in_curve = sa_run_curves.Fitness.idxmax()
@@ -56,7 +56,7 @@ def hill_climbing_runner(problem):
     compute_best_values(final_iter)
 
     print('*************Function Evals*************')
-    compute_avgs(final_iter, 'Restarts',[100],'FEvals')
+    compute_avgs(final_iter, 'Restarts',[50,100],'FEvals')
 
     best_index_in_curve = rhc_run_curves.Fitness.idxmax()
     best_restart = rhc_run_curves.iloc[best_index_in_curve].current_restart
@@ -82,7 +82,7 @@ def genetic_algorithms(problem):
                             seed=64,
                             iteration_list=[1000],
                             max_attempts=100,
-                            population_sizes=[25,100,300],
+                            population_sizes=[25,100,300,600],
                             mutation_rates=[0.1, 0.3, 0.45])
     start = time.time()
     ga_run_stats, ga_run_curves = ga.run()
@@ -95,7 +95,7 @@ def genetic_algorithms(problem):
     compute_best_values(final_iter)
 
     print('*************Function Evals*************')
-    compute_avgs(final_iter, 'Population Size', [50,200,500], 'FEvals')
+    compute_avgs(final_iter, 'Population Size', [25,100,300,600], 'FEvals')
     print(f'FEval Avg: {final_iter.loc[:, "FEvals"].mean()}')
 
     best_index_in_curve = ga_run_curves.Fitness.idxmax()
@@ -122,7 +122,7 @@ def mimic_runner(problem):
                     seed=64,
                     iteration_list=[1000],
                     max_attempts=100,
-                    population_sizes=[25,100,300],
+                    population_sizes=[25,100,300,600],
                     keep_percent_list=[0.2, 0.5, 0.7],
                     use_fast_mimic=True)
 
