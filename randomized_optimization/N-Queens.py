@@ -180,7 +180,7 @@ def queens_max(state):
 
 fitness = mlrose_hiive.CustomFitness(queens_max)
 
-problem = mlrose_hiive.DiscreteOpt(length=32, fitness_fn=fitness, maximize=True, max_val=32)
+problem = mlrose_hiive.DiscreteOpt(length=25, fitness_fn=fitness, maximize=True, max_val=25)
 
 simulated_annealing_runner(problem)
 

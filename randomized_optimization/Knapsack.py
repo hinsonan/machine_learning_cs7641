@@ -5,7 +5,7 @@ import numpy as np
 import time
 
 def simulated_annealing_runner(problem):
-    sa = mlrose_hiive.SARunner(problem, experiment_name="SA_QUEENS", iteration_list=[1000],
+    sa = mlrose_hiive.SARunner(problem, experiment_name="SA_knapsack", iteration_list=[1000],
                                 temperature_list=[1,100,300,500,1000,2000,5000,8000],
                                 decay_list=[mlrose_hiive.ExpDecay,
                                         mlrose_hiive.GeomDecay],
@@ -39,11 +39,11 @@ def simulated_annealing_runner(problem):
     ax = best_curve.Fitness.plot(title='Best Fitness Simulated Annealing')
     ax.set_xlabel("Iterations")
     ax.set_ylabel("Value")
-    plt.savefig("randomized_optimization/SA_queens")
+    plt.savefig("randomized_optimization/SA_knapsack")
     plt.clf()
 
 def hill_climbing_runner(problem):
-    rhc = mlrose_hiive.RHCRunner(problem, experiment_name="RHC_QUEENS", 
+    rhc = mlrose_hiive.RHCRunner(problem, experiment_name="RHC_knapsack", 
                                         iteration_list=[1000],
                                         seed=64, max_attempts=100,
                                         restart_list=[50,100])
@@ -75,7 +75,7 @@ def hill_climbing_runner(problem):
     ax = best_curve.Fitness.plot(title='Best Fitness Random Hill Climbing')
     ax.set_xlabel("Iterations")
     ax.set_ylabel("Value")
-    plt.savefig("randomized_optimization/RHC_queens")
+    plt.savefig("randomized_optimization/RHC_knapsack")
     plt.clf()
 
 def genetic_algorithms(problem):
@@ -115,7 +115,7 @@ def genetic_algorithms(problem):
     ax = best_curve.Fitness.plot(title='Best Fitness Genetic Algorithm')
     ax.set_xlabel("Iterations")
     ax.set_ylabel("Value")
-    plt.savefig("randomized_optimization/GA_queens")
+    plt.savefig("randomized_optimization/GA_knapsack")
     plt.clf()
 
 def mimic_runner(problem):
@@ -157,7 +157,7 @@ def mimic_runner(problem):
     ax = best_curve.Fitness.plot(title='Best Fitness Mimic')
     ax.set_xlabel("Iterations")
     ax.set_ylabel("Value")
-    plt.savefig("randomized_optimization/MM_queens")
+    plt.savefig("randomized_optimization/MM_knapsack")
     plt.clf()
 
 knapsack_len = 200

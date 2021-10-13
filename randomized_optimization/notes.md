@@ -14,60 +14,60 @@ learning curves for NN
 N-Queens results
 *************SA BEGIN*************
 ***********BEST FITNESS**********
-Fitness Avg: 479.375
-Fitness Max: 493.0
+Fitness Avg: 287.1875
+Fitness Max: 299.0
 *************Function Evals*************
-1: 1157.0
-100: 1665.0
-300: 1754.5
-500: 1786.5
-1000: 1834.5
-2000: 1875.0
-5000: 1907.0
-8000: 1935.0
-FEval Avg: 1739.3125
+1: 735.0
+100: 1641.5
+300: 1758.0
+500: 1787.5
+1000: 1824.0
+2000: 1863.0
+5000: 1910.0
+8000: 1929.0
+FEval Avg: 1681.0
 **********TIME FOR BEST CURVE*************
-Temperature 1 Time 0.8109171519972733
+Temperature 1 Time 0.6019499829999404
 **********WALL CLOCK TIME*************
-Walk Clock Time: 16.704111337661743
+Walk Clock Time: 15.35910701751709
 *************RHC BEGIN*************
 ***********BEST FITNESS**********
-Fitness Avg: 488.79605263157896
-Fitness Max: 493.0
+Fitness Avg: 294.8092105263158
+Fitness Max: 298.0
 *************Function Evals*************
-50: 10282.725490196079
-100: 19684.326732673268
+50: 8518.098039215687
+100: 16429.752475247526
 **********TIME FOR BEST CURVE*************
-Restart 31.0 Time 0.37952498699814896
+Restart 59.0 Time 0.21954724300030648
 **********WALL CLOCK TIME*************
-Walk Clock Time: 608.0300576686859
+Walk Clock Time: 431.2323679924011
 *************GA BEGIN*************
 ***********BEST FITNESS**********
-Fitness Avg: 492.0
-Fitness Max: 495.0
+Fitness Avg: 297.0833333333333
+Fitness Max: 300.0
 *************Function Evals*************
-25: 5210.666666666667
-100: 26005.333333333332
-300: 91417.33333333333
-600: 216376.33333333334
-FEval Avg: 84752.41666666667
+25: 5468.333333333333
+100: 19467.666666666668
+300: 91614.0
+600: 211762.33333333334
+FEval Avg: 82078.08333333333
 **********TIME FOR BEST CURVE*************
-Population 600.0 Time 2.596806845998799
+Population 300.0 Time 1.429353409000214
 **********WALL CLOCK TIME*************
-Walk Clock Time: 505.8370337486267
+Walk Clock Time: 413.60214257240295
 *************MIMIC BEGIN*************
 ***********BEST FITNESS**********
-Fitness Avg: 479.8333333333333
-Fitness Max: 487.0
+Fitness Avg: 288.0
+Fitness Max: 295.0
 *************Function Evals*************
 50: nan
 200: nan
 500: nan
-FEval Avg: 31332.583333333332
+FEval Avg: 30635.75
 **********TIME FOR BEST CURVE*************
-Population 600 Time 2.895786698001757
+Population 600 Time 2.36250110400033
 **********WALL CLOCK TIME*************
-Walk Clock Time: 501.7787606716156
+Walk Clock Time: 334.38356852531433
 
 
 FLIP FLOP
@@ -129,44 +129,57 @@ Walk Clock Time: 468.6214265823364
 KNAPSACK
 *************SA BEGIN*************
 ***********BEST FITNESS**********
-Fitness Avg: 2673.975280884466
-Fitness Max: 2825.021339322957
+Fitness Avg: 2683.8705411396577
+Fitness Max: 2950.070930721813
 *************Function Evals*************
-1: 136.0
-100: 742.0
-300: 1031.0
+1: 116.0
+100: 760.5
+300: 998.0
 500.1: nan
 2000: 1411.5
-5000: 1573.0
-8000: 1610.0
-FEval Avg: 1123.3125
+5000: 1518.5
+8000: 1604.5
+FEval Avg: 1104.8125
 **********TIME FOR BEST CURVE*************
-Temperature 300 Time 0.19167704000028607
+Temperature 1000 Time 0.00404966600001444
 **********WALL CLOCK TIME*************
-Walk Clock Time: 4.0285115242004395
+Walk Clock Time: 3.1887078285217285
+*************RHC BEGIN*************
+***********BEST FITNESS**********
+Fitness Avg: 1509.8983552503323
+Fitness Max: 2725.2739390930515
+*************Function Evals*************
+50: 3056.0392156862745
+100: 5994.623762376237
+**********TIME FOR BEST CURVE*************
+Restart 34.0 Time 0.014806860000021516
+**********WALL CLOCK TIME*************
+Walk Clock Time: 53.067524909973145
 *************GA BEGIN*************
 ***********BEST FITNESS**********
-Fitness Avg: 3397.615207081964
-Fitness Max: 3451.7019711632747
+Fitness Avg: 3513.4732995542677
+Fitness Max: 3579.179005279761
 *************Function Evals*************
-50: 13078.0
-200: 62294.333333333336
-500: 156529.33333333334
-FEval Avg: 77300.55555555556
+50: 16223.666666666666
+200: 54920.333333333336
+500: 133148.33333333334
+FEval Avg: 68097.44444444444
 **********TIME FOR BEST CURVE*************
-Population 500.0 Time 0.48402675800025463
+Population 500.0 Time 0.18817824500001734
 **********WALL CLOCK TIME*************
-Walk Clock Time: 50.59297561645508
+Walk Clock Time: 45.82818150520325
 *************MIMIC BEGIN*************
 ***********BEST FITNESS**********
-Fitness Avg: 3061.171560491949
-Fitness Max: 3427.8075440993193
+Fitness Avg: 3241.6809856545924
+Fitness Max: 3578.364454098795
 *************Function Evals*************
-50: 6128.0
-200: 28894.0
-500: 71171.66666666667
-FEval Avg: 35397.88888888889
+50: 5792.75
+200: 29464.25
+500: 74302.0
+1000: 158686.75
+2000: 312684.0
+FEval Avg: 116185.95
 **********TIME FOR BEST CURVE*************
-Population 500 Time 5.474845839999944
+Population 2000 Time 2.3316290989998834
 **********WALL CLOCK TIME*************
-Walk Clock Time: 165.1533064842224
+Walk Clock Time: 1292.1927061080933
