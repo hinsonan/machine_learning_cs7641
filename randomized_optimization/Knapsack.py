@@ -1,5 +1,6 @@
 import mlrose_hiive
 import matplotlib.pyplot as plt
+import pandas as pd
 from df_helper import compute_avgs, compute_best_values
 import numpy as np
 import time
@@ -42,6 +43,9 @@ def simulated_annealing_runner(problem):
     plt.savefig("randomized_optimization/SA_knapsack")
     plt.clf()
 
+    final_iter.to_csv('randomized_optimization/knapsack_csv/SA_final_iter.csv',index=False, header=True)
+    best_curve.to_csv('randomized_optimization/knapsack_csv/SA_best_curve.csv',index=False, header=True)
+
 def hill_climbing_runner(problem):
     rhc = mlrose_hiive.RHCRunner(problem, experiment_name="RHC_knapsack", 
                                         iteration_list=[1000],
@@ -65,7 +69,7 @@ def hill_climbing_runner(problem):
     best_curve = rhc_run_curves.loc[rhc_run_curves.current_restart == best_restart, :]
 
     print('**********TIME FOR BEST CURVE*************')
-    print(f'Restart {best_restart} Time {best_curve.iloc[-1].Time}')
+    print(f'Restart {pd.unique(best_curve.Restarts)} Time {best_curve.iloc[-1].Time}')
 
     print('**********WALL CLOCK TIME*************')
     print(f'Walk Clock Time: {end-start}')
@@ -77,6 +81,9 @@ def hill_climbing_runner(problem):
     ax.set_ylabel("Value")
     plt.savefig("randomized_optimization/RHC_knapsack")
     plt.clf()
+
+    final_iter.to_csv('randomized_optimization/knapsack_csv/RHC_final_iter.csv',index=False, header=True)
+    best_curve.to_csv('randomized_optimization/knapsack_csv/RHC_best_curve.csv',index=False, header=True)
 
 def genetic_algorithms(problem):
     ga = mlrose_hiive.GARunner(problem=problem,
@@ -117,6 +124,9 @@ def genetic_algorithms(problem):
     ax.set_ylabel("Value")
     plt.savefig("randomized_optimization/GA_knapsack")
     plt.clf()
+
+    final_iter.to_csv('randomized_optimization/knapsack_csv/GA_final_iter.csv',index=False, header=True)
+    best_curve.to_csv('randomized_optimization/knapsack_csv/GA_best_curve.csv',index=False, header=True)
 
 def mimic_runner(problem):
     mmc = mlrose_hiive.MIMICRunner(problem=problem,
@@ -159,6 +169,9 @@ def mimic_runner(problem):
     ax.set_ylabel("Value")
     plt.savefig("randomized_optimization/MM_knapsack")
     plt.clf()
+
+    final_iter.to_csv('randomized_optimization/knapsack_csv/MM_final_iter.csv',index=False, header=True)
+    best_curve.to_csv('randomized_optimization/knapsack_csv/MM_best_curve.csv',index=False, header=True)
 
 knapsack_len = 200
 

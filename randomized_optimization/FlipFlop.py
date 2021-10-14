@@ -3,10 +3,11 @@ import matplotlib.pyplot as plt
 from df_helper import compute_avgs, compute_best_values
 import numpy as np
 import time
+import pandas as pd
 
 def simulated_annealing_runner(problem):
     sa = mlrose_hiive.SARunner(problem, experiment_name="SA_flipflop", iteration_list=[1000],
-                                temperature_list=[1,10,20,30],
+                                temperature_list=[1,10,20,30,300],
                                 decay_list=[mlrose_hiive.GeomDecay],
                             seed=64, max_attempts=100)
     start = time.time()
@@ -41,11 +42,14 @@ def simulated_annealing_runner(problem):
     plt.savefig("randomized_optimization/SA_flipflop")
     plt.clf()
 
+    final_iter.to_csv('randomized_optimization/flipflop_csv/SA_final_iter.csv',index=False, header=True)
+    best_curve.to_csv('randomized_optimization/flipflop_csv/SA_best_curve.csv',index=False, header=True)
+
 def hill_climbing_runner(problem):
     rhc = mlrose_hiive.RHCRunner(problem, experiment_name="RHC_flipflop", 
                                         iteration_list=[1000],
                                         seed=64, max_attempts=100, 
-                                        restart_list=[50,100])
+                                        restart_list=[50,100,200])
     start = time.time()
     rhc_run_stats, rhc_run_curves = rhc.run()
     end = time.time()
@@ -64,7 +68,7 @@ def hill_climbing_runner(problem):
     best_curve = rhc_run_curves.loc[rhc_run_curves.current_restart == best_restart, :]
 
     print('**********TIME FOR BEST CURVE*************')
-    print(f'Restart {best_restart} Time {best_curve.iloc[-1].Time}')
+    print(f'Restart {pd.unique(best_curve.Restarts)} Time {best_curve.iloc[-1].Time}')
 
     print('**********WALL CLOCK TIME*************')
     print(f'Walk Clock Time: {end-start}')
@@ -77,6 +81,9 @@ def hill_climbing_runner(problem):
     plt.savefig("randomized_optimization/RHC_flipflop")
     plt.clf()
 
+    final_iter.to_csv('randomized_optimization/flipflop_csv/RHC_final_iter.csv',index=False, header=True)
+    best_curve.to_csv('randomized_optimization/flipflop_csv/RHC_best_curve.csv',index=False, header=True)
+
 def genetic_algorithms(problem):
     ga = mlrose_hiive.GARunner(problem=problem,
                             experiment_name="GA_Exp",
@@ -84,7 +91,7 @@ def genetic_algorithms(problem):
                             iteration_list=[1000],
                             max_attempts=100,
                             population_sizes=[50, 100, 200, 500],
-                            mutation_rates=[0.1, 0.25, 0.5])
+                            mutation_rates=[0.1, 0.3, 0.6])
     start = time.time()
     ga_run_stats, ga_run_curves = ga.run()
     end = time.time()
@@ -117,6 +124,9 @@ def genetic_algorithms(problem):
     plt.savefig("randomized_optimization/GA_flipflop")
     plt.clf()
 
+    final_iter.to_csv('randomized_optimization/flipflop_csv/GA_final_iter.csv',index=False, header=True)
+    best_curve.to_csv('randomized_optimization/flipflop_csv/GA_best_curve.csv',index=False, header=True)
+
 def mimic_runner(problem):
     mmc = mlrose_hiive.MIMICRunner(problem=problem,
                     experiment_name="MMC_Exp",
@@ -124,7 +134,7 @@ def mimic_runner(problem):
                     iteration_list=[1000],
                     max_attempts=100,
                     population_sizes=[50, 100, 200, 500],
-                    keep_percent_list=[0.25, 0.5, 0.75],
+                    keep_percent_list=[0.2, 0.5, 0.8],
                     use_fast_mimic=True)
 
     start = time.time()
@@ -159,11 +169,14 @@ def mimic_runner(problem):
     plt.savefig("randomized_optimization/MM_flipflop")
     plt.clf()
 
+    final_iter.to_csv('randomized_optimization/flipflop_csv/MM_final_iter.csv',index=False, header=True)
+    best_curve.to_csv('randomized_optimization/flipflop_csv/MM_best_curve.csv',index=False, header=True)
+
 problem = mlrose_hiive.FlipFlopOpt(length=300)
 
 simulated_annealing_runner(problem)
 
-hill_climbing_runner(problem)
+# hill_climbing_runner(problem)
 
 genetic_algorithms(problem)
 

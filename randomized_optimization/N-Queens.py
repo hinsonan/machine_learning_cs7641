@@ -1,6 +1,8 @@
 import mlrose_hiive
 import matplotlib.pyplot as plt
 import time
+
+import pandas as pd
 from df_helper import compute_avgs, compute_best_values
 def simulated_annealing_runner(problem):
     sa = mlrose_hiive.SARunner(problem, experiment_name="SA_QUEENS", iteration_list=[1000],
@@ -40,6 +42,9 @@ def simulated_annealing_runner(problem):
     plt.savefig("randomized_optimization/SA_queens")
     plt.clf()
 
+    final_iter.to_csv('randomized_optimization/n_queens_csv/SA_final_iter.csv',index=False, header=True)
+    best_curve.to_csv('randomized_optimization/n_queens_csv/SA_best_curve.csv',index=False, header=True)
+
 def hill_climbing_runner(problem):
     rhc = mlrose_hiive.RHCRunner(problem, experiment_name="RHC_QUEENS", 
                                         iteration_list=[1000],
@@ -63,7 +68,7 @@ def hill_climbing_runner(problem):
     best_curve = rhc_run_curves.loc[rhc_run_curves.current_restart == best_restart, :]
 
     print('**********TIME FOR BEST CURVE*************')
-    print(f'Restart {best_restart} Time {best_curve.iloc[-1].Time}')
+    print(f'Restart {pd.unique(best_curve.Restarts)} Time {best_curve.iloc[-1].Time}')
 
     print('**********WALL CLOCK TIME*************')
     print(f'Walk Clock Time: {end-start}')
@@ -76,13 +81,16 @@ def hill_climbing_runner(problem):
     plt.savefig("randomized_optimization/RHC_queens")
     plt.clf()
 
+    final_iter.to_csv('randomized_optimization/n_queens_csv/RHC_final_iter.csv',index=False, header=True)
+    best_curve.to_csv('randomized_optimization/n_queens_csv/RHC_best_curve.csv',index=False, header=True)
+
 def genetic_algorithms(problem):
     ga = mlrose_hiive.GARunner(problem=problem,
                             experiment_name="GA_Exp",
                             seed=64,
                             iteration_list=[1000],
                             max_attempts=100,
-                            population_sizes=[25,100,300,600],
+                            population_sizes=[25,100,300,600,1000,2000,4000],
                             mutation_rates=[0.1, 0.3, 0.45])
     start = time.time()
     ga_run_stats, ga_run_curves = ga.run()
@@ -95,7 +103,7 @@ def genetic_algorithms(problem):
     compute_best_values(final_iter)
 
     print('*************Function Evals*************')
-    compute_avgs(final_iter, 'Population Size', [25,100,300,600], 'FEvals')
+    compute_avgs(final_iter, 'Population Size', [25,100,300,600,1000,2000,4000], 'FEvals')
     print(f'FEval Avg: {final_iter.loc[:, "FEvals"].mean()}')
 
     best_index_in_curve = ga_run_curves.Fitness.idxmax()
@@ -116,13 +124,16 @@ def genetic_algorithms(problem):
     plt.savefig("randomized_optimization/GA_queens")
     plt.clf()
 
+    final_iter.to_csv('randomized_optimization/n_queens_csv/GA_final_iter.csv',index=False, header=True)
+    best_curve.to_csv('randomized_optimization/n_queens_csv/GA_best_curve.csv',index=False, header=True)
+
 def mimic_runner(problem):
     mmc = mlrose_hiive.MIMICRunner(problem=problem,
                     experiment_name="MMC_Exp",
                     seed=64,
                     iteration_list=[1000],
                     max_attempts=100,
-                    population_sizes=[25,100,300,600],
+                    population_sizes=[25,100,300,600,1000,2000,4000],
                     keep_percent_list=[0.2, 0.5, 0.7],
                     use_fast_mimic=True)
 
@@ -137,7 +148,7 @@ def mimic_runner(problem):
     compute_best_values(final_iter)
 
     print('*************Function Evals*************')
-    compute_avgs(final_iter, 'Population Size', [50,200,500], 'FEvals')
+    compute_avgs(final_iter, 'Population Size', [25,100,300,600,1000,2000,4000], 'FEvals')
     print(f'FEval Avg: {final_iter.loc[:, "FEvals"].mean()}')
 
     best_index_in_curve = mmc_run_curves.Fitness.idxmax()
@@ -157,6 +168,9 @@ def mimic_runner(problem):
     ax.set_ylabel("Value")
     plt.savefig("randomized_optimization/MM_queens")
     plt.clf()
+
+    final_iter.to_csv('randomized_optimization/n_queens_csv/MM_final_iter.csv',index=False, header=True)
+    best_curve.to_csv('randomized_optimization/n_queens_csv/MM_best_curve.csv',index=False, header=True)
 
 # Define alternative N-Queens fitness function for maximization problem
 def queens_max(state):
