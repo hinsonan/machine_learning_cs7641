@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 import time
 
 import pandas as pd
-from df_helper import compute_avgs, compute_best_values
+from df_helper import compute_avgs, compute_best_values,plot_evaluations
 def simulated_annealing_runner(problem):
     sa = mlrose_hiive.SARunner(problem, experiment_name="SA_QUEENS", iteration_list=[1000],
                                 temperature_list=[1,100,300,500,1000,2000,5000,8000],

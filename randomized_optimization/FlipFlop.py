@@ -49,7 +49,7 @@ def hill_climbing_runner(problem):
     rhc = mlrose_hiive.RHCRunner(problem, experiment_name="RHC_flipflop", 
                                         iteration_list=[1000],
                                         seed=64, max_attempts=100, 
-                                        restart_list=[50,100,200])
+                                        restart_list=[50,100])
     start = time.time()
     rhc_run_stats, rhc_run_curves = rhc.run()
     end = time.time()
@@ -176,7 +176,7 @@ problem = mlrose_hiive.FlipFlopOpt(length=300)
 
 simulated_annealing_runner(problem)
 
-# hill_climbing_runner(problem)
+hill_climbing_runner(problem)
 
 genetic_algorithms(problem)
 
