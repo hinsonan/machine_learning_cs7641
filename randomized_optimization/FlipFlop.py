@@ -8,7 +8,7 @@ import pandas as pd
 def simulated_annealing_runner(problem):
     sa = mlrose_hiive.SARunner(problem, experiment_name="SA_flipflop", iteration_list=[1000],
                                 temperature_list=[1,10,20,30,300],
-                                decay_list=[mlrose_hiive.GeomDecay],
+                                decay_list=[mlrose_hiive.ExpDecay,mlrose_hiive.GeomDecay],
                             seed=64, max_attempts=100)
     start = time.time()
     sa_run_stats, sa_run_curves = sa.run()
@@ -49,7 +49,7 @@ def hill_climbing_runner(problem):
     rhc = mlrose_hiive.RHCRunner(problem, experiment_name="RHC_flipflop", 
                                         iteration_list=[1000],
                                         seed=64, max_attempts=100, 
-                                        restart_list=[50,100])
+                                        restart_list=[10,30,50])
     start = time.time()
     rhc_run_stats, rhc_run_curves = rhc.run()
     end = time.time()
@@ -176,8 +176,8 @@ problem = mlrose_hiive.FlipFlopOpt(length=300)
 
 simulated_annealing_runner(problem)
 
-hill_climbing_runner(problem)
+# hill_climbing_runner(problem)
 
-genetic_algorithms(problem)
+# genetic_algorithms(problem)
 
-mimic_runner(problem)
+# mimic_runner(problem)

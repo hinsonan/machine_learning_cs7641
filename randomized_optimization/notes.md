@@ -76,18 +76,29 @@ Walk Clock Time: 2229.305584669113
 FLIP FLOP
 *************SA BEGIN*************
 ***********BEST FITNESS**********
-Fitness Avg: 250.8
+Fitness Avg: 240.6
 Fitness Max: 262.0
 *************Function Evals*************
-1: 1377.0
-10: 1475.0
-20: 1574.0
-30: 1581.0
-FEval Avg: 1550.6
+1: 1379.0
+10: 1547.5
+20: 1647.5
+30: 1668.5
+FEval Avg: 1618.6
 **********TIME FOR BEST CURVE*************
-Temperature 1 Time 0.8559418980003102
+Temperature 1 Time 0.9211475700003575
 **********WALL CLOCK TIME*************
-Walk Clock Time: 4.725281238555908
+Walk Clock Time: 10.155860185623169
+*************RHC BEGIN*************
+***********BEST FITNESS**********
+Fitness Avg: 238.47619047619048
+Fitness Max: 249.0
+*************Function Evals*************
+50: nan
+100: nan
+**********TIME FOR BEST CURVE*************
+Restart [10 30] Time 0.8693257459999586
+**********WALL CLOCK TIME*************
+Walk Clock Time: 146.03597855567932
 *************GA BEGIN*************
 ***********BEST FITNESS**********
 Fitness Avg: 259.4166666666667
