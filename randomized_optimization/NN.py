@@ -40,8 +40,8 @@ def train_net(Xtrain, Xtest, Ytrain, Ytest, algorithm):
     for i in range(num_epochs):
 
         model = mlrose_hiive.NeuralNetwork(hidden_nodes=[8,4], activation='relu',algorithm=algorithm,
-                                        max_iters=i,learning_rate=0.001, early_stopping=False, max_attempts=num_epochs,
-                                        is_classifier=True, pop_size=200,mutation_prob=0.2)
+                                        max_iters=i,learning_rate=0.001, early_stopping=True, max_attempts=500,
+                                        is_classifier=True, pop_size=300,mutation_prob=0.4, restarts=50)
         
         model.fit(Xtrain,Ytrain)
 
@@ -74,12 +74,19 @@ def train_net(Xtrain, Xtest, Ytrain, Ytest, algorithm):
 
         print(f'iteration {i}: training loss {loss:.3f} validation loss {val_loss:.3f} training accuracy {train_accuracy:.3f} validation accuracy {val_accuracy:.3f}')
 
+    # get test results and metrics
+    test_pred = model.predict(Xtest)
+    test_accuracy = accuracy_score(Ytest,test_pred)
+    test_precision = precision_score(Ytest,test_pred)
+    test_recall = recall_score(Ytest,test_pred)
+
     plot_fig(train_losses, val_losses, f'NN_{algorithm}_loss', "Log Loss")
     plot_fig(train_accuracies, val_accuracies, f'NN_{algorithm}_accuracy', "Accuracy")
     results = {"training_losses": train_losses, "validation_losses": val_losses,
                "training_accuracies": train_accuracies, "validation_accuracies": val_accuracies,
                "training_precisions": train_precisions, "validation_precisions": val_precisions,
-               "training_recalls": train_recalls, "validation_recalls": val_recalls}
+               "training_recalls": train_recalls, "validation_recalls": val_recalls,
+               "test_metrics":{"accuracy":test_accuracy,"precision":test_precision,"recall":test_recall}}
     with open(f"randomized_optimization/NN_{algorithm}_metrics.json", 'w') as f:
         json.dump(results, f, indent=4)
 
@@ -91,7 +98,7 @@ Xtrain, Xtest, Ytrain, Ytest = train_test_split(data,labels, test_size=0.33, ran
 
 #['random_hill_climb', 'simulated_annealing','genetic_alg', 'gradient_descent']
 
-train_net(Xtrain, Xtest, Ytrain, Ytest,'random_hill_climb')
-train_net(Xtrain, Xtest, Ytrain, Ytest,'simulated_annealing')
+# train_net(Xtrain, Xtest, Ytrain, Ytest,'random_hill_climb')
+# train_net(Xtrain, Xtest, Ytrain, Ytest,'simulated_annealing')
 train_net(Xtrain, Xtest, Ytrain, Ytest,'genetic_alg')
 

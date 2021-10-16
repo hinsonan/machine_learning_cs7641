@@ -179,7 +179,7 @@ knapsack_weights=np.random.uniform(10,60,knapsack_len)
 
 knapsack_values=np.random.uniform(10,40,knapsack_len)
 
-problem = mlrose_hiive.KnapsackOpt(weights=knapsack_weights,values=knapsack_values)
+problem = mlrose_hiive.KnapsackOpt(weights=knapsack_weights,values=knapsack_values,max_weight_pct=.5)
 
 simulated_annealing_runner(problem)
 
