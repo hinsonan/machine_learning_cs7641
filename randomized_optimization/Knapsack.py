@@ -25,8 +25,8 @@ def simulated_annealing_runner(problem):
     compute_avgs(final_iter, 'schedule_init_temp',[1,100,300,500.1000,2000,5000,8000],'FEvals')
     print(f'FEval Avg: {final_iter.loc[:, "FEvals"].mean()}')
 
-    best_index_in_curve = sa_run_curves.Fitness.idxmax()
-    best_temp = sa_run_curves.iloc[best_index_in_curve].Temperature
+    best_idx = sa_run_curves.Fitness.idxmax()
+    best_temp = sa_run_curves.iloc[best_idx].Temperature
     best_curve = sa_run_curves.loc[sa_run_curves.Temperature == best_temp, :]
 
     print('**********TIME FOR BEST CURVE*************')
@@ -64,8 +64,8 @@ def hill_climbing_runner(problem):
     print('*************Function Evals*************')
     compute_avgs(final_iter, 'Restarts',[50,100],'FEvals')
 
-    best_index_in_curve = rhc_run_curves.Fitness.idxmax()
-    best_restart = rhc_run_curves.iloc[best_index_in_curve].current_restart
+    best_idx = rhc_run_curves.Fitness.idxmax()
+    best_restart = rhc_run_curves.iloc[best_idx].current_restart
     best_curve = rhc_run_curves.loc[rhc_run_curves.current_restart == best_restart, :]
 
     print('**********TIME FOR BEST CURVE*************')
@@ -107,8 +107,8 @@ def genetic_algorithms(problem):
     compute_avgs(final_iter, 'Population Size', [50,200,500], 'FEvals')
     print(f'FEval Avg: {final_iter.loc[:, "FEvals"].mean()}')
 
-    best_index_in_curve = ga_run_curves.Fitness.idxmax()
-    best_population = ga_run_curves.iloc[best_index_in_curve]["Population Size"]
+    best_idx = ga_run_curves.Fitness.idxmax()
+    best_population = ga_run_curves.iloc[best_idx]["Population Size"]
     best_curve = ga_run_curves.loc[ga_run_curves["Population Size"] == best_population, :]
 
     print('**********TIME FOR BEST CURVE*************')
@@ -152,8 +152,8 @@ def mimic_runner(problem):
     compute_avgs(final_iter, 'Population Size', [50,200,500,1000,2000], 'FEvals')
     print(f'FEval Avg: {final_iter.loc[:, "FEvals"].mean()}')
 
-    best_index_in_curve = mmc_run_curves.Fitness.idxmax()
-    best_population = mmc_run_curves.iloc[best_index_in_curve]["Population Size"]
+    best_idx = mmc_run_curves.Fitness.idxmax()
+    best_population = mmc_run_curves.iloc[best_idx]["Population Size"]
     best_curve = mmc_run_curves.loc[mmc_run_curves["Population Size"] == best_population, :]
 
     print('**********TIME FOR BEST CURVE*************')
