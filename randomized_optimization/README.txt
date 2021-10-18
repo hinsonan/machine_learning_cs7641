@@ -1,6 +1,6 @@
 ahinson7 cs7641 assignment 2
 REPO: https://github.com/hinsonan/machine_learning_cs7641
-ClONE: https://github.com/hinsonan/machine_learning_cs7641.git
+CLONE: https://github.com/hinsonan/machine_learning_cs7641.git
 
 
 ***LIBRARIES***
