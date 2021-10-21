@@ -8,10 +8,20 @@ def plot_elbow(distances: dict, fig_name):
     axes.set_ylabel('Sum of Squared Distances')
     plt.savefig(f'unsupervised_learning_dim_reduction/charts/{fig_name}')
 
-def plot_silhouette(silhoutte_scores: dict, fig_name):
+def plot_silhouette(silhoutte_scores: dict, fig_name:str, plot_title:str):
     _, axes = plt.subplots(1)
     axes.plot(list(silhoutte_scores.keys()), list(silhoutte_scores.values()))
-    axes.set_title('KMeans Silhouette Score')
+    axes.set_title(plot_title)
     axes.set_xlabel('Number of Clusters')
     axes.set_ylabel('Silhoutte Score')
+    plt.savefig(f'unsupervised_learning_dim_reduction/charts/{fig_name}')
+
+def plot_homo_and_complete(homo_scores:dict,completeness_scores:dict,fig_name:str,plot_title:str):
+    _, axes = plt.subplots(1)
+    axes.plot(list(homo_scores.keys()), list(homo_scores.values()))
+    axes.plot(list(completeness_scores.keys()), list(completeness_scores.values()))
+    axes.set_title(plot_title)
+    axes.set_xlabel('Number of Clusters')
+    axes.set_ylabel('Score')
+    axes.legend(['homogeneity','completeness'])
     plt.savefig(f'unsupervised_learning_dim_reduction/charts/{fig_name}')
