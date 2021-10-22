@@ -1,5 +1,6 @@
 import pandas as pd
 from sklearn.preprocessing import MinMaxScaler, StandardScaler, LabelEncoder
+from plot_helpers import pair_wise_plot
 
 def normalize_with_min_max_scaler(df:pd.DataFrame):
     values = df.values
@@ -33,3 +34,17 @@ def get_loan_defualt():
     data = vals[:,:-1]
     labels = vals[:,-1]
     return data, labels
+
+if __name__ == '__main__':
+    bank_loan = pd.read_csv('data/loan_defaulter.csv')
+    bank_loan = bank_loan.drop(['RowNumber','CustomerId','Surname'],axis=1)
+    bank_loan['Geography'] = LabelEncoder().fit_transform(bank_loan['Geography'])
+    bank_loan['Gender'] = LabelEncoder().fit_transform(bank_loan['Gender'])
+
+    cs_go = pd.read_csv('data/csgo_round_snapshots.csv')
+    cs_go['round_winner'] = LabelEncoder().fit_transform(cs_go['round_winner'])
+    cs_go['map'] = LabelEncoder().fit_transform(cs_go['map'])
+    cs_go = cs_go.drop(labels=range(1000,27000),axis=0)
+
+    pair_wise_plot(bank_loan,'Exited','bank_loan_pair_wise')
+    pair_wise_plot(cs_go,'round_winner','csgo_pair_wise')

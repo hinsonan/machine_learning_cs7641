@@ -1,5 +1,5 @@
 from sklearn.mixture import GaussianMixture
-from sklearn.metrics import silhouette_score, homogeneity_score, completeness_score
+from sklearn.metrics import silhouette_score, homogeneity_score, completeness_score, accuracy_score
 from data_helpers import get_cs_go_data, get_loan_defualt
 from plot_helpers import plot_silhouette, plot_homo_and_complete
 
@@ -42,10 +42,21 @@ def loan_gmm():
     plot_silhouette(silhouette_scores,'loan_silouette_gmm', 'GMM Silhouette Score')
     plot_homo_and_complete(homo_scores,completeness_scores,'loan_homo_and_complete_gmm','GMM Homogeneity and Completeness')
 
-cs_go_data, cs_go_labels = get_cs_go_data()
+def evaluate_gmm(data, truth_labels, num_components):
+    gmm = GaussianMixture(n_components=num_components,max_iter=500, random_state=0).fit(data)
+    labels = gmm.predict(data)
+    accuracy = accuracy_score(truth_labels,labels)
+    print(f'Accuracy: {accuracy}')
 
-loan_data, loan_labels  = get_loan_defualt()
+if __name__ == '__main__':
+    cs_go_data, cs_go_labels = get_cs_go_data()
 
-cs_go_gmm()
+    loan_data, loan_labels  = get_loan_defualt()
 
-loan_gmm()
+    # cs_go_gmm()
+
+    # loan_gmm()
+
+    evaluate_gmm(cs_go_data,cs_go_labels,5)
+
+    evaluate_gmm(loan_data,loan_labels,5)

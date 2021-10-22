@@ -4,7 +4,7 @@ run both clustering on original data
 run all 4 algorithms on orginal data
 run both clustering algorithms on the new data reduction datasets
 for 1 dataset dim reduction and compare neural net performance from paper 1
-run clustering and inrroduce these new features into the neural net (clustering labels as features,etc...) you can add these to existing features or run them on their own
+run clustering and introduce these new features into the neural net (clustering labels as features,etc...) you can add these to existing features or run them on their own
 
 ## clustering details
 
