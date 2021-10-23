@@ -1,15 +1,14 @@
 from sklearn.decomposition import PCA
-from sklearn.cluster import KMeans
-from sklearn.mixture import GaussianMixture
-from sklearn.metrics import mean_squared_error, silhouette_score, homogeneity_score, completeness_score, accuracy_score
+from sklearn.metrics import mean_squared_error
 from data_helpers import get_cs_go_data, get_loan_defualt
-from plot_helpers import plot_pca_2d, plot_pca_3d, plot_elbow, plot_homo_and_complete, plot_silhouette
-from expectation_maximization import evaluate_gmm
-from k_means_clustering import evaluate_kmeans
+from plot_helpers import plot_2d, plot_3d, plot_reconstruction_error,plot_explained_variance
+from clustering import kmeans_experiment,gmm_experiment,evaluate_gmm,evaluate_kmeans
 import numpy as np
 import pandas as pd
 
-def pca_reconstruction_metrics(data,range):
+def pca_reconstruction_metrics(data,range,dataset):
+    explained_variances = {}
+    errors = {}
     for i in range:
         pca = PCA(n_components=i)
         reduced_data = pca.fit_transform(data)
@@ -18,48 +17,11 @@ def pca_reconstruction_metrics(data,range):
         reconstructed_data = np.dot(reduced_data,pca.components_)
         explained_variance = pca.explained_variance_ratio_
         error = mean_squared_error(data,reconstructed_data)
+        explained_variances[i] = sum(explained_variance)
+        errors[i] = error
         print(f'Range: {i} Explained Variance Ratio: {sum(explained_variance)}, Reconstruction Error: {error}')
-
-def pca_kmeans(data,labels,dataset):
-    print('Begin KMeans Clustering')
-    clusters = list(range(2,41))
-    sum_squared_distance = {}
-    silhouette_scores = {}
-    homo_scores = {}
-    completeness_scores = {}
-    for idx,cluster in enumerate(clusters):
-        print(f'On Iteration {idx}')
-        kmeans = KMeans(n_clusters=cluster, max_iter=500, random_state=0).fit(data)
-        sum_squared_distance[cluster] = kmeans.inertia_
-        label = kmeans.labels_
-        sil_score = silhouette_score(data,label, metric='euclidean')
-        homo_score = homogeneity_score(labels,label)
-        completeness = completeness_score(labels,label)
-        silhouette_scores[cluster] = sil_score
-        homo_scores[cluster] = homo_score
-        completeness_scores[cluster] = completeness
-    plot_elbow(sum_squared_distance,f'{dataset}_elbow',dir='pca_data')
-    plot_silhouette(silhouette_scores,f'{dataset}_silouette_km','KMeans Silhouette Score', dir='pca_data')
-    plot_homo_and_complete(homo_scores,completeness_scores,f'{dataset}_homo_and_complete_knn','KMeans Homogeneity and Completeness',dir='pca_data')
-
-def pca_gmm(data,labels,dataset):
-    print('Begin GMM Clustering')
-    clusters = list(range(2,41))
-    silhouette_scores = {}
-    homo_scores = {}
-    completeness_scores = {}
-    for idx,cluster in enumerate(clusters):
-        print(f'On Iteration {idx}')
-        gmm = GaussianMixture(n_components=cluster, max_iter=500, random_state=0).fit(data)
-        label = gmm.predict(data)
-        sil_score = silhouette_score(data,label, metric='euclidean')
-        homo_score = homogeneity_score(labels,label)
-        completeness = completeness_score(labels,label)
-        silhouette_scores[cluster] = sil_score
-        homo_scores[cluster] = homo_score
-        completeness_scores[cluster] = completeness
-    plot_silhouette(silhouette_scores,f'{dataset}_silouette_gmm', 'GMM Silhouette Score', dir='pca_data')
-    plot_homo_and_complete(homo_scores,completeness_scores,f'{dataset}_homo_and_complete_gmm','GMM Homogeneity and Completeness', dir='pca_data')
+    plot_reconstruction_error(errors,f'{dataset}_reconstruction','pca_data')
+    plot_explained_variance(explained_variances,f'{dataset}_explained_varaince')
 
 def pca_experiment(data,labels,num_dim,dataset_name):
     pca = PCA(n_components=num_dim)
@@ -74,13 +36,21 @@ def pca_experiment(data,labels,num_dim,dataset_name):
     # add labels back to reduced data
     reduced_data = np.concatenate((reduced_data,labels.reshape(-1,1)),axis=1)
     df = pd.DataFrame(reduced_data)
-    df = df.rename(columns={50:'Round Winner'})
-    plot_pca_2d(df,f'{dataset_name}_pca_2d')
-    plot_pca_3d(df,f'{dataset_name}_pca_3d')
+    # rename the target label based on dataset
+    if dataset_name == 'csgo':
+        column_name = num_dim
+        df = df.rename(columns={column_name:'Round Winner'})
+        plot_2d(df,f'{dataset_name}_pca_2d','Round Winner')
+        plot_3d(df,f'{dataset_name}_pca_3d','Round Winner')
+    else:
+        column_name = num_dim
+        df = df.rename(columns={column_name:'Exited'})
+        plot_2d(df,f'{dataset_name}_pca_2d','Exited')
+        plot_3d(df,f'{dataset_name}_pca_3d','Exited')
 
-    pca_kmeans(reduced_data,labels,dataset_name)
+    kmeans_experiment(reduced_data,labels,dataset_name,dir='pca_data')
 
-    pca_gmm(reduced_data,labels,dataset_name)
+    gmm_experiment(reduced_data,labels,dataset_name, dir='pca_data')
 
     # evaluate the kmeans and gmm
     evaluate_kmeans(reduced_data,labels,15)
@@ -88,7 +58,15 @@ def pca_experiment(data,labels,num_dim,dataset_name):
     evaluate_gmm(reduced_data,labels,14)
     
 
+def pca_evaluate(data,labels,num_components,kmeans_clusters,gmm_components):
+    pca = PCA(num_components)
+    reduced_data = pca.fit_transform(data)
 
+    # evaluate the kmeans and gmm
+    print('KMEANS')
+    evaluate_kmeans(reduced_data,labels,kmeans_clusters)
+    print('GMM')
+    evaluate_gmm(reduced_data,labels,gmm_components)
 
 
 if __name__ == '__main__':
@@ -97,9 +75,14 @@ if __name__ == '__main__':
 
     loan_data, loan_labels  = get_loan_defualt()
 
-    # pca_reconstruction_metrics(cs_go_data,range(1,51))
+    # pca_reconstruction_metrics(cs_go_data,range(1,51),'csgo')
 
-    # pca_reconstruction_metrics(loan_data,range(1,11))
+    # pca_reconstruction_metrics(loan_data,range(1,11),'loan')
 
-    pca_experiment(cs_go_data,cs_go_labels,50,'csgo')
+    # pca_experiment(cs_go_data,cs_go_labels,50,'csgo')
 
+    # pca_experiment(loan_data,loan_labels,6,'loan')
+
+    pca_evaluate(cs_go_data,cs_go_labels,50,15,14)
+
+    pca_evaluate(loan_data,loan_labels,6,9,11)

@@ -37,10 +37,10 @@ def pair_wise_plot(dataframe,label_name,fig_name,dir='original_data'):
     plt.savefig(f'unsupervised_learning_dim_reduction/charts/{dir}/{fig_name}')
     plt.clf()
 
-def plot_pca_2d(df,fig_name,dir='pca_data'):
+def plot_2d(df,fig_name,target_name,dir='pca_data'):
     sb.scatterplot(
     x=0, y=1,
-    hue='Round Winner',
+    hue=target_name,
     palette=sb.color_palette("hls", 2),
     data=df,
     legend="full",
@@ -49,7 +49,7 @@ def plot_pca_2d(df,fig_name,dir='pca_data'):
     plt.savefig(f'unsupervised_learning_dim_reduction/charts/{dir}/{fig_name}')
     plt.clf()
 
-def plot_pca_3d(df,fig_name,dir='pca_data'):
+def plot_3d(df,fig_name,target_name,dir='pca_data'):
     fig = plt.figure()
     ax = Axes3D(fig)
 
@@ -57,10 +57,37 @@ def plot_pca_3d(df,fig_name,dir='pca_data'):
     sequence_containing_y_vals = df[1]
     sequence_containing_z_vals = df[2]
 
-    ax.scatter(sequence_containing_x_vals, sequence_containing_y_vals, sequence_containing_z_vals,c=df['Round Winner'])
+    ax.scatter(sequence_containing_x_vals, sequence_containing_y_vals, sequence_containing_z_vals,c=df[target_name])
     ax.set_title("PCA Reduction")
     ax.set_xlabel('PCA 1')
     ax.set_ylabel('PCA 2')
     ax.set_zlabel('PCA 3')
+    plt.savefig(f'unsupervised_learning_dim_reduction/charts/{dir}/{fig_name}')
+    plt.clf()
+
+def plot_kurtosis(kurtosis_values:dict,fig_name,dir='ica_data'):
+    _, axes = plt.subplots(1)
+    axes.plot(list(kurtosis_values.keys()),list(kurtosis_values.values()))
+    axes.set_title('Kurtosis')
+    axes.set_xlabel('Number of Components')
+    axes.set_ylabel('Kurtosis Value')
+    plt.savefig(f'unsupervised_learning_dim_reduction/charts/{dir}/{fig_name}')
+    plt.clf()
+
+def plot_reconstruction_error(error_values:dict,fig_name,dir):
+    _, axes = plt.subplots(1)
+    axes.plot(list(error_values.keys()),list(error_values.values()))
+    axes.set_title('Reconstruction Error')
+    axes.set_xlabel('Number of Components')
+    axes.set_ylabel('Error Value')
+    plt.savefig(f'unsupervised_learning_dim_reduction/charts/{dir}/{fig_name}')
+    plt.clf()
+
+def plot_explained_variance(explained_variances:dict,fig_name,dir='pca_data'):
+    _, axes = plt.subplots(1)
+    axes.plot(list(explained_variances.keys()),list(explained_variances.values()))
+    axes.set_title('Explained Variance Ratio')
+    axes.set_xlabel('Number of Components')
+    axes.set_ylabel('Value')
     plt.savefig(f'unsupervised_learning_dim_reduction/charts/{dir}/{fig_name}')
     plt.clf()
