@@ -53,9 +53,9 @@ if __name__ == '__main__':
 
     loan_data, loan_labels  = get_loan_defualt()
 
-    # cs_go_gmm()
+    cs_go_gmm()
 
-    # loan_gmm()
+    loan_gmm()
 
     evaluate_gmm(cs_go_data,cs_go_labels,5)
 
