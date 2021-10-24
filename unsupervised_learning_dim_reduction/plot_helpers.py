@@ -109,3 +109,25 @@ def plot_accuracy(accuracies:dict,fig_name,dir='lda_data'):
     axes.set_ylabel('Value')
     plt.savefig(f'unsupervised_learning_dim_reduction/charts/{dir}/{fig_name}')
     plt.clf()
+
+def plot_neural_net_history_accuracy(history, fig_name,dir='nn_dr_data'):
+    # summarize history for accuracy
+    _, axes = plt.subplots(1)
+    axes.plot(history['accuracy'])
+    axes.plot(history['val_accuracy'])
+    axes.set_title('model accuracy')
+    axes.set_ylabel('accuracy')
+    axes.set_xlabel('epoch')
+    axes.legend(['train', 'validation'], loc='upper left')
+    plt.savefig(f'unsupervised_learning_dim_reduction/charts/{dir}/{fig_name}')
+
+def plot_neural_net_history_loss(history, fig_name,dir='nn_dr_data'):
+    # summarize history for loss
+    _, axes = plt.subplots(1)
+    axes.plot(history['loss'])
+    axes.plot(history['val_loss'])
+    axes.set_title('model loss')
+    axes.set_ylabel('loss')
+    axes.set_xlabel('epoch')
+    axes.legend(['train', 'validation'], loc='upper right')
+    plt.savefig(f'unsupervised_learning_dim_reduction/charts/{dir}/{fig_name}')
