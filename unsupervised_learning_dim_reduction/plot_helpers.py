@@ -37,6 +37,15 @@ def pair_wise_plot(dataframe,label_name,fig_name,dir='original_data'):
     plt.savefig(f'unsupervised_learning_dim_reduction/charts/{dir}/{fig_name}')
     plt.clf()
 
+def plot_1d(df,fig_name,target_name,dir='lda_data'):
+    _, axes = plt.subplots(1)
+    axes.scatter(df.index,df[0],c=df[target_name])
+    axes.set_title('Data Reduction')
+    axes.set_ylabel('Reduced Data Value')
+    axes.set_xlabel('Datapoint Index')
+    plt.savefig(f'unsupervised_learning_dim_reduction/charts/{dir}/{fig_name}')
+    plt.clf()
+
 def plot_2d(df,fig_name,target_name,dir='pca_data'):
     sb.scatterplot(
     x=0, y=1,
@@ -45,7 +54,7 @@ def plot_2d(df,fig_name,target_name,dir='pca_data'):
     data=df,
     legend="full",
     )
-    plt.title("PCA Reduction")
+    plt.title("Data Reduction")
     plt.savefig(f'unsupervised_learning_dim_reduction/charts/{dir}/{fig_name}')
     plt.clf()
 
@@ -58,10 +67,10 @@ def plot_3d(df,fig_name,target_name,dir='pca_data'):
     sequence_containing_z_vals = df[2]
 
     ax.scatter(sequence_containing_x_vals, sequence_containing_y_vals, sequence_containing_z_vals,c=df[target_name])
-    ax.set_title("PCA Reduction")
-    ax.set_xlabel('PCA 1')
-    ax.set_ylabel('PCA 2')
-    ax.set_zlabel('PCA 3')
+    ax.set_title("Data Reduction")
+    ax.set_xlabel('Reduction Feature 1')
+    ax.set_ylabel('Reduction Feature 2')
+    ax.set_zlabel('Reduction Feature 3')
     plt.savefig(f'unsupervised_learning_dim_reduction/charts/{dir}/{fig_name}')
     plt.clf()
 
@@ -87,6 +96,15 @@ def plot_explained_variance(explained_variances:dict,fig_name,dir='pca_data'):
     _, axes = plt.subplots(1)
     axes.plot(list(explained_variances.keys()),list(explained_variances.values()))
     axes.set_title('Explained Variance Ratio')
+    axes.set_xlabel('Number of Components')
+    axes.set_ylabel('Value')
+    plt.savefig(f'unsupervised_learning_dim_reduction/charts/{dir}/{fig_name}')
+    plt.clf()
+
+def plot_accuracy(accuracies:dict,fig_name,dir='lda_data'):
+    _, axes = plt.subplots(1)
+    axes.plot(list(accuracies.keys()),list(accuracies.values()))
+    axes.set_title('Accuracy of LDA')
     axes.set_xlabel('Number of Components')
     axes.set_ylabel('Value')
     plt.savefig(f'unsupervised_learning_dim_reduction/charts/{dir}/{fig_name}')

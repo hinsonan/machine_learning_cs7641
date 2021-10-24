@@ -79,9 +79,9 @@ if __name__ == '__main__':
 
     # pca_reconstruction_metrics(loan_data,range(1,11),'loan')
 
-    # pca_experiment(cs_go_data,cs_go_labels,50,'csgo')
+    pca_experiment(cs_go_data,cs_go_labels,50,'csgo')
 
-    # pca_experiment(loan_data,loan_labels,6,'loan')
+    pca_experiment(loan_data,loan_labels,6,'loan')
 
     pca_evaluate(cs_go_data,cs_go_labels,50,15,14)
 
