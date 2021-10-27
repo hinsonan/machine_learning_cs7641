@@ -20,6 +20,15 @@ def plot_silhouette(silhoutte_scores: dict, fig_name:str, plot_title:str,dir='or
     plt.savefig(f'unsupervised_learning_dim_reduction/charts/{dir}/{fig_name}')
     plt.clf()
 
+def plot_calinski_harabasz(calinski_harabasz_scores: dict, fig_name:str, plot_title:str,dir='original_data'):
+    _, axes = plt.subplots(1)
+    axes.plot(list(calinski_harabasz_scores.keys()), list(calinski_harabasz_scores.values()))
+    axes.set_title(plot_title)
+    axes.set_xlabel('Number of Clusters')
+    axes.set_ylabel('Calinski Harabasz Score')
+    plt.savefig(f'unsupervised_learning_dim_reduction/charts/{dir}/{fig_name}')
+    plt.clf()
+
 def plot_homo_and_complete(homo_scores:dict,completeness_scores:dict,fig_name:str,plot_title:str,dir='original_data'):
     _, axes = plt.subplots(1)
     axes.plot(list(homo_scores.keys()), list(homo_scores.values()))
