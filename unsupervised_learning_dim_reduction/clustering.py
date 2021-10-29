@@ -1,7 +1,8 @@
+import numpy as np
 from sklearn.cluster import KMeans
 from sklearn.mixture import GaussianMixture
 from sklearn.metrics import silhouette_score, homogeneity_score, completeness_score, accuracy_score, calinski_harabasz_score
-from plot_helpers import plot_elbow, plot_homo_and_complete, plot_silhouette, plot_calinski_harabasz
+from plot_helpers import plot_clusters, plot_elbow, plot_homo_and_complete, plot_silhouette, plot_calinski_harabasz
 
 def gmm_experiment(data,labels,dataset,dir):
     print('Begin GMM Clustering')
@@ -52,14 +53,19 @@ def kmeans_experiment(data,labels,dataset,dir):
     plot_calinski_harabasz(calinski_harabasz_scores,f'{dataset}_calinskiharabasz_kmeans', 'KMeans Calinski Harabasz', dir=dir)
     plot_homo_and_complete(homo_scores,completeness_scores,f'{dataset}_homo_and_complete_kmeans','KMeans Homogeneity and Completeness',dir=dir)
 
-def evaluate_kmeans(data, truth_labels, num_clusters):
+def evaluate_kmeans(data, truth_labels, num_clusters, dataset,dir):
     kmeans = KMeans(n_clusters=num_clusters,max_iter=500, random_state=0).fit(data)
     labels = kmeans.labels_
+    plot_clusters(data,labels,'Kmeans',f'{dataset}_kmeans_clusters',dir=dir)
+    # get kmeans metrics
     accuracy = accuracy_score(truth_labels,labels)
     print(f'Accuracy: {accuracy}')
 
-def evaluate_gmm(data, truth_labels, num_components):
+def evaluate_gmm(data, truth_labels, num_components,dataset,dir):
     gmm = GaussianMixture(n_components=num_components,max_iter=500, random_state=0).fit(data)
     labels = gmm.predict(data)
+
+    plot_clusters(data,labels,'GMM',f'{dataset}_gmm_clusters',dir=dir)
+
     accuracy = accuracy_score(truth_labels,labels)
     print(f'Accuracy: {accuracy}')

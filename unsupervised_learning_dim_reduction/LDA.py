@@ -32,25 +32,25 @@ def lda_experiment(data,labels,dataset_name):
 
     gmm_experiment(reduced_data,labels,dataset_name, dir='lda_data')
 
-def lda_evaluate(data,labels,kmeans_clusters,gmm_components):
+def lda_evaluate(data,labels,dataset,kmeans_clusters,gmm_components,dir='lda_data'):
     lda = LinearDiscriminantAnalysis()
-    reduced_data = lda.fit_transform(data)
+    reduced_data = lda.fit_transform(data,labels)
 
     # evaluate the kmeans and gmm
     print('KMEANS')
-    evaluate_kmeans(reduced_data,labels,kmeans_clusters)
+    evaluate_kmeans(reduced_data,labels,kmeans_clusters,dataset,dir)
     print('GMM')
-    evaluate_gmm(reduced_data,labels,gmm_components)
+    evaluate_gmm(reduced_data,labels,gmm_components,dataset,dir)
 
 if __name__ == '__main__':
     cs_go_data, cs_go_labels = get_cs_go_data()
 
     loan_data, loan_labels  = get_loan_defualt()
 
-    lda_experiment(cs_go_data,cs_go_labels,'csgo')
+    # lda_experiment(cs_go_data,cs_go_labels,'csgo')
 
-    lda_experiment(loan_data,loan_labels,'loan')
+    # lda_experiment(loan_data,loan_labels,'loan')
 
-    # lda_evaluate(cs_go_data,cs_go_labels,11,12)
+    lda_evaluate(cs_go_data,cs_go_labels,'csgo',kmeans_clusters=11,gmm_components=12)
 
-    # lda_evaluate(loan_data,loan_labels,9,11)
+    lda_evaluate(loan_data,loan_labels,'loan',kmeans_clusters=9,gmm_components=11)

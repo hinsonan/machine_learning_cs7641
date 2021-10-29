@@ -47,15 +47,15 @@ def rp_experiment(data,labels,num_dim,dataset_name):
 
     gmm_experiment(reduced_data,labels,dataset_name, dir='rp_data')
 
-def rp_evaluate(data,labels,num_components,kmeans_clusters,gmm_components):
-    rp = GaussianRandomProjection(num_components, random_state=0)
+def rp_evaluate(data,labels,dataset,dr_components,kmeans_clusters,gmm_components,dir='rp_data'):
+    rp = GaussianRandomProjection(dr_components, random_state=0)
     reduced_data = rp.fit_transform(data)
 
     # evaluate the kmeans and gmm
     print('KMEANS')
-    evaluate_kmeans(reduced_data,labels,kmeans_clusters)
+    evaluate_kmeans(reduced_data,labels,kmeans_clusters,dataset,dir)
     print('GMM')
-    evaluate_gmm(reduced_data,labels,gmm_components)
+    evaluate_gmm(reduced_data,labels,gmm_components,dataset,dir)
 
 if __name__ == '__main__':
     cs_go_data, cs_go_labels = get_cs_go_data()
@@ -66,10 +66,10 @@ if __name__ == '__main__':
 
     # rp_reconstruction_metrics(loan_data,range(2,11),'loan')
 
-    rp_experiment(cs_go_data,cs_go_labels,30,'csgo')
+    # rp_experiment(cs_go_data,cs_go_labels,30,'csgo')
 
-    rp_experiment(loan_data,loan_labels,9,'loan')
+    # rp_experiment(loan_data,loan_labels,9,'loan')
 
-    rp_evaluate(cs_go_data,cs_go_labels,10,11,12)
+    rp_evaluate(cs_go_data,cs_go_labels,'csgo',dr_components=10,kmeans_clusters=11,gmm_components=12)
 
-    rp_evaluate(loan_data,loan_labels,8,9,11)
+    rp_evaluate(loan_data,loan_labels,'loan',dr_components=8,kmeans_clusters=9,gmm_components=11)

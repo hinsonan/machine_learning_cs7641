@@ -53,15 +53,15 @@ def ica_experiment(data,labels,num_dim,dataset_name):
 
     gmm_experiment(reduced_data,labels,dataset_name, dir='ica_data')
 
-def ica_evaluate(data,labels,num_components,kmeans_clusters,gmm_components):
-    ica = FastICA(num_components)
+def ica_evaluate(data,labels,dataset,dr_components,kmeans_clusters,gmm_components,dir='ica_data'):
+    ica = FastICA(dr_components)
     reduced_data = ica.fit_transform(data)
 
     # evaluate the kmeans and gmm
     print('KMEANS')
-    evaluate_kmeans(reduced_data,labels,kmeans_clusters)
+    evaluate_kmeans(reduced_data,labels,kmeans_clusters,dataset,dir)
     print('GMM')
-    evaluate_gmm(reduced_data,labels,gmm_components)
+    evaluate_gmm(reduced_data,labels,gmm_components,dataset,dir)
 
 if __name__ == '__main__':
     cs_go_data, cs_go_labels = get_cs_go_data()
@@ -72,10 +72,10 @@ if __name__ == '__main__':
 
     # ica_reconstruction_metrics(loan_data,range(2,11),'loan')
 
-    ica_experiment(cs_go_data,cs_go_labels,40,'csgo')
+    # ica_experiment(cs_go_data,cs_go_labels,40,'csgo')
 
-    ica_experiment(loan_data,loan_labels,8,'loan')
+    # ica_experiment(loan_data,loan_labels,8,'loan')
 
-    ica_evaluate(cs_go_data,cs_go_labels,10,11,12)
+    ica_evaluate(cs_go_data,cs_go_labels,'csgo',dr_components=10,kmeans_clusters=11,gmm_components=12)
 
-    ica_evaluate(loan_data,loan_labels,8,9,11)
+    ica_evaluate(loan_data,loan_labels,'loan',dr_components=8,kmeans_clusters=9,gmm_components=11)

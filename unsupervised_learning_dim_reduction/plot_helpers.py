@@ -119,6 +119,35 @@ def plot_accuracy(accuracies:dict,fig_name,dir='lda_data'):
     plt.savefig(f'unsupervised_learning_dim_reduction/charts/{dir}/{fig_name}')
     plt.clf()
 
+def plot_clusters(data,labels,title,fig_name,dir):
+    # only plot a certain amount of data
+    data = data[:1000]
+    labels = labels[:1000]
+    _, axes = plt.subplots(1)
+    axes.scatter(range(0,len(data)),data[:,0],c=labels)
+    axes.set_title(f'{title} Clusters')
+    axes.set_xlabel('Index')
+    axes.set_ylabel('Value')
+    plt.savefig(f'unsupervised_learning_dim_reduction/charts/{dir}/{fig_name}')
+    plt.clf()
+
+    if data.shape[1] >= 3:
+
+        fig = plt.figure()
+        ax = Axes3D(fig)
+        
+        sequence_containing_x_vals = data[:,0]
+        sequence_containing_y_vals = data[:,1]
+        sequence_containing_z_vals = data[:,2]
+
+        ax.scatter(sequence_containing_x_vals, sequence_containing_y_vals, sequence_containing_z_vals,c=labels)
+        ax.set_title(f"{title} Reduction")
+        ax.set_xlabel('Feature 1')
+        ax.set_ylabel('Feature 2')
+        ax.set_zlabel('Feature 3')
+        plt.savefig(f'unsupervised_learning_dim_reduction/charts/{dir}/{fig_name}_3d')
+        plt.clf()
+
 def plot_neural_net_history_accuracy(history, fig_name,dir='nn_dr_data'):
     # summarize history for accuracy
     _, axes = plt.subplots(1)

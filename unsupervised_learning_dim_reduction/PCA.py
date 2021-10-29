@@ -51,22 +51,17 @@ def pca_experiment(data,labels,num_dim,dataset_name):
     kmeans_experiment(reduced_data,labels,dataset_name,dir='pca_data')
 
     gmm_experiment(reduced_data,labels,dataset_name, dir='pca_data')
-
-    # evaluate the kmeans and gmm
-    evaluate_kmeans(reduced_data,labels,15)
-
-    evaluate_gmm(reduced_data,labels,14)
     
 
-def pca_evaluate(data,labels,num_components,kmeans_clusters,gmm_components):
-    pca = PCA(num_components)
+def pca_evaluate(data,labels,dataset,dr_components,kmeans_clusters,gmm_components,dir='pca_data'):
+    pca = PCA(dr_components)
     reduced_data = pca.fit_transform(data)
 
     # evaluate the kmeans and gmm
     print('KMEANS')
-    evaluate_kmeans(reduced_data,labels,kmeans_clusters)
+    evaluate_kmeans(reduced_data,labels,kmeans_clusters,dataset,dir)
     print('GMM')
-    evaluate_gmm(reduced_data,labels,gmm_components)
+    evaluate_gmm(reduced_data,labels,gmm_components,dataset,dir)
 
 
 if __name__ == '__main__':
@@ -79,10 +74,10 @@ if __name__ == '__main__':
 
     # pca_reconstruction_metrics(loan_data,range(1,11),'loan')
 
-    pca_experiment(cs_go_data,cs_go_labels,50,'csgo')
+    # pca_experiment(cs_go_data,cs_go_labels,50,'csgo')
 
-    pca_experiment(loan_data,loan_labels,6,'loan')
+    # pca_experiment(loan_data,loan_labels,6,'loan')
 
-    pca_evaluate(cs_go_data,cs_go_labels,50,15,14)
+    pca_evaluate(cs_go_data,cs_go_labels,'csgo',dr_components=50,kmeans_clusters=15,gmm_components=14)
 
-    pca_evaluate(loan_data,loan_labels,6,9,11)
+    pca_evaluate(loan_data,loan_labels,'loan',dr_components=6,kmeans_clusters=9,gmm_components=11)
