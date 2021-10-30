@@ -6,20 +6,20 @@ if __name__ == '__main__':
 
     loan_data, loan_labels  = get_loan_defualt()
 
-    kmeans_experiment(cs_go_data,cs_go_labels,'csgo','original_data')
+    # kmeans_experiment(cs_go_data,cs_go_labels,'csgo',dir='original_data')
 
-    gmm_experiment(cs_go_data,cs_go_labels,'csgo','orginal_data')
+    # gmm_experiment(cs_go_data,cs_go_labels,'csgo',dir='original_data')
 
-    kmeans_experiment(loan_data,loan_labels,'loan','original_data')
+    # kmeans_experiment(loan_data,loan_labels,'loan',dir='original_data')
 
-    gmm_experiment(loan_data,loan_labels,'loan','orginal_data')
+    # gmm_experiment(loan_data,loan_labels,'loan',dir='original_data')
 
-    evaluate_kmeans(cs_go_labels,cs_go_labels,10)
+    evaluate_kmeans(cs_go_data,cs_go_labels,4,'csgo','original_data')
 
-    evaluate_gmm(cs_go_data,cs_go_labels,5)
+    evaluate_gmm(cs_go_data,cs_go_labels,3,'csgo','original_data')
 
-    evaluate_kmeans(loan_data,loan_labels,14)
+    evaluate_kmeans(loan_data,loan_labels,5,'loan','original_data')
 
-    evaluate_gmm(loan_data,loan_labels,5)
+    evaluate_gmm(loan_data,loan_labels,9,'loan','original_data')
 
 

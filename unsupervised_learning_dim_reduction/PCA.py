@@ -80,4 +80,4 @@ if __name__ == '__main__':
 
     pca_evaluate(cs_go_data,cs_go_labels,'csgo',dr_components=50,kmeans_clusters=15,gmm_components=14)
 
-    pca_evaluate(loan_data,loan_labels,'loan',dr_components=6,kmeans_clusters=9,gmm_components=11)
+    pca_evaluate(loan_data,loan_labels,'loan',dr_components=6,kmeans_clusters=8,gmm_components=11)

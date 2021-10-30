@@ -70,6 +70,6 @@ if __name__ == '__main__':
 
     # rp_experiment(loan_data,loan_labels,9,'loan')
 
-    rp_evaluate(cs_go_data,cs_go_labels,'csgo',dr_components=10,kmeans_clusters=11,gmm_components=12)
+    rp_evaluate(cs_go_data,cs_go_labels,'csgo',dr_components=10,kmeans_clusters=6,gmm_components=7)
 
-    rp_evaluate(loan_data,loan_labels,'loan',dr_components=8,kmeans_clusters=9,gmm_components=11)
+    rp_evaluate(loan_data,loan_labels,'loan',dr_components=8,kmeans_clusters=4,gmm_components=8)

@@ -51,6 +51,6 @@ if __name__ == '__main__':
 
     # lda_experiment(loan_data,loan_labels,'loan')
 
-    lda_evaluate(cs_go_data,cs_go_labels,'csgo',kmeans_clusters=11,gmm_components=12)
+    lda_evaluate(cs_go_data,cs_go_labels,'csgo',kmeans_clusters=35,gmm_components=35)
 
-    lda_evaluate(loan_data,loan_labels,'loan',kmeans_clusters=9,gmm_components=11)
+    lda_evaluate(loan_data,loan_labels,'loan',kmeans_clusters=15,gmm_components=25)
