@@ -80,6 +80,6 @@ if __name__ == '__main__':
 
     # pca_experiment(loan_data,loan_labels,6,'loan')
 
-    pca_evaluate(cs_go_data,cs_go_labels,'csgo',dr_components=50,kmeans_clusters=15,gmm_components=14)
+    pca_evaluate(cs_go_data,cs_go_labels,'csgo',dr_components=50,kmeans_clusters=4,gmm_components=4)
 
-    pca_evaluate(loan_data,loan_labels,'loan',dr_components=7,kmeans_clusters=8,gmm_components=11)
+    pca_evaluate(loan_data,loan_labels,'loan',dr_components=7,kmeans_clusters=9,gmm_components=11)

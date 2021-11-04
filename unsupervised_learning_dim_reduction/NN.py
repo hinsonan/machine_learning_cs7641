@@ -1,7 +1,8 @@
 import re
-from tensorflow.keras.layers import Input, Dense
+from tensorflow.keras.layers import Input, Dense, Dropout
 from tensorflow.keras.models import Model
 from tensorflow.keras.optimizers import Adam
+from tensorflow.keras import regularizers
 from sklearn.decomposition import PCA
 from sklearn.decomposition import FastICA
 from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
@@ -34,10 +35,9 @@ class NN:
 
     def create_model(self,input_dim):
         inputs = Input(shape=(input_dim))
-        layer = Dense(32, activation='relu')(inputs)
-        layer = Dense(32, activation='relu')(layer)
-        layer = Dense(32, activation='relu')(layer)
-        layer = Dense(4, activation='relu')(layer)
+        layer = Dense(50, activation='relu')(inputs)
+        layer = Dense(40, activation='relu',activity_regularizer=regularizers.l1_l2())(layer)
+        layer = Dense(16, activation='relu',activity_regularizer=regularizers.l1_l2())(layer)
         output = Dense(1, activation="sigmoid")(layer)
         model = Model(inputs, output)
         optimizer = Adam(learning_rate=0.001)
@@ -127,13 +127,13 @@ if __name__ == '__main__':
     os.environ["CUDA_VISIBLE_DEVICES"]="-1"
     net_test = NN()
     # Run the DR test
-    # net_test.run_dr_net_test('pca')
-    # net_test.run_dr_net_test('ica')
-    # net_test.run_dr_net_test('rp')
-    # net_test.run_dr_net_test('lda')
-    # net_test.write_out_eval('nn_dr_metrics',dir='nn_dr_data')
+    net_test.run_dr_net_test('pca')
+    net_test.run_dr_net_test('ica')
+    net_test.run_dr_net_test('rp')
+    net_test.run_dr_net_test('lda')
+    net_test.write_out_eval('nn_dr_metrics',dir='nn_dr_data')
 
     # Run the clustering nets
-    net_test.run_clustering_net_test('kmeans')
-    net_test.run_clustering_net_test('gmm')
-    net_test.write_out_eval('nn_clustering_metrics',dir='nn_cluster_data')
+    # net_test.run_clustering_net_test('kmeans')
+    # net_test.run_clustering_net_test('gmm')
+    # net_test.write_out_eval('nn_clustering_metrics',dir='nn_cluster_data')
