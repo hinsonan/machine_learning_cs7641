@@ -10,6 +10,7 @@ from sklearn.cluster import KMeans
 from sklearn.mixture import GaussianMixture
 from sklearn.metrics import accuracy_score,precision_score,recall_score
 from data_helpers import get_cs_go_data
+from sklearn.preprocessing import MinMaxScaler
 from sklearn.model_selection import train_test_split
 from plot_helpers import plot_neural_net_history_accuracy,plot_neural_net_history_loss
 import numpy as np
@@ -97,11 +98,15 @@ class NN:
         if clustering_algorithm == 'kmeans':
             kmeans = self.clustering_algorithms[clustering_algorithm].fit(self.data)
             labels = kmeans.labels_
-            clustered_labeled_data = np.concatenate((self.data,np.array(labels).reshape(-1,1)),axis=1)
+            labels = np.array(labels).reshape(-1,1)
+            labels = MinMaxScaler().fit_transform(labels)
+            clustered_labeled_data = np.concatenate((self.data,labels),axis=1)
         else:
             gmm = self.clustering_algorithms[clustering_algorithm].fit(self.data)
             labels = gmm.predict(self.data)
-            clustered_labeled_data = np.concatenate((self.data,np.array(labels).reshape(-1,1)),axis=1)
+            labels = np.array(labels).reshape(-1,1)
+            labels = MinMaxScaler().fit_transform(labels)
+            clustered_labeled_data = np.concatenate((self.data,labels),axis=1)
 
         Xtrain, Xtest, Ytrain, Ytest = train_test_split(clustered_labeled_data,self.labels, test_size=0.33, random_state=42, shuffle=True)
 

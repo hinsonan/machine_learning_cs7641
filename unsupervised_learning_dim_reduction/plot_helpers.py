@@ -40,6 +40,15 @@ def plot_homo_and_complete(homo_scores:dict,completeness_scores:dict,fig_name:st
     plt.savefig(f'unsupervised_learning_dim_reduction/charts/{dir}/{fig_name}')
     plt.clf()
 
+def plot_eigenvectors(arr,fig_name:str,dir='pca_data'):
+    _, axes = plt.subplots(1)
+    axes.plot(arr)
+    axes.set_title("Eigen Vectors")
+    axes.set_xlabel('Index')
+    axes.set_ylabel('Value')
+    plt.savefig(f'unsupervised_learning_dim_reduction/charts/{dir}/{fig_name}')
+    plt.clf()
+
 def pair_wise_plot(dataframe,label_name,fig_name,dir='original_data'):
     sb.set_style("ticks")
     sb.pairplot(dataframe,hue = label_name,diag_kind = "kde",kind = "scatter",palette = "husl")

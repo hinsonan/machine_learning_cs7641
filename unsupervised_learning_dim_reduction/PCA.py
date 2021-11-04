@@ -1,7 +1,7 @@
 from sklearn.decomposition import PCA
 from sklearn.metrics import mean_squared_error
 from data_helpers import get_cs_go_data, get_loan_defualt
-from plot_helpers import plot_2d, plot_3d, plot_reconstruction_error,plot_explained_variance
+from plot_helpers import plot_2d, plot_3d, plot_reconstruction_error,plot_explained_variance,plot_eigenvectors
 from clustering import kmeans_experiment,gmm_experiment,evaluate_gmm,evaluate_kmeans
 import numpy as np
 import pandas as pd
@@ -56,6 +56,8 @@ def pca_experiment(data,labels,num_dim,dataset_name):
 def pca_evaluate(data,labels,dataset,dr_components,kmeans_clusters,gmm_components,dir='pca_data'):
     pca = PCA(dr_components)
     reduced_data = pca.fit_transform(data)
+    arr = pca.components_[:,0].flatten()
+    plot_eigenvectors(arr,f'{dataset}_eigen')
 
     # evaluate the kmeans and gmm
     print('KMEANS')
@@ -80,4 +82,4 @@ if __name__ == '__main__':
 
     pca_evaluate(cs_go_data,cs_go_labels,'csgo',dr_components=50,kmeans_clusters=15,gmm_components=14)
 
-    pca_evaluate(loan_data,loan_labels,'loan',dr_components=6,kmeans_clusters=8,gmm_components=11)
+    pca_evaluate(loan_data,loan_labels,'loan',dr_components=7,kmeans_clusters=8,gmm_components=11)
