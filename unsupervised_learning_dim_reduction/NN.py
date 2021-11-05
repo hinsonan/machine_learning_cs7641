@@ -21,8 +21,8 @@ class NN:
 
     def __init__(self) -> None:
         self.dr_algorithms = {
-            'pca': PCA(n_components=40),
-            'ica': FastICA(n_components=40),
+            'pca': PCA(n_components=50),
+            'ica': FastICA(n_components=86),
             'rp': GaussianRandomProjection(n_components=50),
             'lda': LinearDiscriminantAnalysis()
         }
