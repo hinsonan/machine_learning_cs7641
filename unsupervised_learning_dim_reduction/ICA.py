@@ -72,7 +72,7 @@ if __name__ == '__main__':
 
     # ica_reconstruction_metrics(loan_data,range(2,11),'loan')
 
-    # ica_experiment(cs_go_data,cs_go_labels,86,'csgo')
+    ica_experiment(cs_go_data,cs_go_labels,86,'csgo')
 
     # ica_experiment(loan_data,loan_labels,9,'loan')
 
