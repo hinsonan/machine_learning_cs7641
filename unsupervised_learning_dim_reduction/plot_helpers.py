@@ -130,8 +130,8 @@ def plot_accuracy(accuracies:dict,fig_name,dir='lda_data'):
 
 def plot_clusters(data,labels,title,fig_name,dir):
     # only plot a certain amount of data
-    data = data[:1000]
-    labels = labels[:1000]
+    data = data
+    labels = labels
     _, axes = plt.subplots(1)
     axes.scatter(range(0,len(data)),data[:,0],c=labels)
     axes.set_title(f'{title} Clusters')
