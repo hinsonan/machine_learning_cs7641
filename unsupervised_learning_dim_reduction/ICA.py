@@ -11,7 +11,7 @@ def ica_reconstruction_metrics(data,range,dataset_name):
     errors = {}
     kurtosis_dic = {}
     for i in range:
-        ica = FastICA(n_components=i)
+        ica = FastICA(n_components=i, random_state=0)
         reduced_data = ica.fit_transform(data)
 
         # reconstruct the data and get the error
@@ -25,7 +25,7 @@ def ica_reconstruction_metrics(data,range,dataset_name):
     plot_reconstruction_error(errors,f'{dataset_name}_reconstruction','ica_data')
 
 def ica_experiment(data,labels,num_dim,dataset_name):
-    ica = FastICA(n_components=num_dim)
+    ica = FastICA(n_components=num_dim,random_state=0)
     reduced_data = ica.fit_transform(data)
 
     # reconstruct the data and get the error
@@ -54,7 +54,7 @@ def ica_experiment(data,labels,num_dim,dataset_name):
     gmm_experiment(reduced_data,labels,dataset_name, dir='ica_data')
 
 def ica_evaluate(data,labels,dataset,dr_components,kmeans_clusters,gmm_components,dir='ica_data'):
-    ica = FastICA(dr_components)
+    ica = FastICA(n_components=dr_components, random_state=0)
     reduced_data = ica.fit_transform(data)
 
     # evaluate the kmeans and gmm
@@ -72,7 +72,7 @@ if __name__ == '__main__':
 
     # ica_reconstruction_metrics(loan_data,range(2,11),'loan')
 
-    ica_experiment(cs_go_data,cs_go_labels,86,'csgo')
+    # ica_experiment(cs_go_data,cs_go_labels,86,'csgo')
 
     # ica_experiment(loan_data,loan_labels,9,'loan')
 
