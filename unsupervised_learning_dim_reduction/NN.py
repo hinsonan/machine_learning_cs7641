@@ -22,22 +22,38 @@ class NN:
     def __init__(self) -> None:
         self.dr_algorithms = {
             'pca': PCA(n_components=50),
-            'ica': FastICA(n_components=86),
-            'rp': GaussianRandomProjection(n_components=50),
+            'ica': FastICA(n_components=86, random_state=0),
+            'rp': GaussianRandomProjection(n_components=70),
             'lda': LinearDiscriminantAnalysis()
         }
         self.clustering_algorithms = {
-            'kmeans': KMeans(n_clusters=10, max_iter=500, random_state=0),
-            'gmm': GaussianMixture(n_components=5, max_iter=500, random_state=0)
+            'kmeans': KMeans(n_clusters=4, max_iter=500, random_state=0),
+            'gmm': GaussianMixture(n_components=4, max_iter=500, random_state=0)
         }
         self.data, self.labels = get_cs_go_data()
         self.eval_data = {}
 
-    def create_model(self,input_dim):
+    def create_model_dr(self,input_dim):
         inputs = Input(shape=(input_dim))
         layer = Dense(50, activation='relu')(inputs)
         layer = Dense(40, activation='relu',activity_regularizer=regularizers.l1_l2())(layer)
         layer = Dense(16, activation='relu',activity_regularizer=regularizers.l1_l2())(layer)
+        output = Dense(1, activation="sigmoid")(layer)
+        model = Model(inputs, output)
+        optimizer = Adam(learning_rate=0.001)
+        model.compile(optimizer=optimizer,loss='binary_crossentropy', metrics=['accuracy'])
+        return model
+    
+    def create_model_cluster(self,input_dim):
+        inputs = Input(shape=(input_dim))
+        layer = Dense(312, activation='relu')(inputs)
+        layer = Dense(212, activation='relu')(inputs)
+        layer = Dense(128, activation='relu')(layer)
+        layer = Dense(64, activation='relu')(layer)
+        layer = Dense(32, activation='relu')(layer)
+        layer = Dense(16, activation='relu')(layer)
+        layer = Dense(8, activation='relu')(layer)
+        layer = Dense(4, activation='relu')(layer)
         output = Dense(1, activation="sigmoid")(layer)
         model = Model(inputs, output)
         optimizer = Adam(learning_rate=0.001)
@@ -84,7 +100,7 @@ class NN:
 
         Xtrain, Xval, Ytrain, Yval = train_test_split(Xtrain,Ytrain, test_size=0.2, random_state=42, shuffle=True)
 
-        model = self.create_model(Xtrain[0].shape[0])
+        model = self.create_model_dr(Xtrain[0].shape[0])
 
         history = model.fit(Xtrain,Ytrain,batch_size=128, epochs=100,validation_data=(Xval,Yval))
 
@@ -112,7 +128,7 @@ class NN:
 
         Xtrain, Xval, Ytrain, Yval = train_test_split(Xtrain,Ytrain, test_size=0.2, random_state=42, shuffle=True)
 
-        model = self.create_model(Xtrain[0].shape[0])
+        model = self.create_model_cluster(Xtrain[0].shape[0])
 
         history = model.fit(Xtrain,Ytrain,batch_size=128, epochs=100,validation_data=(Xval,Yval))
 
@@ -127,13 +143,13 @@ if __name__ == '__main__':
     os.environ["CUDA_VISIBLE_DEVICES"]="-1"
     net_test = NN()
     # Run the DR test
-    net_test.run_dr_net_test('pca')
-    net_test.run_dr_net_test('ica')
-    net_test.run_dr_net_test('rp')
-    net_test.run_dr_net_test('lda')
-    net_test.write_out_eval('nn_dr_metrics',dir='nn_dr_data')
+    # net_test.run_dr_net_test('pca')
+    # net_test.run_dr_net_test('ica')
+    # net_test.run_dr_net_test('rp')
+    # net_test.run_dr_net_test('lda')
+    # net_test.write_out_eval('nn_dr_metrics',dir='nn_dr_data')
 
     # Run the clustering nets
-    # net_test.run_clustering_net_test('kmeans')
-    # net_test.run_clustering_net_test('gmm')
-    # net_test.write_out_eval('nn_clustering_metrics',dir='nn_cluster_data')
+    net_test.run_clustering_net_test('kmeans')
+    net_test.run_clustering_net_test('gmm')
+    net_test.write_out_eval('nn_clustering_metrics',dir='nn_cluster_data')

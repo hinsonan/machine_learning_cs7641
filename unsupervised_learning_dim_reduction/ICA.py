@@ -74,8 +74,8 @@ if __name__ == '__main__':
 
     # ica_experiment(cs_go_data,cs_go_labels,86,'csgo')
 
-    # ica_experiment(loan_data,loan_labels,9,'loan')
+    # ica_experiment(loan_data,loan_labels,10,'loan')
 
     ica_evaluate(cs_go_data,cs_go_labels,'csgo',dr_components=86,kmeans_clusters=4,gmm_components=4)
 
-    ica_evaluate(loan_data,loan_labels,'loan',dr_components=9,kmeans_clusters=9,gmm_components=11)
+    ica_evaluate(loan_data,loan_labels,'loan',dr_components=10,kmeans_clusters=9,gmm_components=11)
