@@ -47,9 +47,9 @@ if __name__ == '__main__':
 
     loan_data, loan_labels  = get_loan_defualt()
 
-    # lda_experiment(cs_go_data,cs_go_labels,'csgo')
+    lda_experiment(cs_go_data,cs_go_labels,'csgo')
 
-    # lda_experiment(loan_data,loan_labels,'loan')
+    lda_experiment(loan_data,loan_labels,'loan')
 
     lda_evaluate(cs_go_data,cs_go_labels,'csgo',kmeans_clusters=4,gmm_components=4)
 

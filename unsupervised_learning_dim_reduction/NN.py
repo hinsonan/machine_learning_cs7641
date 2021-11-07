@@ -143,11 +143,11 @@ if __name__ == '__main__':
     os.environ["CUDA_VISIBLE_DEVICES"]="-1"
     net_test = NN()
     # Run the DR test
-    # net_test.run_dr_net_test('pca')
-    # net_test.run_dr_net_test('ica')
-    # net_test.run_dr_net_test('rp')
-    # net_test.run_dr_net_test('lda')
-    # net_test.write_out_eval('nn_dr_metrics',dir='nn_dr_data')
+    net_test.run_dr_net_test('pca')
+    net_test.run_dr_net_test('ica')
+    net_test.run_dr_net_test('rp')
+    net_test.run_dr_net_test('lda')
+    net_test.write_out_eval('nn_dr_metrics',dir='nn_dr_data')
 
     # Run the clustering nets
     net_test.run_clustering_net_test('kmeans')

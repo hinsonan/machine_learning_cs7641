@@ -62,13 +62,13 @@ if __name__ == '__main__':
 
     loan_data, loan_labels  = get_loan_defualt()
 
-    # rp_reconstruction_metrics(cs_go_data,range(2,89),'csgo')
+    rp_reconstruction_metrics(cs_go_data,range(2,89),'csgo')
 
-    # rp_reconstruction_metrics(loan_data,range(2,11),'loan')
+    rp_reconstruction_metrics(loan_data,range(2,11),'loan')
 
-    # rp_experiment(cs_go_data,cs_go_labels,70,'csgo')
+    rp_experiment(cs_go_data,cs_go_labels,70,'csgo')
 
-    # rp_experiment(loan_data,loan_labels,10,'loan')
+    rp_experiment(loan_data,loan_labels,10,'loan')
 
     rp_evaluate(cs_go_data,cs_go_labels,'csgo',dr_components=70,kmeans_clusters=4,gmm_components=7)
 

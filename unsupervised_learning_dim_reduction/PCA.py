@@ -72,13 +72,13 @@ if __name__ == '__main__':
 
     loan_data, loan_labels  = get_loan_defualt()
 
-    # pca_reconstruction_metrics(cs_go_data,range(1,51),'csgo')
+    pca_reconstruction_metrics(cs_go_data,range(1,51),'csgo')
 
-    # pca_reconstruction_metrics(loan_data,range(1,11),'loan')
+    pca_reconstruction_metrics(loan_data,range(1,11),'loan')
 
-    # pca_experiment(cs_go_data,cs_go_labels,50,'csgo')
+    pca_experiment(cs_go_data,cs_go_labels,50,'csgo')
 
-    # pca_experiment(loan_data,loan_labels,6,'loan')
+    pca_experiment(loan_data,loan_labels,6,'loan')
 
     pca_evaluate(cs_go_data,cs_go_labels,'csgo',dr_components=50,kmeans_clusters=4,gmm_components=4)
 

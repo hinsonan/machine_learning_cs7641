@@ -68,13 +68,13 @@ if __name__ == '__main__':
 
     loan_data, loan_labels  = get_loan_defualt()
 
-    # ica_reconstruction_metrics(cs_go_data,range(2,89),'csgo')
+    ica_reconstruction_metrics(cs_go_data,range(2,89),'csgo')
 
-    # ica_reconstruction_metrics(loan_data,range(2,11),'loan')
+    ica_reconstruction_metrics(loan_data,range(2,11),'loan')
 
-    # ica_experiment(cs_go_data,cs_go_labels,86,'csgo')
+    ica_experiment(cs_go_data,cs_go_labels,86,'csgo')
 
-    # ica_experiment(loan_data,loan_labels,10,'loan')
+    ica_experiment(loan_data,loan_labels,10,'loan')
 
     ica_evaluate(cs_go_data,cs_go_labels,'csgo',dr_components=86,kmeans_clusters=4,gmm_components=4)
 
