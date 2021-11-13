@@ -1,37 +1,142 @@
 from hiive.mdptoolbox.example import forest
-from hiive.mdptoolbox.mdp import ValueIteration
+from hiive.mdptoolbox.mdp import PolicyIteration, ValueIteration, QLearning
 from numpy.random import choice
+import matplotlib.pyplot as plt
+import json
 
-def test_policy(P, R, policy, test_count=100, gamma=0.9):
-    num_state = P.shape[-1]
-    total_episode = num_state * test_count
-    # start in each state
-    total_reward = 0
-    for state in range(num_state):
-        state_reward = 0
-        for state_episode in range(test_count):
-            episode_reward = 0
-            disc_rate = 1
-            while True:
-                # take step
-                action = policy[state]
-                # get next step using P
-                probs = P[action][state]
-                candidates = list(range(len(P[action][state])))
-                next_state =  choice(candidates, 1, p=probs)[0]
-                # get the reward
-                reward = R[state][action] * disc_rate
-                episode_reward += reward
-                # when go back to 0 ended
-                disc_rate *= gamma
-                if next_state == 0:
-                    break
-            state_reward += episode_reward
-        total_reward += state_reward
-    return total_reward / total_episode
+def plot_results(result_dic,experiment_name,dir='vi/gamma'):
+    for key in result_dic.keys():
+        for key2, vals in result_dic[key].items():
+            # dont plot the iterations
+            if key2 == 'iteration':
+                continue
+            _,ax = plt.subplots(1)
+            ax.plot(vals)
+            ax.set_xlabel('Iteration')
+            ax.set_ylabel(f'{key2}')
+            ax.set_title(f'{key2} vs Iterations')
+            fig_name = f'{experiment_name}_{key}_{key2}'
+            plt.savefig(f"markov_decision_process/charts/{dir}/{fig_name}.png")
+            plt.clf()
 
-P, R = forest()
-vi = ValueIteration(P,R,0.9)
-vi.run()
-print(vi.policy) # result is (0, 0, 0)
-print(test_policy(P,R,vi.policy))
+def write_results(result_dic,experiment_name,dir='vi/gamma'):
+    output = {}
+    for key in result_dic.keys():
+        output[key] = {"max_reward":None, "max_avg_reward":None,"number_of_iterations":None,"time":None}
+        for key2, vals in result_dic[key].items():
+            if key2 == 'reward':
+                output[key]['max_reward'] = max(vals)
+            elif key2 == 'iteration':
+                output[key]['number_of_iterations'] = max(vals)
+            elif key2 == 'time':
+                output[key]['time'] = max(vals)
+            else:
+                output[key]['max_avg_reward'] = max(vals)
+    with open(f'markov_decision_process/charts/{dir}/{experiment_name}_metrics.json','w') as f:
+        json.dump(output,f,indent=4)
+
+def vi_gamma_experiment(P,R,prob_size_dir):
+    gamma_list = [0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9]
+    result_dic = {}
+    for gamma_val in gamma_list:
+        result_dic[gamma_val] = {'reward':[],'iteration':[],'time':[],'avg_reward':[]}
+        vi = ValueIteration(P,R,gamma=gamma_val,epsilon=0.01)
+        vi.run()
+        stats = vi.run_stats
+        for dic in stats:
+            result_dic[gamma_val]['reward'].append(dic['Reward'])
+            result_dic[gamma_val]['iteration'].append(dic['Iteration'])
+            result_dic[gamma_val]['time'].append(dic['Time'])
+            result_dic[gamma_val]['avg_reward'].append(dic['Mean V'])
+    plot_results(result_dic,'gamma',dir=f'{prob_size_dir}/vi/gamma')
+    write_results(result_dic,'gamma',dir=f'{prob_size_dir}/vi/gamma')
+
+def pi_gamma_experiment(P,R,prob_size_dir):
+    gamma_list = [0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9]
+    result_dic = {}
+    for gamma_val in gamma_list:
+        result_dic[gamma_val] = {'reward':[],'iteration':[],'time':[],'avg_reward':[]}
+        vi = PolicyIteration(P,R,gamma=gamma_val)
+        vi.run()
+        stats = vi.run_stats
+        for dic in stats:
+            result_dic[gamma_val]['reward'].append(dic['Reward'])
+            result_dic[gamma_val]['iteration'].append(dic['Iteration'])
+            result_dic[gamma_val]['time'].append(dic['Time'])
+            result_dic[gamma_val]['avg_reward'].append(dic['Mean V'])
+    plot_results(result_dic,'gamma',dir=f'{prob_size_dir}/pi/gamma')
+    write_results(result_dic,'gamma',dir=f'{prob_size_dir}/pi/gamma')
+
+def qlearner_gamma_experiment(P,R,prob_size_dir):
+    gamma_list = [0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9]
+    result_dic = {}
+    for gamma_val in gamma_list:
+        result_dic[gamma_val] = {'reward':[],'iteration':[],'time':[],'avg_reward':[]}
+        vi = QLearning(P,R,gamma_val)
+        vi.run()
+        stats = vi.run_stats
+        for dic in stats:
+            result_dic[gamma_val]['reward'].append(dic['Reward'])
+            result_dic[gamma_val]['iteration'].append(dic['Iteration'])
+            result_dic[gamma_val]['time'].append(dic['Time'])
+            result_dic[gamma_val]['avg_reward'].append(dic['Mean V'])
+    plot_results(result_dic,'gamma',dir=f'{prob_size_dir}/qlearner/gamma')
+    write_results(result_dic,'gamma',dir=f'{prob_size_dir}/qlearner/gamma')
+
+def vi_epsilon_experiment(P,R,prob_size_dir):
+    epsilon_list = [1,0.5,0.1,0.01,0.001,0.0001]
+    result_dic = {}
+    for epsilon_val in epsilon_list:
+        result_dic[epsilon_val] = {'reward':[],'iteration':[],'time':[],'avg_reward':[]}
+        vi = ValueIteration(P,R,gamma=0.9,epsilon=epsilon_val)
+        vi.run()
+        stats = vi.run_stats
+        for dic in stats:
+            result_dic[epsilon_val]['reward'].append(dic['Reward'])
+            result_dic[epsilon_val]['iteration'].append(dic['Iteration'])
+            result_dic[epsilon_val]['time'].append(dic['Time'])
+            result_dic[epsilon_val]['avg_reward'].append(dic['Mean V'])
+    plot_results(result_dic,'epsilon',dir=f'{prob_size_dir}/vi/epsilon')
+    write_results(result_dic,'epsilon',dir=f'{prob_size_dir}/vi/epsilon')
+
+def qlearner_epsilon_experiment(P,R,prob_size_dir):
+    epsilon_list = [1,0.5,0.1,0.01,0.001,0.0001]
+    result_dic = {}
+    for epsilon_val in epsilon_list:
+        result_dic[epsilon_val] = {'reward':[],'iteration':[],'time':[],'avg_reward':[]}
+        vi = QLearning(P,R,epsilon_val)
+        vi.run()
+        stats = vi.run_stats
+        for dic in stats:
+            result_dic[epsilon_val]['reward'].append(dic['Reward'])
+            result_dic[epsilon_val]['iteration'].append(dic['Iteration'])
+            result_dic[epsilon_val]['time'].append(dic['Time'])
+            result_dic[epsilon_val]['avg_reward'].append(dic['Mean V'])
+    plot_results(result_dic,'epsilon',dir=f'{prob_size_dir}/qlearner/epsilon')
+    write_results(result_dic,'epsilon',dir=f'{prob_size_dir}/qlearner/epsilon')
+    
+
+if __name__ == '__main__':
+    P, R = forest(S=150)
+    # gamma experiments
+    vi_gamma_experiment(P,R,'forest_small')
+    pi_gamma_experiment(P,R, 'forest_small')
+    qlearner_gamma_experiment(P,R,'forest_small')
+
+    # epsilon experiments 
+    # NOTE PI has no epsilon value
+    vi_epsilon_experiment(P,R,'forest_small')
+    qlearner_epsilon_experiment(P,R,'forest_small')
+
+    P, R = forest(S=2000)
+    # gamma experiments
+    vi_gamma_experiment(P,R,'forest_large')
+    pi_gamma_experiment(P,R, 'forest_large')
+    qlearner_gamma_experiment(P,R,'forest_large')
+
+    # epsilon experiments 
+    # NOTE PI has no epsilon value
+    vi_epsilon_experiment(P,R,'forest_large')
+    qlearner_epsilon_experiment(P,R,'forest_large')
+
+        

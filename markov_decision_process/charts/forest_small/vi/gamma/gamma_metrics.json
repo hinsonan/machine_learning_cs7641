@@ -1,0 +1,56 @@
+{
+    "0.1": {
+        "max_reward": 4.36,
+        "max_avg_reward": 1.0163333333333333,
+        "number_of_iterations": 2,
+        "time": 0.00016498565673828125
+    },
+    "0.2": {
+        "max_reward": 4.8532,
+        "max_avg_reward": 1.0557653333333332,
+        "number_of_iterations": 3,
+        "time": 0.00023174285888671875
+    },
+    "0.3": {
+        "max_reward": 5.460862,
+        "max_avg_reward": 1.1099076466666664,
+        "number_of_iterations": 4,
+        "time": 0.0003120899200439453
+    },
+    "0.4": {
+        "max_reward": 6.262393446400001,
+        "max_avg_reward": 1.2087031917226667,
+        "number_of_iterations": 6,
+        "time": 0.0008172988891601562
+    },
+    "0.5": {
+        "max_reward": 7.3147218953125,
+        "max_avg_reward": 1.3562842784218752,
+        "number_of_iterations": 8,
+        "time": 0.0006475448608398438
+    },
+    "0.6": {
+        "max_reward": 8.797055060805992,
+        "max_avg_reward": 1.595499339465279,
+        "number_of_iterations": 11,
+        "time": 0.0009915828704833984
+    },
+    "0.7": {
+        "max_reward": 11.037824675206238,
+        "max_avg_reward": 2.0104355558614206,
+        "number_of_iterations": 15,
+        "time": 0.0026428699493408203
+    },
+    "0.8": {
+        "max_reward": 14.863208550459333,
+        "max_avg_reward": 2.8661461749226977,
+        "number_of_iterations": 23,
+        "time": 0.0019214153289794922
+    },
+    "0.9": {
+        "max_reward": 23.089675091923866,
+        "max_avg_reward": 5.40091488804894,
+        "number_of_iterations": 39,
+        "time": 0.013692617416381836
+    }
+}
