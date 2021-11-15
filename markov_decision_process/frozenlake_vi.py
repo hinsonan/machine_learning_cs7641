@@ -7,6 +7,9 @@ import matplotlib.pyplot as plt
 
 def discount_experiment():
     gamma_vals = [0.2,0.3,0.5,0.8,0.9]
+    for gamma_val in gamma_vals:
+        opt_V, opt_Policy, converge_iteration, value_funcs = value_iteration(env, max_iteration = 1000)
+        generate_plots(value_funcs,env,f'gamma_{gamma_val}',dir='gamma')
 
 def get_rewards(value_funcs,env):
     wins = []
@@ -19,13 +22,13 @@ def get_rewards(value_funcs,env):
         win, total_reward, avg_reward = play_episodes(env,100,policy)
         wins.append(win)
         rewards.append(total_reward)
-        avg_rewards.append(avg_rewards)
+        avg_rewards.append(avg_reward)
     return wins,rewards,avg_rewards
 
-def generate_plots(value_funcs,env):
+def generate_plots(value_funcs,env,figname,dir):
     wins, rewards, avg_rewards = get_rewards(value_funcs,env)
     _,ax = plt.subplots(1)
-    ax.plot(rewards)
+    ax.plot(avg_rewards)
     ax.set_title('Rewards vs Iterations')
     ax.set_xlabel('Iterations')
     ax.set_ylabel('Reward')
@@ -45,4 +48,4 @@ if __name__ == '__main__':
     # print('Final Policy: ')
     # print(opt_Policy)
     opt_V, opt_Policy, converge_iteration, value_funcs = value_iteration(env, max_iteration = 1000)
-    generate_plots(value_funcs,env)
+    generate_plots(value_funcs,env,'','')
