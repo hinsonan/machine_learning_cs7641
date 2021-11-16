@@ -5,11 +5,11 @@ import time
 from vi_pi_helpers import value_iteration, update_policy, play_episodes
 import matplotlib.pyplot as plt
 
-def discount_experiment():
+def discount_experiment(env,dir):
     gamma_vals = [0.2,0.3,0.5,0.8,0.9]
     for gamma_val in gamma_vals:
         opt_V, opt_Policy, converge_iteration, value_funcs = value_iteration(env, max_iteration = 1000)
-        generate_plots(value_funcs,env,f'gamma_{gamma_val}',dir='gamma')
+        generate_plots(value_funcs,env,f'gamma_{gamma_val}',dir=dir)
 
 def get_rewards(value_funcs,env):
     wins = []
@@ -19,7 +19,7 @@ def get_rewards(value_funcs,env):
         # intialize optimal policy
         optimal_policy = np.zeros(env.nS, dtype = 'int8')
         policy = update_policy(env,optimal_policy,value_function,0.9)
-        win, total_reward, avg_reward = play_episodes(env,100,policy)
+        win, total_reward, avg_reward = play_episodes(env,10,policy)
         wins.append(win)
         rewards.append(total_reward)
         avg_rewards.append(avg_reward)
@@ -29,10 +29,29 @@ def generate_plots(value_funcs,env,figname,dir):
     wins, rewards, avg_rewards = get_rewards(value_funcs,env)
     _,ax = plt.subplots(1)
     ax.plot(avg_rewards)
-    ax.set_title('Rewards vs Iterations')
+    ax.set_title('Average Reward')
+    ax.set_xlabel('Iterations')
+    ax.set_ylabel('Avg Reward')
+    plt.savefig(f'markov_decision_process/charts/frozen_lake/{dir}/{figname}_avg_reward.png')
+    plt.clf()
+
+    _,ax = plt.subplots(1)
+    ax.plot(rewards)
+    ax.set_title('Reward')
     ax.set_xlabel('Iterations')
     ax.set_ylabel('Reward')
-    plt.show()
+    plt.savefig(f'markov_decision_process/charts/frozen_lake/{dir}/{figname}_reward.png')
+    plt.clf()
+
+    _,ax = plt.subplots(1)
+    ax.plot(wins)
+    ax.set_title('Wins')
+    ax.set_xlabel('Iterations')
+    ax.set_ylabel('wins')
+    plt.savefig(f'markov_decision_process/charts/frozen_lake/{dir}/{figname}_wins.png')
+    plt.clf()
+
+
 
 
 if __name__ == '__main__':
@@ -47,5 +66,4 @@ if __name__ == '__main__':
     # print(opt_V.reshape((4, 4)))
     # print('Final Policy: ')
     # print(opt_Policy)
-    opt_V, opt_Policy, converge_iteration, value_funcs = value_iteration(env, max_iteration = 1000)
-    generate_plots(value_funcs,env,'','')
+    discount_experiment(env,'vi/gamma')
