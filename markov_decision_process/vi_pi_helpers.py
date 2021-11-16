@@ -106,7 +106,7 @@ def update_policy(env, policy, V, discount_factor):
         
     return policy
 
-def value_iteration(env, discount_factor = 0.999, max_iteration = 1000):
+def value_iteration(env, discount_factor = 0.999, max_iteration = 1000, epsilon_change=10):
     """
     Algorithm to solve MPD.
     
@@ -152,7 +152,7 @@ def value_iteration(env, discount_factor = 0.999, max_iteration = 1000):
             
         # if policy not changed over 10 iterations it converged.
         value_functions.append(V)
-        if i % 10 == 0:
+        if i % epsilon_change == 0:
             # if values of 'V' not changing after one iteration
             if (np.all(np.isclose(V, prev_v))):
                 converge_iteration = i+1
