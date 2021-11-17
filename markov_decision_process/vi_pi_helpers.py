@@ -165,3 +165,68 @@ def value_iteration(env, discount_factor = 0.999, max_iteration = 1000, epsilon_
     optimal_policy = update_policy(env, optimal_policy, V, discount_factor)
     
     return V, optimal_policy, converge_iteration, value_functions
+
+
+def policy_eval(env, policy, V, discount_factor):
+    """
+    Helper function to evaluate a policy.
+    
+    Arguments:
+        env: openAI GYM Enviorment object.
+        policy: policy to evaluate.
+        V: Estimated Value for each state. Vector of length nS.
+        discount_factor: MDP discount factor.
+    Return:
+        policy_value: Estimated value of each state following a given policy and state-value 'V'. 
+        
+    """
+    policy_value = np.zeros(env.nS)
+    for state, action in enumerate(policy):
+        for probablity, next_state, reward, info in env.P[state][action]:
+            policy_value[state] += probablity * (reward + (discount_factor * V[next_state]))
+            
+    return policy_value
+
+def policy_iteration(env, discount_factor = 0.999, max_iteration = 1000, epsilon_change=10):
+    """
+    Algorithm to solve MPD.
+    
+    Arguments:
+        env: openAI GYM Enviorment object.
+        discount_factor: MDP discount factor.
+        max_iteration: Maximum No.  of iterations to run.
+        
+    Return:
+        V: Optimal state-Value function. Vector of lenth nS.
+        new_policy: Optimal policy. Vector of length nS.
+    
+    """
+    np.random.seed(50)
+    # intialize the state-Value function
+    V = np.zeros(env.nS)
+    
+    # intialize a random policy
+    policy = np.random.randint(0, 4, env.nS)
+    policy_prev = np.copy(policy)
+
+    convergence_iteration = 0
+    policies = []
+    
+    for i in range(max_iteration):
+        
+        # evaluate given policy
+        V = policy_eval(env, policy, V, discount_factor)
+        
+        # improve policy
+        policy = update_policy(env, policy, V, discount_factor)
+
+        policies.append(policy)
+        
+        # if policy not changed over 10 iterations it converged.
+        if i % epsilon_change == 0:
+            if (np.all(np.equal(policy, policy_prev))):
+                convergence_iteration = i+1
+                break
+            policy_prev = np.copy(policy)
+            
+    return V, policy, convergence_iteration, policies

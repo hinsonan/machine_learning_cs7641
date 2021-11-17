@@ -1,37 +1,37 @@
 {
     "1": {
-        "reward": 8.0,
-        "iteration": 334,
-        "time": 0.09628653526306152,
-        "avg_reward": 0.8,
-        "num_wins": 8
-    },
-    "10": {
-        "reward": 7.0,
-        "iteration": 341,
-        "time": 0.08632850646972656,
-        "avg_reward": 0.7,
-        "num_wins": 7
-    },
-    "20": {
         "reward": 9.0,
-        "iteration": 341,
-        "time": 0.08541750907897949,
+        "iteration": 334,
+        "time": 0.09811902046203613,
         "avg_reward": 0.9,
         "num_wins": 9
     },
-    "30": {
-        "reward": 6.0,
-        "iteration": 361,
-        "time": 0.0857391357421875,
-        "avg_reward": 0.6,
-        "num_wins": 6
+    "10": {
+        "reward": 10.0,
+        "iteration": 341,
+        "time": 0.09018588066101074,
+        "avg_reward": 1.0,
+        "num_wins": 10
     },
-    "40": {
+    "20": {
         "reward": 7.0,
-        "iteration": 361,
-        "time": 0.08998703956604004,
+        "iteration": 341,
+        "time": 0.08886909484863281,
         "avg_reward": 0.7,
         "num_wins": 7
+    },
+    "30": {
+        "reward": 8.0,
+        "iteration": 361,
+        "time": 0.0957639217376709,
+        "avg_reward": 0.8,
+        "num_wins": 8
+    },
+    "40": {
+        "reward": 8.0,
+        "iteration": 361,
+        "time": 0.09225344657897949,
+        "avg_reward": 0.8,
+        "num_wins": 8
     }
 }

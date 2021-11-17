@@ -12,7 +12,7 @@ def discount_experiment(env,dir):
     for gamma_val in gamma_vals:
         metrics[gamma_val] = {'reward':[],'iteration':[],'time':[],'avg_reward':[], 'num_wins':[]}
         start = time.time()
-        opt_V, opt_Policy, converge_iteration, value_funcs = value_iteration(env, max_iteration = 1000)
+        opt_V, opt_Policy, converge_iteration, value_funcs = value_iteration(env, max_iteration = 1000, discount_factor=gamma_val)
         end = time.time()
         generate_plots(value_funcs,env,f'gamma_{gamma_val}',dir=dir)
         # get the metrics for this policy
@@ -90,6 +90,7 @@ def generate_plots(value_funcs,env,figname,dir):
 
 if __name__ == '__main__':
     env = gym.make('FrozenLake-v1')
+    env.seed(50)
     # start = time.time()
     # opt_V, opt_Policy, converge_iteration, value_funcs = value_iteration(env, max_iteration = 1000)
     # end = time.time()
