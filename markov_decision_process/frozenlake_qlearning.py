@@ -9,14 +9,14 @@ class QLearner():
 
     random.seed(2)
 
-    def __init__(self,env_actions,env_states, number_iterations=10000) -> None:
+    def __init__(self,env_actions,env_states, number_iterations=10000,lr=0.8) -> None:
         self.action_size = env_actions
         self.state_size = env_states
 
         self.qtable = np.zeros((self.state_size, self.action_size))
 
         self.total_episodes = number_iterations        # Total episodes
-        self.learning_rate = 0.8           # Learning rate
+        self.learning_rate = lr           # Learning rate
         self.max_steps = 99                # Max steps per episode
         self.gamma = 0.95                  # Discounting rate
 
@@ -32,11 +32,11 @@ class QLearner():
         # plotting variables
         self.df = pd.DataFrame(columns=["Iteration", "Reward"])
 
-    def plot_df(self,title,value):
+    def plot_df(self,title,value,experiment_name):
         self.df.plot(x='Iteration',y="Reward")
-        plt.savefig(f'markov_decision_process/charts/{title}_{value}_qlearner')
+        plt.savefig(f'markov_decision_process/charts/frozen_lake/qlearner/{title}_{value}_{experiment_name}.png')
 
-    def train(self,env):
+    def train(self,env,experiment_name,value):
 
         # 2 For life or until learning is stopped
         for episode in range(self.total_episodes):
@@ -85,9 +85,9 @@ class QLearner():
                 self.df = self.df.append({'Iteration':episode,'Reward':self.df['Reward'].iloc[-1]+total_rewards}, ignore_index=True)
 
         
-        self.plot_df('iterations_vs_reward',self.total_episodes)
+        self.plot_df('iterations_vs_reward',value,experiment_name)
 
-    def evaluate_policy(self, env, fig_name, value):
+    def evaluate_policy(self, env):
         wins = 0
         losses = 0
         steps_per_game = []
@@ -122,17 +122,32 @@ class QLearner():
                     break
                 state = new_state
         
-        dic = {'avg_steps_per_game': sum(steps_per_game)/len(steps_per_game),'wins':wins,'losses':losses}
-        with open(f'markov_decision_process/charts/{fig_name}_{value}_eval','w') as f:
-            json.dump(dic,f,indent=4)
+        dic = {'avg_steps_per_game': sum(steps_per_game)/len(steps_per_game),'wins':wins,'losses':losses, 'reward':self.df['Reward'].values[-1]}
+        return dic
 
 def iteration_experiment(env, iteration_list=[500,1500,5000,10000,12000]):
+    dic = {}
     for iterations in iteration_list:
         qlearner  = QLearner(env.action_space.n,env.observation_space.n,iterations)
-        qlearner.train(env)
+        qlearner.train(env,'iterations',qlearner.total_episodes)
         # EVALUATE QTABLE
-        qlearner.evaluate_policy(env,"iterations_vs_reward",qlearner.total_episodes)
+        result_dic = qlearner.evaluate_policy(env)
+        dic[iterations] = result_dic
         env.close()
+    with open(f'markov_decision_process/charts/frozen_lake/qlearner/iterations_eval.json','w') as f:
+        json.dump(dic,f,indent=4)
+
+def learning_rate_experiment(env, learning_rates=[0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9]):
+    dic = {}
+    for lr in learning_rates:
+        qlearner  = QLearner(env.action_space.n,env.observation_space.n,lr=lr)
+        qlearner.train(env, 'learning_rate', qlearner.learning_rate)
+        # EVALUATE QTABLE
+        result_dic = qlearner.evaluate_policy(env)
+        dic[lr] = result_dic
+        env.close()
+    with open(f'markov_decision_process/charts/frozen_lake/qlearner/learning_rate_eval.json','w') as f:
+        json.dump(dic,f,indent=4)
         
 
 if __name__ == '__main__':
@@ -140,3 +155,4 @@ if __name__ == '__main__':
     env.seed(50)
 
     iteration_experiment(env)
+    learning_rate_experiment(env)

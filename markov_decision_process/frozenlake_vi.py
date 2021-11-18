@@ -14,7 +14,7 @@ def discount_experiment(env,dir):
         start = time.time()
         opt_V, opt_Policy, converge_iteration, value_funcs = value_iteration(env, max_iteration = 1000, discount_factor=gamma_val)
         end = time.time()
-        generate_plots(value_funcs,env,f'gamma_{gamma_val}',dir=dir)
+        generate_plots(value_funcs,env,gamma_val,f'gamma_{gamma_val}',dir=dir)
         # get the metrics for this policy
         win, total_reward, avg_reward = play_episodes(env,10,opt_Policy)
         metrics[gamma_val]['reward'] = total_reward
@@ -33,7 +33,7 @@ def epsilon_experiment(env,dir):
         start = time.time()
         opt_V, opt_Policy, converge_iteration, value_funcs = value_iteration(env, max_iteration = 1000, epsilon_change=epsilon_val)
         end = time.time()
-        generate_plots(value_funcs,env,f'epsilon_{epsilon_val}',dir=dir)
+        generate_plots(value_funcs,env,0.9,f'epsilon_{epsilon_val}',dir=dir)
         # get the metrics for this policy
         win, total_reward, avg_reward = play_episodes(env,10,opt_Policy)
         metrics[epsilon_val]['reward'] = total_reward
@@ -45,22 +45,22 @@ def epsilon_experiment(env,dir):
         json.dump(metrics,f,indent=4)
 
 
-def get_rewards(value_funcs,env):
+def get_rewards(value_funcs,env,gamma):
     wins = []
     rewards = []
     avg_rewards = []
     for value_function in value_funcs:
         # intialize optimal policy
         optimal_policy = np.zeros(env.nS, dtype = 'int8')
-        policy = update_policy(env,optimal_policy,value_function,0.9)
+        policy = update_policy(env,optimal_policy,value_function,gamma)
         win, total_reward, avg_reward = play_episodes(env,10,policy)
         wins.append(win)
         rewards.append(total_reward)
         avg_rewards.append(avg_reward)
     return wins,rewards,avg_rewards
 
-def generate_plots(value_funcs,env,figname,dir):
-    wins, rewards, avg_rewards = get_rewards(value_funcs,env)
+def generate_plots(value_funcs,env,gamma,figname,dir):
+    wins, rewards, avg_rewards = get_rewards(value_funcs,env,gamma)
     _,ax = plt.subplots(1)
     ax.plot(avg_rewards)
     ax.set_title('Average Reward')
@@ -91,15 +91,5 @@ def generate_plots(value_funcs,env,figname,dir):
 if __name__ == '__main__':
     env = gym.make('FrozenLake-v1')
     env.seed(50)
-    # start = time.time()
-    # opt_V, opt_Policy, converge_iteration, value_funcs = value_iteration(env, max_iteration = 1000)
-    # end = time.time()
-    # elapsed_time = (end - start) * 1000
-    # print (f"Time to converge: {elapsed_time: 0.3} ms")
-    # print(f'coverged at iteration: {converge_iteration}')
-    # print('Optimal Value function: ')
-    # print(opt_V.reshape((4, 4)))
-    # print('Final Policy: ')
-    # print(opt_Policy)
     discount_experiment(env,'vi/gamma')
     epsilon_experiment(env,'vi/epsilon')
