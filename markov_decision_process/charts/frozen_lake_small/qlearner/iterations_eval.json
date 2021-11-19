@@ -1,0 +1,32 @@
+{
+    "500": {
+        "avg_steps_per_game": 16.6,
+        "wins": 0,
+        "losses": 100,
+        "reward": 0.0
+    },
+    "1500": {
+        "avg_steps_per_game": 38.550561797752806,
+        "wins": 75,
+        "losses": 14,
+        "reward": 413.0
+    },
+    "5000": {
+        "avg_steps_per_game": 44.282051282051285,
+        "wins": 61,
+        "losses": 17,
+        "reward": 2162.0
+    },
+    "10000": {
+        "avg_steps_per_game": 42.89393939393939,
+        "wins": 56,
+        "losses": 10,
+        "reward": 4625.0
+    },
+    "12000": {
+        "avg_steps_per_game": 47.59375,
+        "wins": 46,
+        "losses": 18,
+        "reward": 5727.0
+    }
+}

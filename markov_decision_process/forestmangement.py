@@ -104,7 +104,7 @@ def qlearner_epsilon_experiment(P,R,prob_size_dir):
     result_dic = {}
     for epsilon_val in epsilon_list:
         result_dic[epsilon_val] = {'reward':[],'iteration':[],'time':[],'avg_reward':[]}
-        vi = QLearning(P,R,epsilon_val)
+        vi = QLearning(P,R,0.9,epsilon=epsilon_val)
         vi.run()
         stats = vi.run_stats
         for dic in stats:
@@ -114,6 +114,22 @@ def qlearner_epsilon_experiment(P,R,prob_size_dir):
             result_dic[epsilon_val]['avg_reward'].append(dic['Mean V'])
     plot_results(result_dic,'epsilon',dir=f'{prob_size_dir}/qlearner/epsilon')
     write_results(result_dic,'epsilon',dir=f'{prob_size_dir}/qlearner/epsilon')
+
+def qlearner_alpha_experiment(P,R,prob_size_dir):
+    alpha_list = [0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9]
+    result_dic = {}
+    for alpha_val in alpha_list:
+        result_dic[alpha_val] = {'reward':[],'iteration':[],'time':[],'avg_reward':[]}
+        vi = QLearning(P,R,0.9,alpha=alpha_val)
+        vi.run()
+        stats = vi.run_stats
+        for dic in stats:
+            result_dic[alpha_val]['reward'].append(dic['Reward'])
+            result_dic[alpha_val]['iteration'].append(dic['Iteration'])
+            result_dic[alpha_val]['time'].append(dic['Time'])
+            result_dic[alpha_val]['avg_reward'].append(dic['Mean V'])
+    plot_results(result_dic,'learning_rate',dir=f'{prob_size_dir}/qlearner/learning_rate')
+    write_results(result_dic,'learning_rate',dir=f'{prob_size_dir}/qlearner/learning_rate')
     
 
 if __name__ == '__main__':
@@ -127,6 +143,7 @@ if __name__ == '__main__':
     # NOTE PI has no epsilon value
     vi_epsilon_experiment(P,R,'forest_small')
     qlearner_epsilon_experiment(P,R,'forest_small')
+    qlearner_alpha_experiment(P,R,'forest_small')
 
     P, R = forest(S=2000)
     # gamma experiments
@@ -138,5 +155,6 @@ if __name__ == '__main__':
     # NOTE PI has no epsilon value
     vi_epsilon_experiment(P,R,'forest_large')
     qlearner_epsilon_experiment(P,R,'forest_large')
+    qlearner_alpha_experiment(P,R,'forest_large')
 
         

@@ -1,0 +1,37 @@
+{
+    "0.2": {
+        "reward": 0.0,
+        "iteration": 71,
+        "time": 0.3385939598083496,
+        "avg_reward": 0.0,
+        "num_wins": 0
+    },
+    "0.3": {
+        "reward": 0.0,
+        "iteration": 51,
+        "time": 0.24138164520263672,
+        "avg_reward": 0.0,
+        "num_wins": 0
+    },
+    "0.5": {
+        "reward": 0.0,
+        "iteration": 51,
+        "time": 0.2487022876739502,
+        "avg_reward": 0.0,
+        "num_wins": 0
+    },
+    "0.8": {
+        "reward": 1.0,
+        "iteration": 71,
+        "time": 0.3647458553314209,
+        "avg_reward": 0.1,
+        "num_wins": 1
+    },
+    "0.9": {
+        "reward": 1.0,
+        "iteration": 81,
+        "time": 0.39372920989990234,
+        "avg_reward": 0.1,
+        "num_wins": 1
+    }
+}

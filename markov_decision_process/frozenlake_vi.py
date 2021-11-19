@@ -5,6 +5,7 @@ import time
 from vi_pi_helpers import value_iteration, update_policy, play_episodes
 import matplotlib.pyplot as plt
 import json
+from gym.envs.toy_text.frozen_lake import generate_random_map, FrozenLakeEnv
 
 def discount_experiment(env,dir):
     gamma_vals = [0.2,0.3,0.5,0.8,0.9]
@@ -22,7 +23,7 @@ def discount_experiment(env,dir):
         metrics[gamma_val]['time'] = end - start
         metrics[gamma_val]['avg_reward'] = avg_reward
         metrics[gamma_val]['num_wins'] = win
-    with open(f'markov_decision_process/charts/frozen_lake/{dir}/gamma_metrics.json','w') as f:
+    with open(f'markov_decision_process/charts/{dir}/gamma_metrics.json','w') as f:
         json.dump(metrics,f,indent=4)
 
 def epsilon_experiment(env,dir):
@@ -41,7 +42,7 @@ def epsilon_experiment(env,dir):
         metrics[epsilon_val]['time'] = end - start
         metrics[epsilon_val]['avg_reward'] = avg_reward
         metrics[epsilon_val]['num_wins'] = win
-    with open(f'markov_decision_process/charts/frozen_lake/{dir}/epsilon_metrics.json','w') as f:
+    with open(f'markov_decision_process/charts/{dir}/epsilon_metrics.json','w') as f:
         json.dump(metrics,f,indent=4)
 
 
@@ -66,7 +67,7 @@ def generate_plots(value_funcs,env,gamma,figname,dir):
     ax.set_title('Average Reward')
     ax.set_xlabel('Iterations')
     ax.set_ylabel('Avg Reward')
-    plt.savefig(f'markov_decision_process/charts/frozen_lake/{dir}/{figname}_avg_reward.png')
+    plt.savefig(f'markov_decision_process/charts/{dir}/{figname}_avg_reward.png')
     plt.clf()
 
     _,ax = plt.subplots(1)
@@ -74,7 +75,7 @@ def generate_plots(value_funcs,env,gamma,figname,dir):
     ax.set_title('Reward')
     ax.set_xlabel('Iterations')
     ax.set_ylabel('Reward')
-    plt.savefig(f'markov_decision_process/charts/frozen_lake/{dir}/{figname}_reward.png')
+    plt.savefig(f'markov_decision_process/charts/{dir}/{figname}_reward.png')
     plt.clf()
 
     _,ax = plt.subplots(1)
@@ -82,14 +83,20 @@ def generate_plots(value_funcs,env,gamma,figname,dir):
     ax.set_title('Wins')
     ax.set_xlabel('Iterations')
     ax.set_ylabel('wins')
-    plt.savefig(f'markov_decision_process/charts/frozen_lake/{dir}/{figname}_wins.png')
+    plt.savefig(f'markov_decision_process/charts/{dir}/{figname}_wins.png')
     plt.clf()
 
 
 
 
 if __name__ == '__main__':
-    env = gym.make('FrozenLake-v1')
-    env.seed(50)
-    discount_experiment(env,'vi/gamma')
-    epsilon_experiment(env,'vi/epsilon')
+    # env = gym.make('FrozenLake-v1')
+    # env.seed(50)
+    # discount_experiment(env,'frozen_lake_small/vi/gamma')
+    # epsilon_experiment(env,'frozen_lake_small/vi/epsilon')
+
+    np.random.seed(10)
+    env = FrozenLakeEnv(generate_random_map(20))
+
+    discount_experiment(env,'frozen_lake_large/vi/gamma')
+    epsilon_experiment(env,'frozen_lake_large/vi/epsilon')
