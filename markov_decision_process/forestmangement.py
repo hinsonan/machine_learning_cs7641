@@ -135,26 +135,26 @@ def qlearner_alpha_experiment(P,R,prob_size_dir):
 if __name__ == '__main__':
     P, R = forest(S=150)
     # gamma experiments
-    # vi_gamma_experiment(P,R,'forest_small')
-    # pi_gamma_experiment(P,R, 'forest_small')
-    # qlearner_gamma_experiment(P,R,'forest_small')
+    vi_gamma_experiment(P,R,'forest_small')
+    pi_gamma_experiment(P,R, 'forest_small')
+    qlearner_gamma_experiment(P,R,'forest_small')
 
     # epsilon experiments 
     # NOTE PI has no epsilon value
-    # vi_epsilon_experiment(P,R,'forest_small')
+    vi_epsilon_experiment(P,R,'forest_small')
     qlearner_epsilon_experiment(P,R,'forest_small')
-    # qlearner_alpha_experiment(P,R,'forest_small')
+    qlearner_alpha_experiment(P,R,'forest_small')
 
     P, R = forest(S=2000)
     # gamma experiments
-    # vi_gamma_experiment(P,R,'forest_large')
-    # pi_gamma_experiment(P,R, 'forest_large')
-    # qlearner_gamma_experiment(P,R,'forest_large')
+    vi_gamma_experiment(P,R,'forest_large')
+    pi_gamma_experiment(P,R, 'forest_large')
+    qlearner_gamma_experiment(P,R,'forest_large')
 
     # epsilon experiments 
     # NOTE PI has no epsilon value
-    # vi_epsilon_experiment(P,R,'forest_large')
+    vi_epsilon_experiment(P,R,'forest_large')
     qlearner_epsilon_experiment(P,R,'forest_large')
-    # qlearner_alpha_experiment(P,R,'forest_large')
+    qlearner_alpha_experiment(P,R,'forest_large')
 
         
