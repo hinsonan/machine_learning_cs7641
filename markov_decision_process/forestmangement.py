@@ -116,7 +116,7 @@ def qlearner_epsilon_experiment(P,R,prob_size_dir):
     write_results(result_dic,'epsilon',dir=f'{prob_size_dir}/qlearner/epsilon')
 
 def qlearner_alpha_experiment(P,R,prob_size_dir):
-    alpha_list = [0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9]
+    alpha_list = [0.001,0.01,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9]
     result_dic = {}
     for alpha_val in alpha_list:
         result_dic[alpha_val] = {'reward':[],'iteration':[],'time':[],'avg_reward':[]}
@@ -135,26 +135,26 @@ def qlearner_alpha_experiment(P,R,prob_size_dir):
 if __name__ == '__main__':
     P, R = forest(S=150)
     # gamma experiments
-    vi_gamma_experiment(P,R,'forest_small')
-    pi_gamma_experiment(P,R, 'forest_small')
-    qlearner_gamma_experiment(P,R,'forest_small')
+    # vi_gamma_experiment(P,R,'forest_small')
+    # pi_gamma_experiment(P,R, 'forest_small')
+    # qlearner_gamma_experiment(P,R,'forest_small')
 
-    # epsilon experiments 
-    # NOTE PI has no epsilon value
-    vi_epsilon_experiment(P,R,'forest_small')
-    qlearner_epsilon_experiment(P,R,'forest_small')
-    qlearner_alpha_experiment(P,R,'forest_small')
+    # # epsilon experiments 
+    # # NOTE PI has no epsilon value
+    # vi_epsilon_experiment(P,R,'forest_small')
+    # qlearner_epsilon_experiment(P,R,'forest_small')
+    # qlearner_alpha_experiment(P,R,'forest_small')
 
     P, R = forest(S=2000)
     # gamma experiments
-    vi_gamma_experiment(P,R,'forest_large')
-    pi_gamma_experiment(P,R, 'forest_large')
-    qlearner_gamma_experiment(P,R,'forest_large')
+    # vi_gamma_experiment(P,R,'forest_large')
+    # pi_gamma_experiment(P,R, 'forest_large')
+    # qlearner_gamma_experiment(P,R,'forest_large')
 
-    # epsilon experiments 
-    # NOTE PI has no epsilon value
-    vi_epsilon_experiment(P,R,'forest_large')
-    qlearner_epsilon_experiment(P,R,'forest_large')
+    # # epsilon experiments 
+    # # NOTE PI has no epsilon value
+    # vi_epsilon_experiment(P,R,'forest_large')
+    # qlearner_epsilon_experiment(P,R,'forest_large')
     qlearner_alpha_experiment(P,R,'forest_large')
 
         
