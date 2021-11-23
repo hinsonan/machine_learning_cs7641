@@ -1,0 +1,26 @@
+{
+    "1.0": {
+        "avg_steps_per_game": 42.285714285714285,
+        "wins": 6,
+        "losses": 1,
+        "reward": 4655.0
+    },
+    "10.0": {
+        "avg_steps_per_game": 31.666666666666668,
+        "wins": 8,
+        "losses": 1,
+        "reward": 4504.0
+    },
+    "20.0": {
+        "avg_steps_per_game": 45.125,
+        "wins": 2,
+        "losses": 6,
+        "reward": 4435.0
+    },
+    "30.0": {
+        "avg_steps_per_game": 24.4,
+        "wins": 3,
+        "losses": 7,
+        "reward": 4198.0
+    }
+}

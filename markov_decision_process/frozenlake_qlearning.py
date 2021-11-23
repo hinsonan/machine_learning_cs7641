@@ -10,7 +10,7 @@ class QLearner():
 
     random.seed(2)
 
-    def __init__(self,env_actions,env_states, number_iterations=10000,lr=0.8) -> None:
+    def __init__(self,env_actions,env_states, number_iterations=10000,lr=0.8,epsilon=1.0) -> None:
         self.action_size = env_actions
         self.state_size = env_states
 
@@ -22,8 +22,8 @@ class QLearner():
         self.gamma = 0.95                  # Discounting rate
 
         # Exploration parameters
-        self.epsilon = 1.0                 # Exploration rate
-        self.max_epsilon = 1.0             # Exploration probability at start
+        self.epsilon = epsilon                 # Exploration rate
+        self.max_epsilon = epsilon             # Exploration probability at start
         self.min_epsilon = 0.01            # Minimum exploration probability 
         self.decay_rate = 0.005             # Exponential decay rate for exploration prob
 
@@ -93,7 +93,7 @@ class QLearner():
         losses = 0
         steps_per_game = []
 
-        for episode in range(101):
+        for episode in range(10):
             state = env.reset()
             step = 0
             done = False
@@ -138,7 +138,7 @@ def iteration_experiment(env, iteration_list=[500,1500,5000,10000,12000],size_di
     with open(f'markov_decision_process/charts/{size_dir}/qlearner/iterations_eval.json','w') as f:
         json.dump(dic,f,indent=4)
 
-def learning_rate_experiment(env, learning_rates=[0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9],iterations=10000,size_dir='frozen_lake_small'):
+def learning_rate_experiment(env, learning_rates=[0.001,0.01,0.1,0.2,0.9],iterations=10000,size_dir='frozen_lake_small'):
     dic = {}
     for lr in learning_rates:
         qlearner  = QLearner(env.action_space.n,env.observation_space.n,number_iterations=iterations,lr=lr)
@@ -149,17 +149,31 @@ def learning_rate_experiment(env, learning_rates=[0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.
         env.close()
     with open(f'markov_decision_process/charts/{size_dir}/qlearner/learning_rate_eval.json','w') as f:
         json.dump(dic,f,indent=4)
+
+def exploration_experiment(env, epsilons=[1.0, 10.0, 20.0, 30.0],iterations=10000,size_dir='frozen_lake_small'):
+    dic = {}
+    for epsilon in epsilons:
+        qlearner  = QLearner(env.action_space.n,env.observation_space.n,number_iterations=iterations,epsilon=epsilon)
+        qlearner.train(env, 'Epsilon', qlearner.epsilon,size_dir=size_dir)
+        # EVALUATE QTABLE
+        result_dic = qlearner.evaluate_policy(env)
+        dic[epsilon] = result_dic
+        env.close()
+    with open(f'markov_decision_process/charts/{size_dir}/qlearner/exploration_eval.json','w') as f:
+        json.dump(dic,f,indent=4)
         
 
 if __name__ == '__main__':
     env = gym.make('FrozenLake-v1')
     env.seed(50)
 
-    iteration_experiment(env)
+    # iteration_experiment(env)
     learning_rate_experiment(env)
+    # exploration_experiment(env)
 
     np.random.seed(10)
     env = FrozenLakeEnv(generate_random_map(20))
 
-    iteration_experiment(env,iteration_list=[100000],size_dir='frozen_lake_large')
-    learning_rate_experiment(env,learning_rates=[0.1,0.5,0.9],iterations=30000,size_dir='frozen_lake_large')
+    # iteration_experiment(env,iteration_list=[100000],size_dir='frozen_lake_large')
+    # learning_rate_experiment(env,learning_rates=[0.1,0.5,0.9],iterations=30000,size_dir='frozen_lake_large')
+    # exploration_experiment(env,iterations=30000,size_dir='frozen_lake_large')

@@ -1,56 +1,32 @@
 {
+    "0.001": {
+        "avg_steps_per_game": 7.4,
+        "wins": 0,
+        "losses": 10,
+        "reward": 452.0
+    },
+    "0.01": {
+        "avg_steps_per_game": 26.3,
+        "wins": 3,
+        "losses": 7,
+        "reward": 3038.0
+    },
     "0.1": {
-        "avg_steps_per_game": 33.489583333333336,
-        "wins": 68,
-        "losses": 28,
-        "reward": 5857.0
+        "avg_steps_per_game": 13.4,
+        "wins": 0,
+        "losses": 10,
+        "reward": 1.0
     },
     "0.2": {
-        "avg_steps_per_game": 14.564356435643564,
+        "avg_steps_per_game": 19.2,
         "wins": 0,
-        "losses": 101,
+        "losses": 10,
         "reward": 0.0
-    },
-    "0.3": {
-        "avg_steps_per_game": 38.21875,
-        "wins": 74,
-        "losses": 22,
-        "reward": 5349.0
-    },
-    "0.4": {
-        "avg_steps_per_game": 36.36046511627907,
-        "wins": 66,
-        "losses": 20,
-        "reward": 5276.0
-    },
-    "0.5": {
-        "avg_steps_per_game": 15.524752475247524,
-        "wins": 0,
-        "losses": 101,
-        "reward": 0.0
-    },
-    "0.6": {
-        "avg_steps_per_game": 17.92079207920792,
-        "wins": 0,
-        "losses": 101,
-        "reward": 0.0
-    },
-    "0.7": {
-        "avg_steps_per_game": 37.06896551724138,
-        "wins": 72,
-        "losses": 15,
-        "reward": 4923.0
-    },
-    "0.8": {
-        "avg_steps_per_game": 35.97826086956522,
-        "wins": 76,
-        "losses": 16,
-        "reward": 4502.0
     },
     "0.9": {
-        "avg_steps_per_game": 33.67045454545455,
-        "wins": 76,
-        "losses": 12,
+        "avg_steps_per_game": 49.1,
+        "wins": 10,
+        "losses": 0,
         "reward": 4546.0
     }
 }
