@@ -2,35 +2,35 @@
     "0.2": {
         "reward": 0.0,
         "iteration": 11,
-        "time": 0.06154322624206543,
+        "time": 0.0442042350769043,
         "avg_reward": 0.0,
         "num_wins": 0
     },
     "0.3": {
         "reward": 0.0,
         "iteration": 21,
-        "time": 0.11147546768188477,
+        "time": 0.11156272888183594,
         "avg_reward": 0.0,
         "num_wins": 0
     },
     "0.5": {
         "reward": 0.0,
         "iteration": 21,
-        "time": 0.11017990112304688,
+        "time": 0.11259937286376953,
         "avg_reward": 0.0,
         "num_wins": 0
     },
     "0.8": {
         "reward": 0.0,
         "iteration": 61,
-        "time": 0.33168649673461914,
+        "time": 0.2501556873321533,
         "avg_reward": 0.0,
         "num_wins": 0
     },
     "0.9": {
         "reward": 0.0,
         "iteration": 111,
-        "time": 0.5960161685943604,
+        "time": 0.46477532386779785,
         "avg_reward": 0.0,
         "num_wins": 0
     }

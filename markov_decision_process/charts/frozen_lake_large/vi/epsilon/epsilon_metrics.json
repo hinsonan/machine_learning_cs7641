@@ -1,37 +1,37 @@
 {
     "1": {
-        "reward": 3.0,
-        "iteration": 1000,
-        "time": 5.141039133071899,
-        "avg_reward": 0.3,
-        "num_wins": 3
+        "reward": 2.0,
+        "iteration": 1566,
+        "time": 7.158889293670654,
+        "avg_reward": 0.2,
+        "num_wins": 2
     },
     "10": {
+        "reward": 2.0,
+        "iteration": 1571,
+        "time": 6.25295877456665,
+        "avg_reward": 0.2,
+        "num_wins": 2
+    },
+    "20": {
         "reward": 1.0,
-        "iteration": 1000,
-        "time": 5.077619791030884,
+        "iteration": 1581,
+        "time": 6.846312761306763,
         "avg_reward": 0.1,
         "num_wins": 1
     },
-    "20": {
-        "reward": 2.0,
-        "iteration": 1000,
-        "time": 5.398514270782471,
-        "avg_reward": 0.2,
-        "num_wins": 2
-    },
     "30": {
-        "reward": 2.0,
-        "iteration": 1000,
-        "time": 5.206112623214722,
-        "avg_reward": 0.2,
-        "num_wins": 2
+        "reward": 0.0,
+        "iteration": 1591,
+        "time": 6.376873731613159,
+        "avg_reward": 0.0,
+        "num_wins": 0
     },
     "40": {
-        "reward": 3.0,
-        "iteration": 1000,
-        "time": 5.190954923629761,
-        "avg_reward": 0.3,
-        "num_wins": 3
+        "reward": 0.0,
+        "iteration": 1601,
+        "time": 7.093733549118042,
+        "avg_reward": 0.0,
+        "num_wins": 0
     }
 }

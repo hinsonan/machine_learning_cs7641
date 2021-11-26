@@ -13,7 +13,7 @@ def discount_experiment(env,dir):
     for gamma_val in gamma_vals:
         metrics[gamma_val] = {'reward':[],'iteration':[],'time':[],'avg_reward':[], 'num_wins':[]}
         start = time.time()
-        opt_V, opt_Policy, converge_iteration, value_funcs = value_iteration(env, max_iteration = 1000, discount_factor=gamma_val)
+        opt_V, opt_Policy, converge_iteration, value_funcs = value_iteration(env, max_iteration = 10000, discount_factor=gamma_val)
         end = time.time()
         generate_plots(value_funcs,env,gamma_val,f'gamma_{gamma_val}',dir=dir)
         # get the metrics for this policy
@@ -32,7 +32,7 @@ def epsilon_experiment(env,dir):
     for epsilon_val in epsilons:
         metrics[epsilon_val] = {'reward':[],'iteration':[],'time':[],'avg_reward':[], 'num_wins':[]}
         start = time.time()
-        opt_V, opt_Policy, converge_iteration, value_funcs = value_iteration(env, max_iteration = 1000, epsilon_change=epsilon_val)
+        opt_V, opt_Policy, converge_iteration, value_funcs = value_iteration(env, max_iteration = 10000, epsilon_change=epsilon_val)
         end = time.time()
         generate_plots(value_funcs,env,0.9,f'epsilon_{epsilon_val}',dir=dir)
         # get the metrics for this policy

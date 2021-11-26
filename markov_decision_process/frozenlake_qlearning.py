@@ -167,13 +167,13 @@ if __name__ == '__main__':
     env = gym.make('FrozenLake-v1')
     env.seed(50)
 
-    # iteration_experiment(env)
+    iteration_experiment(env)
     learning_rate_experiment(env)
-    # exploration_experiment(env)
+    exploration_experiment(env)
 
     np.random.seed(10)
     env = FrozenLakeEnv(generate_random_map(20))
 
-    # iteration_experiment(env,iteration_list=[100000],size_dir='frozen_lake_large')
-    # learning_rate_experiment(env,learning_rates=[0.1,0.5,0.9],iterations=30000,size_dir='frozen_lake_large')
-    # exploration_experiment(env,iterations=30000,size_dir='frozen_lake_large')
+    iteration_experiment(env,iteration_list=[100000],size_dir='frozen_lake_large')
+    learning_rate_experiment(env,learning_rates=[0.1,0.5,0.9],iterations=30000,size_dir='frozen_lake_large')
+    exploration_experiment(env,iterations=30000,size_dir='frozen_lake_large')
